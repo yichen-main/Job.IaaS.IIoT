@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Vehicle": {
+      "commandName": "Project",
+      "commandLineArgs": "B211516BBDAB5D2F8475085A67D20FA6 -app"
+    }
+  }
+}

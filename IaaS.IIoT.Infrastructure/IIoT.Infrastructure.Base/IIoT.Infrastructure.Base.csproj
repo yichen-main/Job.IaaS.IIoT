@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>Infrastructure.Base</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Figgle" Version="0.5.1" />
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.45">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.PowerShell.SDK" Version="7.3.4" />
+		<PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+		<PackageReference Include="Volo.Abp.AspNetCore" Version="7.1.1" />
+		<PackageReference Include="Volo.Abp.Autofac" Version="7.1.1" />
+		<PackageReference Include="Volo.Abp.Core" Version="7.1.1" />
+		<PackageReference Include="YamlDotNet" Version="13.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Figgle" />
+		<Using Include="Serilog" />
+		<Using Include="Serilog.Events" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Microsoft.AspNetCore.Mvc" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.Collections.Immutable" />
+		<Using Include="System.ComponentModel" />
+		<Using Include="System.Diagnostics" />
+		<Using Include="System.Globalization" />
+		<Using Include="System.Net" />
+		<Using Include="System.Net.NetworkInformation" />
+		<Using Include="System.Net.Sockets" />
+		<Using Include="System.Reflection" />
+		<Using Include="System.Runtime.CompilerServices" />
+		<Using Include="System.Runtime.InteropServices" />
+		<Using Include="System.Security.Cryptography" />
+		<Using Include="System.Text" />
+		<Using Include="System.Text.Encodings.Web" />
+		<Using Include="System.Text.Json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Base.Utilities.Develops.NeutralDevelop" Static="true" />
+		<Using Include="Infrastructure.Base.Utilities.Develops.ProcessDevelop" Static="true" />
+	</ItemGroup>
+
+</Project>

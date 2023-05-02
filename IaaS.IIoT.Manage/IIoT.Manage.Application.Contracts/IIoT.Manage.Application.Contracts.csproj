@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>Manage.Application.Contracts</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Meziantou.Analyzer" Version="2.0.45">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\IIoT.Manage.Domain\IIoT.Manage.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Volo.Abp.Modularity" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Manage.Domain" />
+	</ItemGroup>
+
+</Project>

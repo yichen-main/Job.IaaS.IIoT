@@ -1,0 +1,6 @@
+{
+  "culture": "en-US",
+  "texts": {
+    "field.value.mismatch": "Variable:{0} -value mismatch"
+  }
+}

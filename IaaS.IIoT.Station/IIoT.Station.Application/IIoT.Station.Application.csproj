@@ -1,0 +1,95 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>Station.Application</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.45">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\IIoT.Station.Application.Contract\IIoT.Station.Application.Contract.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Opc.Ua" />
+		<Using Include="Opc.Ua.Configuration" />
+		<Using Include="Opc.Ua.Server" />
+		<Using Include="Serilog" />
+		<Using Include="Volo.Abp.DependencyInjection" />
+		<Using Include="Volo.Abp.Modularity" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Microsoft.AspNetCore.Builder" />
+		<Using Include="Microsoft.AspNetCore.Components.Authorization" />
+		<Using Include="Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage" />
+		<Using Include="Microsoft.AspNetCore.Http" />
+		<Using Include="Microsoft.AspNetCore.Mvc" />
+		<Using Include="Microsoft.AspNetCore.Mvc.ApplicationModels" />
+		<Using Include="Microsoft.AspNetCore.Mvc.Filters" />
+		<Using Include="Microsoft.AspNetCore.Routing" />
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
+		<Using Include="Microsoft.Extensions.Hosting" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.Buffers" />
+		<Using Include="System.ComponentModel" />
+		<Using Include="System.Net" />
+		<Using Include="System.Net.Sockets" />
+		<Using Include="System.Reflection" />
+		<Using Include="System.Security.Claims" />
+		<Using Include="System.Text" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Station.Application.Contract" />
+		<Using Include="Station.Application.Additions.Panoplies" />
+		<Using Include="Station.Application.Additions.Triggers" />
+		<Using Include="Station.Application.Operators.Attachs" />
+		<Using Include="Station.Application.Operators.Bottoms" />
+		<Using Include="Station.Application.Structures.Verifiers" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Station.Application.Contract.Triggers" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Station.Domain.Functions.Hosts" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Station.Domain.Shared.Accessors.Queues" />
+		<Using Include="Station.Domain.Shared.Functions.Engines" />
+		<Using Include="Station.Domain.Shared.Functions.Engines.IStructuralEngine" Static="true" />
+		<Using Include="Station.Domain.Shared.Functions.Hosts" />
+		<Using Include="Station.Domain.Shared.Functions.Pools" />
+		<Using Include="Station.Domain.Shared.Timeseries.Parts.Controllers" />
+		<Using Include="Station.Domain.Shared.Timeseries.Parts.Spindles" />
+		<Using Include="Station.Domain.Shared.Timeseries.Parts.WaterTanks" />
+		<Using Include="Station.Domain.Shared.Timeseries.Tacks.Sensors" />
+		<Using Include="Station.Domain.Shared.Wrappers" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Base.Utilities.Develops" />
+		<Using Include="Infrastructure.Base.Utilities.Develops.NeutralDevelop" Static="true" />
+		<Using Include="Infrastructure.Base.Utilities.Develops.ProcessDevelop" Static="true" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Core.Boundaries" />
+		<Using Include="Infrastructure.Core.Enactments" />
+	</ItemGroup>
+
+</Project>

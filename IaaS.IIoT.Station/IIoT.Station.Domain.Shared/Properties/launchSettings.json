@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "IIoT.Station.Domain.Shared": {
+      "commandName": "Project"
+    }
+  }
+}

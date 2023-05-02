@@ -1,0 +1,123 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<FileVersion>7.0.1</FileVersion>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>Station.Platform</RootNamespace>
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+		<ServerGarbageCollection>false</ServerGarbageCollection>
+		<ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+		<ApplicationIcon>..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Base\Resources\bunker.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.45">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\IIoT.Station.Application\IIoT.Station.Application.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Newtonsoft.Json" />
+		<Using Include="Serilog" />
+		<Using Include="SoapCore" />
+		<Using Include="Volo.Abp" />
+		<Using Include="Volo.Abp.AspNetCore" />
+		<Using Include="Volo.Abp.Autofac" />
+		<Using Include="Volo.Abp.DependencyInjection" />
+		<Using Include="Volo.Abp.Localization" />
+		<Using Include="Volo.Abp.Modularity" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Microsoft.AspNetCore.Authentication" />
+		<Using Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+		<Using Include="Microsoft.AspNetCore.Authorization" />
+		<Using Include="Microsoft.AspNetCore.Components" />
+		<Using Include="Microsoft.AspNetCore.Components.Authorization" />
+		<Using Include="Microsoft.AspNetCore.Components.Web" />
+		<Using Include="Microsoft.AspNetCore.Cors" />
+		<Using Include="Microsoft.AspNetCore.Mvc" />
+		<Using Include="Microsoft.AspNetCore.Mvc.ModelBinding" />
+		<Using Include="Microsoft.Extensions.Localization" />
+		<Using Include="Microsoft.Extensions.Options" />
+		<Using Include="Microsoft.IdentityModel.Tokens" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.Collections.Concurrent" />
+		<Using Include="System.ComponentModel" />
+		<Using Include="System.Diagnostics" />
+		<Using Include="System.IdentityModel.Tokens.Jwt" />
+		<Using Include="System.Net.Mime" />
+		<Using Include="System.Reflection" />
+		<Using Include="System.Runtime.InteropServices" />
+		<Using Include="System.Security.Claims" />
+		<Using Include="System.Security.Principal" />
+		<Using Include="System.Text" />
+		<Using Include="System.Text.Encodings.Web" />
+		<Using Include="System.Xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Station.Application" />
+		<Using Include="Station.Application.Endpoints.Machines" />
+		<Using Include="Station.Application.Structures.Verifiers" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Station.Application.Contract.Expanses" />
+		<Using Include="Station.Application.Contract.Triggers" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Station.Domain.Develops.Carriers" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Station.Domain.Shared.Functions.Engines" />
+		<Using Include="Station.Domain.Shared.Functions.Hosts" />
+		<Using Include="Station.Domain.Shared.Functions.Pools" />
+		<Using Include="Station.Domain.Shared.Timeseries.Parts.Controllers" />
+		<Using Include="Station.Domain.Shared.Timeseries.Parts.Spindles" />
+		<Using Include="Station.Domain.Shared.Wrappers" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Base.Utilities.Develops" />
+		<Using Include="Infrastructure.Base.Utilities.Develops.NeutralDevelop" Static="true" />
+		<Using Include="Infrastructure.Base.Utilities.Develops.ProcessDevelop" Static="true" />
+		<Using Include="Infrastructure.Base.Utilities.Develops.SensorDevelop" Static="true" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Core.Boundaries" />
+		<Using Include="Infrastructure.Core.Languages.Fielders" />
+		<Using Include="Infrastructure.Core.Languages.Sensors" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Ministry" />
+		<Using Include="Infrastructure.Ministry.Develops" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Storage.Boundaries.Users" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Station.Platform" />
+		<Using Include="Station.Platform.Structures" />
+	</ItemGroup>
+
+</Project>

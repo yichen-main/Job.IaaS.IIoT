@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>Trustee.DataPool</RootNamespace>
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+		<ServerGarbageCollection>false</ServerGarbageCollection>
+		<ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+		<ApplicationIcon>..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Base\Resources\influxdb.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.45">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Core\IIoT.Infrastructure.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Serilog" />
+		<Using Include="Volo.Abp" />
+		<Using Include="Volo.Abp.DependencyInjection" />
+		<Using Include="Volo.Abp.Modularity" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.Reflection" />
+		<Using Include="System.Runtime.InteropServices" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Base.Utilities.Develops" />
+		<Using Include="Infrastructure.Base.Utilities.Develops.NeutralDevelop" Static="true" />
+		<Using Include="Infrastructure.Base.Utilities.Develops.ProcessDevelop" Static="true" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Core" />
+		<Using Include="Infrastructure.Core.Boundaries" />
+		<Using Include="Infrastructure.Core.Enactments" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Trustee.DataPool" />
+		<Using Include="Trustee.DataPool.Boundaries" />
+		<Using Include="Trustee.DataPool.Services" />
+	</ItemGroup>
+
+</Project>

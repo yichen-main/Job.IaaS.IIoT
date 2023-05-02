@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>Retinue.Domain.Shared</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.45">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Server" Version="1.4.371.86" />
+		<PackageReference Include="Volo.Abp.Autofac" Version="7.1.1" />
+		<PackageReference Include="Volo.Abp.Core" Version="7.1.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Core\IIoT.Infrastructure.Core.csproj" />
+		<ProjectReference Include="..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Host\IIoT.Infrastructure.Host.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Volo.Abp.Autofac" />
+		<Using Include="Volo.Abp.Modularity" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.Runtime.InteropServices" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Core" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Host" />
+		<Using Include="Infrastructure.Host.Develops.FocasDevelop" Static="true" />
+	</ItemGroup>
+
+</Project>

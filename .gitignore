@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+._.vs
+._.vscode
+._.gitignore
+
+# windows
+.vs
+.vscode
+*.user
+*.yml
+bin
+obj
+Logs
+Bottom
+Debug
+Release
+PublishProfiles

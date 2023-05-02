@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<FileVersion>7.0.1</FileVersion>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>Manage.Installer</RootNamespace>
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+		<ServerGarbageCollection>false</ServerGarbageCollection>
+		<ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+		<ApplicationIcon>..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Base\Resources\switchon.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.45">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\IIoT.Manage.Warder\IIoT.Manage.Warder.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Serilog" />
+		<Using Include="Volo.Abp" />
+		<Using Include="Volo.Abp.DependencyInjection" />
+		<Using Include="Volo.Abp.Modularity" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.Reflection" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Manage.Application" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Manage.Domain.Develops.Carriers" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Manage.Installer" />
+		<Using Include="Manage.Installer.Services" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Base.Utilities.Develops" />
+		<Using Include="Infrastructure.Base.Utilities.Develops.NeutralDevelop" Static="true" />
+		<Using Include="Infrastructure.Base.Utilities.Develops.ProcessDevelop" Static="true" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Core.Boundaries" />
+	</ItemGroup>
+
+</Project>

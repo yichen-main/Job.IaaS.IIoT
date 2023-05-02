@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Platform": {
+      "commandName": "Project",
+      "commandLineArgs": "EDED0F30B82B8CA927C1445012301898 -app",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:57181;http://localhost:57182"
+    }
+  }
+}

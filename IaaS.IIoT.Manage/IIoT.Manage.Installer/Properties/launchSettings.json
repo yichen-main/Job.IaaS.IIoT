@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Installer": {
+      "commandName": "Project",
+      "commandLineArgs": "A14D2A92205868D6016B562989705F9C -app"
+    }
+  }
+}

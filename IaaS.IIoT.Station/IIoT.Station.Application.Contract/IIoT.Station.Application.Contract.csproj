@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>Station.Application.Contract</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.45">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="SoapCore" Version="1.1.0.37" />
+		<PackageReference Include="System.ServiceModel.Duplex" Version="4.10.2" />
+		<PackageReference Include="System.ServiceModel.Federation" Version="4.10.2" />
+		<PackageReference Include="System.ServiceModel.Http" Version="4.10.2" />
+		<PackageReference Include="System.ServiceModel.NetTcp" Version="4.10.2" />
+		<PackageReference Include="System.ServiceModel.Security" Version="4.10.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\IIoT.Station.Domain\IIoT.Station.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Volo.Abp.Modularity" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Microsoft.AspNetCore.Builder" />
+		<Using Include="Microsoft.AspNetCore.Http" />
+		<Using Include="Microsoft.AspNetCore.Mvc" />
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.CodeDom.Compiler" />
+		<Using Include="System.Collections.Concurrent" />
+		<Using Include="System.ComponentModel" />
+		<Using Include="System.Diagnostics" />
+		<Using Include="System.Runtime.Serialization" />
+		<Using Include="System.ServiceModel" />
+		<Using Include="System.ServiceModel.Channels" />
+		<Using Include="System.ServiceModel.Description" />
+		<Using Include="System.Xml" />
+		<Using Include="System.Xml.Serialization" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Station.Application.Contract.Triggers" />
+		<Using Include="Station.Application.Contract.Websites" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Station.Domain" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Base.Utilities.Develops.NeutralDevelop" Static="true" />
+		<Using Include="Infrastructure.Base.Utilities.Develops.ProcessDevelop" Static="true" />
+	</ItemGroup>
+
+</Project>

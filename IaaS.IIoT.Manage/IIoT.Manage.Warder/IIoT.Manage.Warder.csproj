@@ -1,0 +1,64 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+	<PropertyGroup>
+		<FileVersion>1.7.0.1</FileVersion>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>Manage.Warder</RootNamespace>
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+		<ServerGarbageCollection>false</ServerGarbageCollection>
+		<ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+		<ApplicationIcon>..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Base\Resources\rocket.ico</ApplicationIcon>
+		<UserSecretsId>dotnet-IIoT.Manage.Warder-44695533-116e-48f2-a110-43c1a994b7fc</UserSecretsId>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.45">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\IIoT.Manage.Application\IIoT.Manage.Application.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Serilog" />
+		<Using Include="Volo.Abp.Modularity" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Microsoft.Net.Http.Headers" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.Reflection" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Manage.Application" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Manage.Domain.Develops.Carriers" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Manage.Warder" />
+		<Using Include="Manage.Warder.Services" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Base.Utilities.Develops.NeutralDevelop" Static="true" />
+		<Using Include="Infrastructure.Base.Utilities.Develops.ProcessDevelop" Static="true" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Core.Boundaries" />
+	</ItemGroup>
+
+</Project>

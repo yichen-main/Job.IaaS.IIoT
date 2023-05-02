@@ -1,0 +1,17 @@
+{
+  "culture": "en-US",
+  "texts": {
+    "ElectricalBoxTemperature": "Electrical box temperature",
+    "ElectricalBoxHumidity": "Electrical box humidity",
+    "ElectricalBoxAverageVoltage": "Electrical box average voltage",
+    "ElectricalBoxAverageCurrent": "Electrical box average current",
+    "ElectricalBoxApparentPower": "Electrical box apparent power",
+
+    "WaterTankTemperature": "Water tank temperature",
+    "CuttingFluidTemperature": "Cutting fluid temperature",
+    "CuttingFluidPotentialOfHydrogen": "Cutting fluid pH value",
+    "WaterPumpMotorAverageVoltage": "Water pump motor average voltage",
+    "WaterPumpMotorAverageCurrent": "Water pump motor average current",
+    "WaterPumpMotorApparentPower": "Water pump motor apparent power"
+  }
+}

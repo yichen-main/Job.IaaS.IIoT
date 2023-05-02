@@ -1,0 +1,17 @@
+{
+  "culture": "zh-CN",
+  "texts": {
+    "ElectricalBoxTemperature": "电气箱温度",
+    "ElectricalBoxHumidity": "电气箱湿度",
+    "ElectricalBoxAverageVoltage": "电气箱平均电压",
+    "ElectricalBoxAverageCurrent": "电气箱平均电流",
+    "ElectricalBoxApparentPower": "电气箱视在功率",
+
+    "WaterTankTemperature": "水箱温度",
+    "CuttingFluidTemperature": "切削液温度",
+    "CuttingFluidPotentialOfHydrogen": "切削液酸碱值",
+    "WaterPumpMotorAverageVoltage": "水泵马达平均电压",
+    "WaterPumpMotorAverageCurrent": "水泵马达平均电流",
+    "WaterPumpMotorApparentPower": "水泵马达视在功率"
+  }
+}

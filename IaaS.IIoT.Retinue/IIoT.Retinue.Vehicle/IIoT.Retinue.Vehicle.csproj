@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+	<PropertyGroup>
+		<FileVersion>7.0.1</FileVersion>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>Retinue.Vehicle</RootNamespace>
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+		<ServerGarbageCollection>false</ServerGarbageCollection>
+		<ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+		<ApplicationIcon>..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Base\Resources\bullseye.ico</ApplicationIcon>
+		<UserSecretsId>dotnet-IIoT.Retinue.Vehicle-25c9f0ec-836e-46d0-9283-8ce5696dd5d9</UserSecretsId>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.45">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\IIoT.Retinue.Application\IIoT.Retinue.Application.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Serilog" />
+		<Using Include="Volo.Abp.Autofac" />
+		<Using Include="Volo.Abp.Modularity" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
+		<Using Include="Microsoft.Extensions.Hosting" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.Reflection" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Retinue.Application" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Retinue.Domain.Shared.Helpers" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Retinue.Vehicle" />
+		<Using Include="Retinue.Vehicle.Services" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Base.Utilities.Develops" />
+		<Using Include="Infrastructure.Base.Utilities.Develops.NeutralDevelop" Static="true" />
+		<Using Include="Infrastructure.Base.Utilities.Develops.ProcessDevelop" Static="true" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>Infrastructure.Core</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Languages\Fielders\_english.json" />
+		<EmbeddedResource Include="Languages\Fielders\_simplified.json" />
+		<EmbeddedResource Include="Languages\Fielders\_traditional.json" />
+		<EmbeddedResource Include="Languages\Sensors\_english.json" />
+		<EmbeddedResource Include="Languages\Sensors\_simplified.json" />
+		<EmbeddedResource Include="Languages\Sensors\_traditional.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Coravel" Version="4.2.1" />
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.45">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\IIoT.Infrastructure.Base\IIoT.Infrastructure.Base.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Volo.Abp.Autofac" />
+		<Using Include="Volo.Abp.DependencyInjection" />
+		<Using Include="Volo.Abp.Localization" />
+		<Using Include="Volo.Abp.Modularity" />
+		<Using Include="Volo.Abp.VirtualFileSystem" />
+		<Using Include="YamlDotNet.RepresentationModel" />
+		<Using Include="YamlDotNet.Serialization" />
+		<Using Include="YamlDotNet.Serialization.NamingConventions" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Microsoft.Extensions.Configuration" />
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.ComponentModel" />
+		<Using Include="System.Net" />
+		<Using Include="System.Diagnostics" />
+		<Using Include="System.Reflection" />
+		<Using Include="System.Runtime.InteropServices" />
+		<Using Include="System.ServiceProcess" />
+		<Using Include="System.Text" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Base.Utilities.Develops" />
+		<Using Include="Infrastructure.Base.Utilities.Develops.ProcessDevelop" Static="true" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Core.Enactments" />
+		<Using Include="Infrastructure.Core.Languages.Fielders" />
+		<Using Include="Infrastructure.Core.Languages.Sensors" />
+	</ItemGroup>
+
+</Project>

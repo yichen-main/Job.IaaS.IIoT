@@ -1,0 +1,6 @@
+{
+  "culture": "zh-CN",
+  "texts": {
+    "field.value.mismatch": "变量：{0} - 值不匹配"
+  }
+}
