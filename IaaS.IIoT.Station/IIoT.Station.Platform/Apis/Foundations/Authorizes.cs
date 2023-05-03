@@ -4,7 +4,7 @@
 public class Authorizes : ControllerBase
 {
     [HttpPost("login", Name = nameof(InsertLogin))]
-    public IActionResult InsertLogin([FromForm] VerifyInsert body)
+    public IActionResult InsertLogin([FromForm] LoginBody body)
     {
         try
         {
@@ -24,7 +24,7 @@ public class Authorizes : ControllerBase
     }
 
     [HttpPost("extend", Name = nameof(InsertExtend))]
-    public IActionResult InsertExtend([FromForm] VerifyInsert body)
+    public IActionResult InsertExtend([FromForm] ExtendBody body)
     {
         try
         {
@@ -50,10 +50,13 @@ public class Authorizes : ControllerBase
             return NotFound(new { e.Message });
         }
     }
-    public sealed class VerifyInsert
+    public sealed class LoginBody
     {
         public required string Account { get; init; }
         public required string Password { get; init; }
+    }
+    public sealed class ExtendBody
+    {
         public required Guid RefreshToken { get; init; }
     }
     public readonly record struct VerifyRow

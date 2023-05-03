@@ -1,19 +1,24 @@
 ﻿namespace Station.Application.Additions.Triggers;
-public sealed class InitialTrigger : IEntranceTrigger
+public sealed class InitialTrigger : IEntrance
 {
+    readonly IMainProfile _mainProfile;
+    readonly IMaintainTrigger _maintainTrigger;
+    public InitialTrigger(IMainProfile mainProfile, IMaintainTrigger maintainTrigger)
+    {
+        _mainProfile = mainProfile;
+        _maintainTrigger = maintainTrigger;
+    }
     public async void Build()
     {
         try
         {
-            await MainProfile.RefreshAsync();
-            await MaintainTrigger.CreateSwitchFileAsync();
-            if (MainProfile.Text is not null) await MainProfile.OverwriteAsync(MainProfile.Text);
+            await _mainProfile.RefreshAsync();
+            await _maintainTrigger.CreateSwitchFileAsync();
+            if (_mainProfile.Text is not null) await _mainProfile.OverwriteAsync(_mainProfile.Text);
         }
         catch (Exception e)
         {
             Log.Error(Menu.Title, nameof(InitialTrigger), new { e.Message });
         }
     }
-    public required IMainProfile MainProfile { get; init; }
-    public required IMaintainTrigger MaintainTrigger { get; init; }
 }

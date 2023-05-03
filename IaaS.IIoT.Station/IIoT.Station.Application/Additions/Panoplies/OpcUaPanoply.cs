@@ -1,14 +1,23 @@
 ﻿namespace Station.Application.Additions.Panoplies;
 internal sealed class OpcUaPanoply : BackgroundService
 {
+    readonly IMainProfile _mainProfile;
+    readonly IStructuralEngine _structuralEngine;
+    readonly ITimeserieWrapper _timeserieWrapper;
+    public OpcUaPanoply(IMainProfile mainProfile, IStructuralEngine structuralEngine, ITimeserieWrapper timeserieWrapper)
+    {
+        _mainProfile = mainProfile;
+        _structuralEngine = structuralEngine;
+        _timeserieWrapper = timeserieWrapper;
+    }
     protected override Task ExecuteAsync(CancellationToken stoppingToken) => Task.Run(async () =>
     {
         try
         {
-            SpinWait.SpinUntil(() => StructuralEngine.EnableStorage is true);
+            SpinWait.SpinUntil(() => _structuralEngine.EnableStorage is true);
             ApplicationConfiguration configuration = new()
             {
-                ApplicationName = MainProfile.Text!.MachineID,
+                ApplicationName = _mainProfile.Text!.MachineID,
                 ApplicationUri = Utils.Format($"urn:{Dns.GetHostName()}:OpcUa"),
                 ApplicationType = ApplicationType.Server,
                 ServerConfiguration = new()
@@ -76,7 +85,7 @@ internal sealed class OpcUaPanoply : BackgroundService
                 TemplateEngine.CurrentInstance.SessionManager.SessionActivated += ActionViewer;
                 TemplateEngine.CurrentInstance.SessionManager.SessionClosing += ActionViewer;
                 TemplateEngine.CurrentInstance.SessionManager.SessionCreated += ActionViewer;
-                async void ActionViewer(Session session, SessionEventReason reason) => await TimeserieWrapper.OpcUaRegistrant.InsertAsync(new()
+                async void ActionViewer(Session session, SessionEventReason reason) => await _timeserieWrapper.OpcUaRegistrant.InsertAsync(new()
                 {
                     Status = reason,
                     SessionName = session.SessionDiagnostics.SessionName
@@ -93,7 +102,4 @@ internal sealed class OpcUaPanoply : BackgroundService
         }
     }, stoppingToken);
     public required TemplateEngine TemplateEngine { get; init; }
-    public required IMainProfile MainProfile { get; init; }
-    public required IStructuralEngine StructuralEngine { get; init; }
-    public required ITimeserieWrapper TimeserieWrapper { get; init; }
 }

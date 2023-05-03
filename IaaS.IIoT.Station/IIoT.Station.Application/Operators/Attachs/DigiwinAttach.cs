@@ -1,28 +1,37 @@
 ﻿namespace Station.Application.Operators.Attachs;
 internal sealed class DigiwinAttach : BackgroundService
 {
+    readonly IMainProfile _mainProfile;
+    readonly IHistoryEngine _historyEngine;
+    readonly IFoundationPool _foundationPool;
+    public DigiwinAttach(IMainProfile mainProfile, IHistoryEngine historyEngine, IFoundationPool foundationPool)
+    {
+        _mainProfile = mainProfile;
+        _historyEngine = historyEngine;
+        _foundationPool = foundationPool;
+    }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (await new PeriodicTimer(Menu.RefreshTime).WaitForNextTickAsync(stoppingToken))
         {
             try
             {
-                if (MainProfile.Text is not null)
+                if (_mainProfile.Text is not null)
                 {
-                    if (MainProfile.Text.DigiwinEAI.Enable)
+                    if (_mainProfile.Text.DigiwinEAI.Enable)
                     {
 
                     }
                 }
                 if (Histories.Any()) Histories.Clear();
-                FoundationPool.PushDigiwinAttach(DateTime.UtcNow);
+                _foundationPool.PushDigiwinAttach(DateTime.UtcNow);
             }
             catch (Exception e)
             {
                 if (!Histories.Contains(e.Message))
                 {
                     Histories.Add(e.Message);
-                    HistoryEngine.Record(new IHistoryEngine.FavorerPayload
+                    _historyEngine.Record(new IHistoryEngine.FavorerPayload
                     {
                         Name = nameof(DigiwinAttach),
                         Message = e.Message,
@@ -35,8 +44,4 @@ internal sealed class DigiwinAttach : BackgroundService
     internal required List<string> Histories { get; init; } = new();
     IRootInformation.Data.MachineStatusType MachineStatus { get; set; }
     Dictionary<string, float> HistoricalDatas { get; init; } = new();
-    public required IMainProfile MainProfile { get; init; }
-    public required IHistoryEngine HistoryEngine { get; init; }
-    public required IFoundationPool FoundationPool { get; init; }
-    public required IStructuralEngine StructuralEngine { get; init; }
 }

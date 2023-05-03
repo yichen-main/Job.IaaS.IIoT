@@ -1,7 +1,14 @@
 ﻿namespace Station.Application.Additions.Triggers;
-public sealed class QueueTrigger : IEntranceTrigger
+public sealed class QueueTrigger : IEntrance
 {
-    public void Build() => StructuralEngine.Transport.InterceptingPublishAsync += @event => Task.Run(() =>
+    readonly IQueueWrapper _queueWrapper;
+    readonly IStructuralEngine _structuralEngine;
+    public QueueTrigger(IQueueWrapper queueWrapper, IStructuralEngine structuralEngine)
+    {
+        _queueWrapper = queueWrapper;
+        _structuralEngine = structuralEngine;
+    }
+    public void Build() => _structuralEngine.Transport.InterceptingPublishAsync += @event => Task.Run(() =>
     {
         try
         {
@@ -13,15 +20,15 @@ public sealed class QueueTrigger : IEntranceTrigger
                     switch (paths[0])
                     {
                         case var item when item.Equals("VTM415_TC", StringComparison.OrdinalIgnoreCase):
-                            QueueWrapper.Interior.PushSpindleThermalCompensation(text);
+                            _queueWrapper.Interior.PushSpindleThermalCompensation(text);
                             break;
 
                         case var item when item.Equals("VUX400_TC", StringComparison.OrdinalIgnoreCase):
-                            QueueWrapper.Interior.PushSpindleThermalCompensation(text);
+                            _queueWrapper.Interior.PushSpindleThermalCompensation(text);
                             break;
 
                         case var item when item.Equals("UCT600_TC", StringComparison.OrdinalIgnoreCase):
-                            QueueWrapper.Interior.PushSpindleThermalCompensation(text);
+                            _queueWrapper.Interior.PushSpindleThermalCompensation(text);
                             break;
                     }
                     break;
@@ -50,15 +57,15 @@ public sealed class QueueTrigger : IEntranceTrigger
                                                                         switch (paths[6])
                                                                         {
                                                                             case "4406":
-                                                                                QueueWrapper.Icpdas.PushWaterPumpMotorAverageVoltage(text.ToObject<IIcpdasQueue.Meta>());
+                                                                                _queueWrapper.Icpdas.PushWaterPumpMotorAverageVoltage(text.ToObject<IIcpdasQueue.Meta>());
                                                                                 break;
 
                                                                             case "4408":
-                                                                                QueueWrapper.Icpdas.PushWaterPumpMotorAverageCurrent(text.ToObject<IIcpdasQueue.Meta>());
+                                                                                _queueWrapper.Icpdas.PushWaterPumpMotorAverageCurrent(text.ToObject<IIcpdasQueue.Meta>());
                                                                                 break;
 
                                                                             case "4410":
-                                                                                QueueWrapper.Icpdas.PushWaterPumpMotorApparentPower(text.ToObject<IIcpdasQueue.Meta>());
+                                                                                _queueWrapper.Icpdas.PushWaterPumpMotorApparentPower(text.ToObject<IIcpdasQueue.Meta>());
                                                                                 break;
                                                                         }
                                                                         break;
@@ -72,15 +79,15 @@ public sealed class QueueTrigger : IEntranceTrigger
                                                                         switch (paths[6])
                                                                         {
                                                                             case "4406":
-                                                                                QueueWrapper.Icpdas.PushElectricalBoxAverageVoltage(text.ToObject<IIcpdasQueue.Meta>());
+                                                                                _queueWrapper.Icpdas.PushElectricalBoxAverageVoltage(text.ToObject<IIcpdasQueue.Meta>());
                                                                                 break;
 
                                                                             case "4408":
-                                                                                QueueWrapper.Icpdas.PushElectricalBoxAverageCurrent(text.ToObject<IIcpdasQueue.Meta>());
+                                                                                _queueWrapper.Icpdas.PushElectricalBoxAverageCurrent(text.ToObject<IIcpdasQueue.Meta>());
                                                                                 break;
 
                                                                             case "4410":
-                                                                                QueueWrapper.Icpdas.PushElectricalBoxApparentPower(text.ToObject<IIcpdasQueue.Meta>());
+                                                                                _queueWrapper.Icpdas.PushElectricalBoxApparentPower(text.ToObject<IIcpdasQueue.Meta>());
                                                                                 break;
                                                                         }
                                                                         break;
@@ -94,11 +101,11 @@ public sealed class QueueTrigger : IEntranceTrigger
                                                                         switch (paths[6])
                                                                         {
                                                                             case "0":
-                                                                                QueueWrapper.Icpdas.PushElectricalBoxHumidity(text.ToObject<IIcpdasQueue.Meta>());
+                                                                                _queueWrapper.Icpdas.PushElectricalBoxHumidity(text.ToObject<IIcpdasQueue.Meta>());
                                                                                 break;
 
                                                                             case "1":
-                                                                                QueueWrapper.Icpdas.PushElectricalBoxTemperature(text.ToObject<IIcpdasQueue.Meta>());
+                                                                                _queueWrapper.Icpdas.PushElectricalBoxTemperature(text.ToObject<IIcpdasQueue.Meta>());
                                                                                 break;
                                                                         }
                                                                         break;
@@ -112,7 +119,7 @@ public sealed class QueueTrigger : IEntranceTrigger
                                                                         switch (paths[6])
                                                                         {
                                                                             case "0":
-                                                                                QueueWrapper.Icpdas.PushCuttingFluidTemperature(text.ToObject<IIcpdasQueue.Meta>());
+                                                                                _queueWrapper.Icpdas.PushCuttingFluidTemperature(text.ToObject<IIcpdasQueue.Meta>());
                                                                                 break;
                                                                         }
                                                                         break;
@@ -131,11 +138,11 @@ public sealed class QueueTrigger : IEntranceTrigger
                                                                         switch (paths[6])
                                                                         {
                                                                             case "0":
-                                                                                QueueWrapper.Icpdas.PushCuttingFluidPotentialOfHydrogen(text.ToObject<IIcpdasQueue.Meta>());
+                                                                                _queueWrapper.Icpdas.PushCuttingFluidPotentialOfHydrogen(text.ToObject<IIcpdasQueue.Meta>());
                                                                                 break;
 
                                                                             case "10":
-                                                                                QueueWrapper.Icpdas.PushWaterTankTemperature(text.ToObject<IIcpdasQueue.Meta>());
+                                                                                _queueWrapper.Icpdas.PushWaterTankTemperature(text.ToObject<IIcpdasQueue.Meta>());
                                                                                 break;
                                                                         }
                                                                         break;
@@ -157,9 +164,7 @@ public sealed class QueueTrigger : IEntranceTrigger
         }
         catch (Exception e)
         {
-            Log.Error(Menu.Title, nameof(StructuralEngine.Transport.InterceptingPublishAsync), new { e.Message });
+            Log.Error(Menu.Title, nameof(_structuralEngine.Transport.InterceptingPublishAsync), new { e.Message });
         }
     });
-    public required IStructuralEngine StructuralEngine { get; init; }
-    public required IQueueWrapper QueueWrapper { get; init; }
 }

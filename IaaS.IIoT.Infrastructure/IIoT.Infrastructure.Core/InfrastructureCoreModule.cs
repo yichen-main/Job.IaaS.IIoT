@@ -1,6 +1,6 @@
 ﻿namespace Infrastructure.Core;
 
-[DependsOn(typeof(AbpAutofacModule), typeof(AbpLocalizationModule), typeof(AbpVirtualFileSystemModule))]
+[DependsOn(typeof(AbpLocalizationModule), typeof(AbpVirtualFileSystemModule))]
 public sealed class InfrastructureCoreModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

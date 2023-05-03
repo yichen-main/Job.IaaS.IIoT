@@ -7,10 +7,20 @@ public static class NodeDevelop
         builder.Host.ConfigureHostOptions(item =>
         {
             item.ShutdownTimeout = TimeSpan.FromSeconds(15);
-        }).AddAppSettingsSecretsJson().UseAutofac().UseSystemd().UseSerilog();
+        }).AddAppSettingsSecretsJson().UseSystemd().UseSerilog();
         builder.WebHost.UseKestrel(item => item.ListenAnyIP(port));
         await builder.AddApplicationAsync<T>();
         return builder;
     }
-    public static void UseTriggers(this IApplicationBuilder app) => Array.ForEach(app.ApplicationServices.GetRequiredService<IEntranceTrigger[]>(), item => Task.Run(() => item.Build()));
+    public static void UseTriggers(this IApplicationBuilder app) => Array.ForEach(app.ApplicationServices.GetRequiredService<IEntrance[]>(), item =>
+    {
+        try
+        {
+            item.Build();
+        }
+        catch (Exception e)
+        {
+
+        }
+    });
 }

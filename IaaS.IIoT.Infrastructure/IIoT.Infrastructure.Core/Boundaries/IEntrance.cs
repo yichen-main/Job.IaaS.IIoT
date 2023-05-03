@@ -1,5 +1,5 @@
 ﻿namespace Infrastructure.Core.Boundaries;
-public interface IEntranceTrigger
+public interface IEntrance
 {
     void Build();
 }

@@ -33,7 +33,6 @@
 		<Using Include="SoapCore" />
 		<Using Include="Volo.Abp" />
 		<Using Include="Volo.Abp.AspNetCore" />
-		<Using Include="Volo.Abp.Autofac" />
 		<Using Include="Volo.Abp.DependencyInjection" />
 		<Using Include="Volo.Abp.Localization" />
 		<Using Include="Volo.Abp.Modularity" />
