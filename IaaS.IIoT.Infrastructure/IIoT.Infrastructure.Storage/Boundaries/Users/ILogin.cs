@@ -2,7 +2,7 @@
 using DependencyAttribute = Volo.Abp.DependencyInjection.DependencyAttribute;
 
 namespace Infrastructure.Storage.Boundaries.Users;
-public interface ILogin : ITacticExpert
+public interface ILogin
 {
     const string Type = "user";
     ValueTask InstallAsync();
@@ -28,7 +28,7 @@ public interface ILogin : ITacticExpert
         Disable = 102
     }
 
-    [Table(Name = $"{Deputy.Manage}_{Type}_{Deputy.Foundation}")]
+    [Table(Name = $"{TacticDevelop.Deputy.Manage}_{Type}_{TacticDevelop.Deputy.Foundation}")]
     readonly record struct Entity
     {
         [Field(Name = CurrentSign, PK = true)] public required Guid Id { get; init; }
@@ -45,7 +45,7 @@ public interface ILogin : ITacticExpert
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class Login : TacticExpert, ILogin
+file sealed class Login : TacticDevelop, ILogin
 {
     public async ValueTask InstallAsync()
     {
@@ -97,10 +97,7 @@ file sealed class Login : TacticExpert, ILogin
             nameof(Entity.Password),
             nameof(Entity.Creator),
             nameof(Entity.CreateTime)
-        }).AddObjectFilter(nameof(Entity.Id).To<Entity>(), nameof(id)), new
-        {
-            id
-        });
+        }).AddObjectFilter(nameof(Entity.Id).To<Entity>(), nameof(id)), new { id });
         return new()
         {
             Id = result.Id,
@@ -127,10 +124,7 @@ file sealed class Login : TacticExpert, ILogin
             nameof(Entity.Password),
             nameof(Entity.Creator),
             nameof(Entity.CreateTime)
-        }).AddObjectFilter(nameof(Entity.Account).To<Entity>(), nameof(account)), new
-        {
-            account
-        });
+        }).AddObjectFilter(nameof(Entity.Account).To<Entity>(), nameof(account)), new { account });
         return new()
         {
             Id = result.Id,

@@ -1,14 +1,7 @@
-﻿namespace Infrastructure.Storage.Functions.Experts;
-public interface ITacticExpert
+﻿namespace Infrastructure.Storage.Functions.Develops;
+public abstract class TacticDevelop
 {
-    Task<bool> ExistTableAsync(string name);
-    Task<bool> ExistDatabaseAsync(string name);
-    Task<int> CountAsync(string content);
-    ValueTask ExecuteAsync(string content, object? @object);
-    ValueTask TransactionAsync(IEnumerable<(string content, object? @object)> values);
-    Task<T> SingleQueryAsync<T>(string content, object? @object) where T : struct;
-    Task<IEnumerable<T>> QueryAsync<T>(string content, object? @object) where T : struct;
-    readonly ref struct Deputy
+    public readonly ref struct Deputy
     {
         public const string Root = "root";
         public const string Manage = "manage";
@@ -20,17 +13,14 @@ public interface ITacticExpert
         public const string Stack = "stack";
         public static string ComboLink => "combos";
     }
-}
-public abstract class TacticExpert : ITacticExpert
-{
-    public async Task<bool> ExistDatabaseAsync(string name)
+    public static async Task<bool> ExistDatabaseAsync(string name)
     {
         await using NpgsqlConnection npgsql = new(ConnectionString);
         await npgsql.OpenAsync();
         var results = await npgsql.QueryAsync($"SELECT datname FROM pg_catalog.pg_database WHERE datname = '{name}'");
         return results.Count() is not 0;
     }
-    public async Task<bool> ExistTableAsync(string name)
+    public static async Task<bool> ExistTableAsync(string name)
     {
         await using NpgsqlConnection npgsql = new(ConnectionString);
         await npgsql.OpenAsync();
@@ -39,7 +29,7 @@ public abstract class TacticExpert : ITacticExpert
             name
         });
     }
-    public async Task<int> CountAsync(string content)
+    public static async Task<int> CountAsync(string content)
     {
         if (ConnectionString is not null)
         {
@@ -49,7 +39,7 @@ public abstract class TacticExpert : ITacticExpert
         }
         return default;
     }
-    public async Task<IEnumerable<T>> QueryAsync<T>(string content, object? @object) where T : struct
+    public static async Task<IEnumerable<T>> QueryAsync<T>(string content, object? @object) where T : struct
     {
         if (ConnectionString is not null)
         {
@@ -59,7 +49,7 @@ public abstract class TacticExpert : ITacticExpert
         }
         return await ValueTask.FromResult(Array.Empty<T>());
     }
-    public async Task<T> SingleQueryAsync<T>(string content, object? @object) where T : struct
+    public static async Task<T> SingleQueryAsync<T>(string content, object? @object) where T : struct
     {
         if (ConnectionString is not null)
         {
@@ -69,7 +59,7 @@ public abstract class TacticExpert : ITacticExpert
         }
         return default;
     }
-    public async ValueTask ExecuteAsync(string content, object? @object)
+    public static async ValueTask ExecuteAsync(string content, object? @object)
     {
         if (ConnectionString is not null)
         {
@@ -79,7 +69,7 @@ public abstract class TacticExpert : ITacticExpert
             await npgsql.CloseAsync();
         }
     }
-    public async ValueTask TransactionAsync(IEnumerable<(string content, object? @object)> values)
+    public static async ValueTask TransactionAsync(IEnumerable<(string content, object? @object)> values)
     {
         if (ConnectionString is not null)
         {

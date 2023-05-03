@@ -13,12 +13,12 @@ public interface IAuthenticateService
 [Dependency(ServiceLifetime.Singleton)]
 file sealed class AuthenticateService : IAuthenticateService
 {
-    public AuthenticateService() => CreateRefreshId();
     public bool Login(string account, string password)
     {
         if (Front.Grade.UseDecryptAES() == $"{account}{password}".ToMd5())
         {
             CreateToken();
+            CreateRefreshId();
             return true;
         }
         return false;
@@ -31,7 +31,7 @@ file sealed class AuthenticateService : IAuthenticateService
         Token = new JwtSecurityTokenHandler().WriteToken(result);
         CreateTime = DateTime.UtcNow;
     }
-    public int ExpiresIn => 10;
+    public int ExpiresIn => 1800;
     public string? Token { get; private set; }
     public Guid RefreshId { get; private set; }
     public DateTime CreateTime { get; private set; }

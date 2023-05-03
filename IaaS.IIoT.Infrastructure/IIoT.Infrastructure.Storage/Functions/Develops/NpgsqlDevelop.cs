@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace Infrastructure.Storage.Functions.Develops;
+﻿namespace Infrastructure.Storage.Functions.Develops;
 public static class NpgsqlDevelop
 {
     public const string CurrentSign = "id";
