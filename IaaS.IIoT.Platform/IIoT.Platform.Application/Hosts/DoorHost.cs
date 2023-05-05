@@ -1,4 +1,4 @@
-﻿namespace Platform.Station.Hosts;
+﻿namespace Platform.Application.Hosts;
 internal sealed class DoorHost : BackgroundService
 {
     readonly IMainProfile _mainProfile;

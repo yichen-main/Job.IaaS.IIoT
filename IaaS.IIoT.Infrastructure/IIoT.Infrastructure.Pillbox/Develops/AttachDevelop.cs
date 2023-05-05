@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Host.Develops;
+﻿namespace Infrastructure.Pillbox.Develops;
 public abstract class AttachDevelop
 {
     protected static string ConvertTwoWordHEX(in int quantity)

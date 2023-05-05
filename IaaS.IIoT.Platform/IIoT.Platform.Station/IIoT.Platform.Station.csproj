@@ -17,7 +17,6 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0" />
@@ -83,14 +82,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Platform.Domain.Shared.Functions.Engines" />
-		<Using Include="Platform.Domain.Shared.Functions.Pools" />
+		<Using Include="Platform.Domain.Blocks" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<Using Include="Platform.Domain.Shared.Engines" />
+		<Using Include="Platform.Domain.Shared.Pools" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="Platform.Station" />
-		<Using Include="Platform.Station.Blocks" />
-		<Using Include="Platform.Station.Hosts" />
 	</ItemGroup>
 
 </Project>

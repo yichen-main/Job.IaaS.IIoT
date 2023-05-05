@@ -1,5 +1,5 @@
-﻿namespace Platform.Station.Blocks;
-public interface IAuthenticateService
+﻿namespace Platform.Domain.Shared.Engines;
+public interface IAuthenticateEngine
 {
     bool Login(string account, string password);
     void CreateRefreshId();
@@ -11,7 +11,7 @@ public interface IAuthenticateService
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class AuthenticateService : IAuthenticateService
+file sealed class AuthenticateEngine : IAuthenticateEngine
 {
     public bool Login(string account, string password)
     {

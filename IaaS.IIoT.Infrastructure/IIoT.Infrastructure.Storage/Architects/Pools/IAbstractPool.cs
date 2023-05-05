@@ -58,13 +58,13 @@ public interface IAbstractPool
 file sealed class AbstractPool : IAbstractPool
 {
     readonly IMitsubishiPool _mitsubishiPool;
-    readonly ITimeserieWrapper _timeserieWrapper;
-    public AbstractPool(IMitsubishiPool mitsubishiPool, ITimeserieWrapper timeserieWrapper)
+    readonly ITimelineWrapper _timelineWrapper;
+    public AbstractPool(IMitsubishiPool mitsubishiPool, ITimelineWrapper timelineWrapper)
     {
         _mitsubishiPool = mitsubishiPool;
-        _timeserieWrapper = timeserieWrapper;
+        _timelineWrapper = timelineWrapper;
     }
-    public async Task SetElectricityStatisticAsync() => await Task.Run(() => ElectricityStatistics = _timeserieWrapper.ElectricMeter.ReadElectricityStatistic());
+    public async Task SetElectricityStatisticAsync() => await Task.Run(() => ElectricityStatistics = _timelineWrapper.ElectricMeter.ReadElectricityStatistic());
     public async Task SetSpindleSpeedOdometerChartAsync() => await Task.Run(() =>
     {
         var endTime = DateTime.UtcNow.ToNowHour();
@@ -73,7 +73,7 @@ file sealed class AbstractPool : IAbstractPool
         List<(int serialNo, SpindleSpeedOdometerChartData.Detail detail)> details = new();
         while (startTime <= intervalTime)
         {
-            foreach (var groups in _timeserieWrapper.SpeedOdometer.LatestTimeGroup(intervalTime, intervalTime.AddDays(1)))
+            foreach (var groups in _timelineWrapper.SpeedOdometer.LatestTimeGroup(intervalTime, intervalTime.AddDays(1)))
             {
                 details.Add((groups.Key, groups.Value));
             }
@@ -99,7 +99,7 @@ file sealed class AbstractPool : IAbstractPool
         }
         SpindleSpeedOdometerCharts = results;
     });
-    public async Task SetSpindleThermalCompensationChartAsync() => await Task.Run(() => SpindleThermalCompensationChart = _timeserieWrapper.ThermalCompensation.ReadStatisticChart());
+    public async Task SetSpindleThermalCompensationChartAsync() => await Task.Run(() => SpindleThermalCompensationChart = _timelineWrapper.ThermalCompensation.ReadStatisticChart());
     public SpindleThermalCompensationChartData SpindleThermalCompensationChart { get; private set; } = new();
     public IEnumerable<ElectricityStatisticData> ElectricityStatistics { get; private set; } = Array.Empty<ElectricityStatisticData>();
     public IEnumerable<SpindleSpeedOdometerChartData> SpindleSpeedOdometerCharts { get; private set; } = Array.Empty<SpindleSpeedOdometerChartData>();

@@ -10,7 +10,7 @@
 #define LEAVE_OLD_STYLE
 
 
-namespace Infrastructure.Host.Develops;
+namespace Infrastructure.Pillbox.Develops;
 public abstract class FocasDevelop
 {
     /* Axis define */

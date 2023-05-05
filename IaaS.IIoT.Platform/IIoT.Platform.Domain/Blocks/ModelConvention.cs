@@ -1,4 +1,4 @@
-﻿namespace Platform.Station.Blocks;
+﻿namespace Platform.Domain.Blocks;
 public sealed class ModelConvention : IControllerModelConvention
 {
     public void Apply(ControllerModel model)

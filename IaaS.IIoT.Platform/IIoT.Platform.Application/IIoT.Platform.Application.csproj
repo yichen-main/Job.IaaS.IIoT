@@ -18,6 +18,8 @@
 
 	<ItemGroup>
 		<Using Include="Microsoft.Extensions.DependencyInjection" />
+		<Using Include="Microsoft.Extensions.Hosting" />
+		<Using Include="Microsoft.Extensions.Localization" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -28,10 +30,24 @@
 
 	<ItemGroup>
 		<Using Include="Infrastructure.Core.Boundaries" />
+		<Using Include="Infrastructure.Core.Languages.Fielders" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Storage.Architects.Experts" />
+		<Using Include="Infrastructure.Storage.Architects.Pools" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="Platform.Application.Contract" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Platform.Domain.Shared.Engines" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Platform.Application.Hosts" />
 	</ItemGroup>
 
 </Project>

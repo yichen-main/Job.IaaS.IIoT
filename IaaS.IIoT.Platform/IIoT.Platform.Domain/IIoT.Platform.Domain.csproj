@@ -23,12 +23,23 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="Microsoft.AspNetCore.Authentication" />
+		<Using Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+		<Using Include="Microsoft.AspNetCore.Http" />
+		<Using Include="Microsoft.AspNetCore.Mvc" />
+		<Using Include="Microsoft.AspNetCore.Mvc.ApplicationModels" />
+		<Using Include="Microsoft.AspNetCore.Mvc.Filters" />
 		<Using Include="Microsoft.Extensions.DependencyInjection" />
+		<Using Include="Microsoft.Extensions.Logging" />
+		<Using Include="Microsoft.Extensions.Options" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
 		<Using Include="System.Buffers" />
 		<Using Include="System.Reflection" />
+		<Using Include="System.Security.Claims" />
+		<Using Include="System.Security.Principal" />
+		<Using Include="System.Text.Encodings.Web" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -41,13 +52,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Infrastructure.Host.Develops" />
+		<Using Include="Infrastructure.Pillbox.Develops" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="Platform.Domain.Shared" />
-		<Using Include="Platform.Domain.Shared.Functions.Engines" />
-		<Using Include="Platform.Domain.Shared.Functions.Pools" />
+		<Using Include="Platform.Domain.Shared.Engines" />
+		<Using Include="Platform.Domain.Shared.Pools" />
 	</ItemGroup>
 
 </Project>

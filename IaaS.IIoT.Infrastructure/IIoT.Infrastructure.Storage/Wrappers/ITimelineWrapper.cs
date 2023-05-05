@@ -1,5 +1,5 @@
 ﻿namespace Infrastructure.Storage.Wrappers;
-public interface ITimeserieWrapper
+public interface ITimelineWrapper
 {
     IOpcUaRegistrant OpcUaRegistrant { get; }
     IRootInformation RootInformation { get; }
@@ -13,9 +13,9 @@ public interface ITimeserieWrapper
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class TimeserieWrapper : ITimeserieWrapper
+file sealed class TimelineWrapper : ITimelineWrapper
 {
-    public TimeserieWrapper(
+    public TimelineWrapper(
         IOpcUaRegistrant opcUaRegistrant,
         IRootInformation rootInformation,
         IMaintenanceCycle maintenanceCycle,

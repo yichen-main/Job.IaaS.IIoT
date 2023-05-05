@@ -41,7 +41,6 @@ internal sealed class AppModule : AbpModule
         {
             item.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().WithExposedHeaders("*");
         }));
-        context.Services.AddEndpointsApiExplorer();
-        context.Services.AddHostedService<DoorHost>();
+        context.Services.AddEndpointsApiExplorer();        
     }
 }

@@ -1,5 +1,5 @@
-﻿namespace Platform.Station.Blocks;
-internal sealed class ExceptionFilter : IExceptionFilter
+﻿namespace Platform.Domain.Blocks;
+public sealed class ExceptionFilter : IExceptionFilter
 {
     public void OnException(ExceptionContext context)
     {

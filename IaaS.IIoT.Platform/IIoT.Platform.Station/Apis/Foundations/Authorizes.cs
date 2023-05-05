@@ -1,10 +1,12 @@
-﻿namespace Platform.Station.Apis.Foundations;
+﻿using Platform.Domain.Shared.Engines;
+
+namespace Platform.Station.Apis.Foundations;
 
 [ApiExplorerSettings(GroupName = nameof(Foundations))]
 public class Authorizes : ControllerBase
 {
-    readonly IAuthenticateService _authenticateService;
-    public Authorizes(IAuthenticateService authenticateService)
+    readonly IAuthenticateEngine _authenticateService;
+    public Authorizes(IAuthenticateEngine authenticateService)
     {
         _authenticateService = authenticateService;
     }

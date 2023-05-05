@@ -1,4 +1,10 @@
-﻿namespace Platform.Domain.Functions.Engines;
+﻿namespace Platform.Domain.Shared.Engines;
+public interface IStructuralEngine
+{
+    MqttServer Transport { get; init; }
+    ArrayPool<byte> BytePool { get; }
+    string Version { get; }
+}
 
 [Dependency(ServiceLifetime.Singleton)]
 file sealed class StructuralEngine : IStructuralEngine
