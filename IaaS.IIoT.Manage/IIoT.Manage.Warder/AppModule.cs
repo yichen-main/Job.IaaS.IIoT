@@ -9,7 +9,7 @@ internal sealed class AppModule : AbpModule
         context.Services.AddHttpClient();
         if (Status is not SystemStatus.Invalid)
         {
-            Array.ForEach(context.Services.GetRequiredService<IEntranceTrigger[]>(), item => Task.Run(() => item.Build()));
+            //Array.ForEach(context.Services.GetRequiredService<IEntrance[]>(), item => Task.Run(() => item.Build()));
             if (Status is SystemStatus.Issued)
             {
                 context.Services.AddHostedService<GuardianService>();

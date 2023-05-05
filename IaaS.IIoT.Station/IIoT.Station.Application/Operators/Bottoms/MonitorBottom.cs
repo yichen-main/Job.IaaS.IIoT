@@ -1,6 +1,13 @@
 ﻿namespace Station.Application.Operators.Bottoms;
 internal sealed class MonitorBottom : BackgroundService
 {
+    readonly IHistoryEngine _historyEngine;
+    readonly IFoundationPool _foundationPool;
+    public MonitorBottom(IHistoryEngine historyEngine, IFoundationPool foundationPool)
+    {
+        _historyEngine = historyEngine;
+        _foundationPool = foundationPool;
+    }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (await new PeriodicTimer(Menu.RefreshTime).WaitForNextTickAsync(stoppingToken))
@@ -8,14 +15,14 @@ internal sealed class MonitorBottom : BackgroundService
             try
             {
                 if (Histories.Any()) Histories.Clear();
-                FoundationPool.PushMonitorBottom(DateTime.UtcNow);
+                _foundationPool.PushMonitorBottom(DateTime.UtcNow);
             }
             catch (Exception e)
             {
                 if (!Histories.Contains(e.Message))
                 {
                     Histories.Add(e.Message);
-                    HistoryEngine.Record(new IHistoryEngine.FavorerPayload
+                    _historyEngine.Record(new IHistoryEngine.FavorerPayload
                     {
                         Name = nameof(MonitorBottom),
                         Message = e.Message,
@@ -26,6 +33,4 @@ internal sealed class MonitorBottom : BackgroundService
         }
     }
     internal required List<string> Histories { get; init; } = new();
-    public required IHistoryEngine HistoryEngine { get; init; }
-    public required IFoundationPool FoundationPool { get; init; }
 }

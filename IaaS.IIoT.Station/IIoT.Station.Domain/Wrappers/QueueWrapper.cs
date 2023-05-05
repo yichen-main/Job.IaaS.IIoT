@@ -3,8 +3,13 @@
 [Dependency(ServiceLifetime.Singleton)]
 file sealed class QueueWrapper : IQueueWrapper
 {
-    public IIcpdasQueue Icpdas => new IcpdasQueue(SensorPool);
-    public IInteriorQueue Interior => new InteriorQueue(ComponentPool);
-    public required ISensorPool SensorPool { get; init; }
-    public required IComponentPool ComponentPool { get; init; }
+    readonly ISensorPool _sensorPool;
+    readonly IComponentPool _componentPool;
+    public QueueWrapper(ISensorPool sensorPool, IComponentPool componentPool)
+    {
+        _sensorPool = sensorPool;
+        _componentPool = componentPool;
+    }
+    public IIcpdasQueue Icpdas => new IcpdasQueue(_sensorPool);
+    public IInteriorQueue Interior => new InteriorQueue(_componentPool);
 }

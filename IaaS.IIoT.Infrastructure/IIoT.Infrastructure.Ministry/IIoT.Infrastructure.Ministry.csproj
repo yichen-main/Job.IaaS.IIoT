@@ -25,7 +25,6 @@
 		<Using Include="Newtonsoft.Json" />
 		<Using Include="Serilog" />
 		<Using Include="Volo.Abp" />
-		<Using Include="Volo.Abp.AspNetCore" />
 		<Using Include="Volo.Abp.Modularity" />
 	</ItemGroup>
 
@@ -56,6 +55,10 @@
 
 	<ItemGroup>
 		<Using Include="Infrastructure.Ministry.Services" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Services\" />
 	</ItemGroup>
 
 </Project>

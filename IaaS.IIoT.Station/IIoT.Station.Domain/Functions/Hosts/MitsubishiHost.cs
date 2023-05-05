@@ -3,6 +3,15 @@
 namespace Station.Domain.Functions.Hosts;
 internal sealed class MitsubishiHost : AttachDevelop, IMitsubishiHost
 {
+    readonly IHistoryEngine _historyEngine;
+    readonly IMitsubishiPool _mitsubishiPool;
+    readonly IStructuralEngine _structuralEngine;
+    public MitsubishiHost(IHistoryEngine historyEngine, IMitsubishiPool mitsubishiPool, IStructuralEngine structuralEngine)
+    {
+        _historyEngine = historyEngine;
+        _mitsubishiPool = mitsubishiPool;
+        _structuralEngine = structuralEngine;
+    }
     public async ValueTask CreateAsync(string ip, int port)
     {
         try
@@ -34,7 +43,7 @@ internal sealed class MitsubishiHost : AttachDevelop, IMitsubishiHost
                 if (!Histories.Contains(e.Message))
                 {
                     Histories.Add(e.Message);
-                    HistoryEngine.Record(new IHistoryEngine.SenderPayload
+                    _historyEngine.Record(new IHistoryEngine.SenderPayload
                     {
                         Name = nameof(MainText.TextController.TextType.Mitsubishi),
                         Message = e.Message
@@ -58,9 +67,9 @@ internal sealed class MitsubishiHost : AttachDevelop, IMitsubishiHost
     async ValueTask PartGateAsync(byte[] values, CancellationToken token)
     {
         await Warship!.SendAsync(values, token);
-        var buffers = StructuralEngine.BytePool.Rent(16);
+        var buffers = _structuralEngine.BytePool.Rent(16);
         var status = ConvertBinary(BitConverter.ToString(buffers, default, await Warship.ReceiveAsync(buffers, token)));
-        MitsubishiPool.Push(new IMitsubishiPool.PartGate
+        _mitsubishiPool.Push(new IMitsubishiPool.PartGate
         {
             Ecomode = status[0],
             CuttingFluidMotor = status[1],
@@ -70,14 +79,14 @@ internal sealed class MitsubishiHost : AttachDevelop, IMitsubishiHost
             CoolantThroughSpindleMotor = status[5],
             PumpMotor = status[6]
         });
-        StructuralEngine.BytePool.Return(buffers);
+        _structuralEngine.BytePool.Return(buffers);
     }
     async ValueTask FixtureGateAsync(byte[] values, CancellationToken token)
     {
         await Warship!.SendAsync(values, token);
-        var buffers = StructuralEngine.BytePool.Rent(16);
+        var buffers = _structuralEngine.BytePool.Rent(16);
         var status = ConvertBinary(BitConverter.ToString(buffers, default, await Warship.ReceiveAsync(buffers, token)));
-        MitsubishiPool.Push(new IMitsubishiPool.FixtureGate
+        _mitsubishiPool.Push(new IMitsubishiPool.FixtureGate
         {
             SpindleClamp = status[0],
             MachineClamp = status[1],
@@ -93,14 +102,14 @@ internal sealed class MitsubishiHost : AttachDevelop, IMitsubishiHost
             ArmPoint60Degrees = status[11],
             ArmPoint180Degrees = status[12]
         });
-        StructuralEngine.BytePool.Return(buffers);
+        _structuralEngine.BytePool.Return(buffers);
     }
     async ValueTask AlarmGateAsync(byte[] values, CancellationToken token)
     {
         await Warship!.SendAsync(values, token);
-        var buffers = StructuralEngine.BytePool.Rent(16);
+        var buffers = _structuralEngine.BytePool.Rent(16);
         var status = ConvertBinary(BitConverter.ToString(buffers, default, await Warship.ReceiveAsync(buffers, token)));
-        MitsubishiPool.Push(new IMitsubishiPool.AlarmGate
+        _mitsubishiPool.Push(new IMitsubishiPool.AlarmGate
         {
             DoorInterlock = status[0],
             SpindleJudgmentNoTool = status[1],
@@ -113,15 +122,15 @@ internal sealed class MitsubishiHost : AttachDevelop, IMitsubishiHost
             CoolantTankHigh = status[8],
             CoolantTankLow = status[9]
         });
-        StructuralEngine.BytePool.Return(buffers);
+        _structuralEngine.BytePool.Return(buffers);
     }
     async ValueTask MetaParameterAsync(byte[] values, CancellationToken token)
     {
         await Warship!.SendAsync(values, token);
-        var buffers = StructuralEngine.BytePool.Rent(16);
+        var buffers = _structuralEngine.BytePool.Rent(16);
         var receives = ConvertDecimal(BitConverter.ToString(buffers, default, await Warship.ReceiveAsync(buffers, token))).ToArray();
-        StructuralEngine.BytePool.Return(buffers);
-        MitsubishiPool.Push(receives[0] switch
+        _structuralEngine.BytePool.Return(buffers);
+        _mitsubishiPool.Push(receives[0] switch
         {
             1 => IRootInformation.Data.MachineStatusType.Run,
             2 => IRootInformation.Data.MachineStatusType.Error,
@@ -132,10 +141,10 @@ internal sealed class MitsubishiHost : AttachDevelop, IMitsubishiHost
     async ValueTask MaintanenceItemAsync(byte[] values, CancellationToken token)
     {
         await Warship!.SendAsync(values, token);
-        var buffers = StructuralEngine.BytePool.Rent(128);
+        var buffers = _structuralEngine.BytePool.Rent(128);
         var receives = ConvertDecimal(BitConverter.ToString(buffers, default, await Warship.ReceiveAsync(buffers, token))).ToArray();
-        StructuralEngine.BytePool.Return(buffers);
-        MitsubishiPool.Push(new IMitsubishiPool.MaintenanceCycleData
+        _structuralEngine.BytePool.Return(buffers);
+        _mitsubishiPool.Push(new IMitsubishiPool.MaintenanceCycleData
         {
             Weeklies = new[]
             {
@@ -296,14 +305,14 @@ internal sealed class MitsubishiHost : AttachDevelop, IMitsubishiHost
     async ValueTask SpindleMileageAsync(byte[] flashes, byte[] keeps, CancellationToken token)
     {
         await Warship!.SendAsync(flashes, token);
-        var flasheBuffers = StructuralEngine.BytePool.Rent(64);
+        var flasheBuffers = _structuralEngine.BytePool.Rent(64);
         var flasheReceives = ConvertDecimal(BitConverter.ToString(flasheBuffers, default, await Warship.ReceiveAsync(flasheBuffers, token))).ToArray();
-        StructuralEngine.BytePool.Return(flasheBuffers);
+        _structuralEngine.BytePool.Return(flasheBuffers);
         await Warship.SendAsync(keeps, token);
-        var keepBuffers = StructuralEngine.BytePool.Rent(128);
+        var keepBuffers = _structuralEngine.BytePool.Rent(128);
         var keepReceives = ConvertDecimal(BitConverter.ToString(keepBuffers, default, await Warship.ReceiveAsync(keepBuffers, token))).ToArray();
-        StructuralEngine.BytePool.Return(keepBuffers);
-        MitsubishiPool.Push(new[]
+        _structuralEngine.BytePool.Return(keepBuffers);
+        _mitsubishiPool.Push(new[]
         {
             new IMitsubishiPool.SpindleSpeedOdometer
             {
@@ -466,7 +475,4 @@ internal sealed class MitsubishiHost : AttachDevelop, IMitsubishiHost
     static string[] PullBody(string receive) => receive.Split('-').Skip(11).ToArray();
     Socket? Warship { get; set; }
     List<string> Histories { get; init; } = new();
-    public required IHistoryEngine HistoryEngine { get; init; }
-    public required IStructuralEngine StructuralEngine { get; init; }
-    public required IMitsubishiPool MitsubishiPool { get; init; }
 }

@@ -16,8 +16,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Core\IIoT.Infrastructure.Core.csproj" />
 		<ProjectReference Include="..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Host\IIoT.Infrastructure.Host.csproj" />
-		<ProjectReference Include="..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Ministry\IIoT.Infrastructure.Ministry.csproj" />
 		<ProjectReference Include="..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Storage\IIoT.Infrastructure.Storage.csproj" />
 	</ItemGroup>
 
@@ -68,11 +68,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Infrastructure.Host" />
+		<Using Include="Infrastructure.Core" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Infrastructure.Ministry" />
+		<Using Include="Infrastructure.Host" />
 	</ItemGroup>
 
 	<ItemGroup>

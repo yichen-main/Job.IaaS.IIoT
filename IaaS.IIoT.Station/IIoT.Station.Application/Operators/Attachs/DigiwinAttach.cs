@@ -42,6 +42,6 @@ internal sealed class DigiwinAttach : BackgroundService
         }
     }
     internal required List<string> Histories { get; init; } = new();
-    IRootInformation.Data.MachineStatusType MachineStatus { get; set; }
     Dictionary<string, float> HistoricalDatas { get; init; } = new();
+    IRootInformation.Data.MachineStatusType MachineStatus { get; set; }
 }

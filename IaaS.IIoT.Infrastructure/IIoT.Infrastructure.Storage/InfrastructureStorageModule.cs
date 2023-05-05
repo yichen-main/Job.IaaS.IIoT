@@ -1,4 +1,6 @@
 ﻿namespace Infrastructure.Storage;
+
+[DependsOn(typeof(InfrastructureCoreModule))]
 public sealed class InfrastructureStorageModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

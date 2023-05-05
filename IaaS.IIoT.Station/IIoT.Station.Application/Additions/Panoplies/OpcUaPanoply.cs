@@ -4,11 +4,17 @@ internal sealed class OpcUaPanoply : BackgroundService
     readonly IMainProfile _mainProfile;
     readonly IStructuralEngine _structuralEngine;
     readonly ITimeserieWrapper _timeserieWrapper;
-    public OpcUaPanoply(IMainProfile mainProfile, IStructuralEngine structuralEngine, ITimeserieWrapper timeserieWrapper)
+    readonly TemplateEngine _templateEngine;
+    public OpcUaPanoply(
+        IMainProfile mainProfile,
+        IStructuralEngine structuralEngine,
+        ITimeserieWrapper timeserieWrapper,
+        TemplateEngine templateEngine)
     {
         _mainProfile = mainProfile;
         _structuralEngine = structuralEngine;
         _timeserieWrapper = timeserieWrapper;
+        _templateEngine = templateEngine;
     }
     protected override Task ExecuteAsync(CancellationToken stoppingToken) => Task.Run(async () =>
     {
@@ -81,10 +87,10 @@ internal sealed class OpcUaPanoply : BackgroundService
                 CertificateFactory.DefaultKeySize, CertificateFactory.DefaultLifeTime).ConfigureAwait(false);
             if (!isCertificate) throw new Exception("Application instance certificate invalid!");
             {
-                await application.Start(TemplateEngine);
-                TemplateEngine.CurrentInstance.SessionManager.SessionActivated += ActionViewer;
-                TemplateEngine.CurrentInstance.SessionManager.SessionClosing += ActionViewer;
-                TemplateEngine.CurrentInstance.SessionManager.SessionCreated += ActionViewer;
+                await application.Start(_templateEngine);
+                _templateEngine.CurrentInstance.SessionManager.SessionActivated += ActionViewer;
+                _templateEngine.CurrentInstance.SessionManager.SessionClosing += ActionViewer;
+                _templateEngine.CurrentInstance.SessionManager.SessionCreated += ActionViewer;
                 async void ActionViewer(Session session, SessionEventReason reason) => await _timeserieWrapper.OpcUaRegistrant.InsertAsync(new()
                 {
                     Status = reason,
@@ -101,5 +107,4 @@ internal sealed class OpcUaPanoply : BackgroundService
             });
         }
     }, stoppingToken);
-    public required TemplateEngine TemplateEngine { get; init; }
 }

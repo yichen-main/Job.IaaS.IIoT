@@ -9,7 +9,7 @@ public static class NodeDevelop
             item.ShutdownTimeout = TimeSpan.FromSeconds(15);
         }).AddAppSettingsSecretsJson().UseSystemd().UseSerilog();
         builder.WebHost.UseKestrel(item => item.ListenAnyIP(port));
-        await builder.AddApplicationAsync<T>();
+        //await builder.AddApplicationAsync<T>();
         return builder;
     }
     public static void UseTriggers(this IApplicationBuilder app) => Array.ForEach(app.ApplicationServices.GetRequiredService<IEntrance[]>(), item =>

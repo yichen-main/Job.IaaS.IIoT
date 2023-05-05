@@ -18,12 +18,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\IIoT.Infrastructure.Base\IIoT.Infrastructure.Base.csproj" />
+		<ProjectReference Include="..\IIoT.Infrastructure.Core\IIoT.Infrastructure.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="Dapper" />
+		<Using Include="InfluxDB.Client" />
+		<Using Include="InfluxDB.Client.Api.Domain" />
+		<Using Include="InfluxDB.Client.Core" />
+		<Using Include="InfluxDB.Client.Linq" />
 		<Using Include="Npgsql" />
+		<Using Include="Opc.Ua.Server" />
 		<Using Include="Volo.Abp.DependencyInjection" />
 		<Using Include="Volo.Abp.Modularity" />
 	</ItemGroup>
@@ -33,22 +38,37 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="System.Collections.Concurrent" />
+		<Using Include="System.Collections.Immutable" />
 		<Using Include="System.ComponentModel" />
 		<Using Include="System.Net" />
 		<Using Include="System.Reflection" />
-		<Using Include="System.Runtime.CompilerServices" />
+		<Using Include="System.Runtime.InteropServices" />
 		<Using Include="System.Text" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="Infrastructure.Base.Utilities.Develops" />
 		<Using Include="Infrastructure.Base.Utilities.Develops.ProcessDevelop" Static="true" />
+		<Using Include="Infrastructure.Base.Utilities.Develops.SensorDevelop" Static="true" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Infrastructure.Storage.Functions.Develops" />
-		<Using Include="Infrastructure.Storage.Functions.Develops.NpgsqlDevelop" Static="true" />
-		<Using Include="Infrastructure.Storage.Functions.Experts" />
+		<Using Include="Infrastructure.Core" />
+		<Using Include="Infrastructure.Core.Boundaries" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Storage.Architects.Develops" />
+		<Using Include="Infrastructure.Storage.Architects.Develops.NpgsqlDevelop" Static="true" />
+		<Using Include="Infrastructure.Storage.Architects.Experts" />
+		<Using Include="Infrastructure.Storage.Architects.Pools" />
+		<Using Include="Infrastructure.Storage.Timeseries.Bases.Enrollments" />
+		<Using Include="Infrastructure.Storage.Timeseries.Parts.Controllers" />
+		<Using Include="Infrastructure.Storage.Timeseries.Parts.Spindles" />
+		<Using Include="Infrastructure.Storage.Timeseries.Parts.WaterTanks" />
+		<Using Include="Infrastructure.Storage.Timeseries.Tacks.Sensors" />
+		<Using Include="Infrastructure.Storage.Wrappers" />
 	</ItemGroup>
 
 </Project>

@@ -1,33 +1,48 @@
 ﻿namespace Station.Application.Operators.Bottoms;
 internal sealed class CourierBottom : BackgroundService
 {
+    readonly IMainProfile _mainProfile;
+    readonly IHistoryEngine _historyEngine;
+    readonly IFoundationPool _foundationPool;
+    readonly IMitsubishiHost _mitsubishiHost;
+    public CourierBottom(
+        IMainProfile mainProfile,
+        IHistoryEngine historyEngine,
+        IFoundationPool foundationPool,
+        IMitsubishiHost mitsubishiHost)
+    {
+        _mainProfile = mainProfile;
+        _historyEngine = historyEngine;
+        _foundationPool = foundationPool;
+        _mitsubishiHost = mitsubishiHost;
+    }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (await new PeriodicTimer(Menu.RefreshTime).WaitForNextTickAsync(stoppingToken))
         {
             try
             {
-                if (MainProfile.Text is not null)
+                if (_mainProfile.Text is not null)
                 {
-                    if (MainProfile.Text.Controller.Enable)
+                    if (_mainProfile.Text.Controller.Enable)
                     {
-                        switch (MainProfile.Text.Controller.Type)
+                        switch (_mainProfile.Text.Controller.Type)
                         {
                             case MainText.TextController.TextType.Mitsubishi:
-                                await MitsubishiHost.CreateAsync((string)MainProfile.Text.Controller.IP, (int)MainProfile.Text.Controller.Port);
+                                await _mitsubishiHost.CreateAsync(_mainProfile.Text.Controller.IP, _mainProfile.Text.Controller.Port);
                                 break;
                         }
                     }
                 }
                 if (Histories.Any()) Histories.Clear();
-                FoundationPool.PushCourierBottom(DateTime.UtcNow);
+                _foundationPool.PushCourierBottom(DateTime.UtcNow);
             }
             catch (Exception e)
             {
                 if (!Histories.Contains(e.Message))
                 {
                     Histories.Add(e.Message);
-                    HistoryEngine.Record(new IHistoryEngine.FavorerPayload
+                    _historyEngine.Record(new IHistoryEngine.FavorerPayload
                     {
                         Name = nameof(CourierBottom),
                         Message = e.Message,
@@ -38,8 +53,4 @@ internal sealed class CourierBottom : BackgroundService
         }
     }
     internal required List<string> Histories { get; init; } = new();
-    public required IMainProfile MainProfile { get; init; }
-    public required IHistoryEngine HistoryEngine { get; init; }
-    public required IFoundationPool FoundationPool { get; init; }
-    public required IMitsubishiHost MitsubishiHost { get; init; }
 }

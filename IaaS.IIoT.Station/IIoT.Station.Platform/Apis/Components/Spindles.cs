@@ -3,6 +3,14 @@
 [ApiExplorerSettings(GroupName = nameof(Components))]
 public class Spindles : ControllerBase
 {
+    readonly IAbstractPool _abstractPool;
+    readonly IMitsubishiPool _mitsubishiPool;
+    public Spindles(IAbstractPool abstractPool, IMitsubishiPool mitsubishiPool)
+    {
+        _abstractPool = abstractPool;
+        _mitsubishiPool = mitsubishiPool;
+    }
+
     [HttpGet("speed-odometers", Name = nameof(GetSpindleSpeedOdometer))]
     public IActionResult GetSpindleSpeedOdometer([FromHeader] Header header)
     {
@@ -10,7 +18,7 @@ public class Spindles : ControllerBase
         {
             try
             {
-                return Ok(new { Ranges = MitsubishiPool.SpindleSpeedOdometers });
+                return Ok(new { Ranges = _mitsubishiPool.SpindleSpeedOdometers });
                 //return Ok(new
                 //{
                 //    Ranges = AbstractPool.SpindleSpeedOdometerCharts.Select(item => new
@@ -46,12 +54,12 @@ public class Spindles : ControllerBase
             {
                 return Ok(new
                 {
-                    AbstractPool.SpindleThermalCompensationChart.TemperatureFirst,
-                    AbstractPool.SpindleThermalCompensationChart.TemperatureSecond,
-                    AbstractPool.SpindleThermalCompensationChart.TemperatureThird,
-                    AbstractPool.SpindleThermalCompensationChart.TemperatureFourth,
-                    AbstractPool.SpindleThermalCompensationChart.TemperatureFifth,
-                    RunCharts = AbstractPool.SpindleThermalCompensationChart.RunCharts.Select(item => new
+                    _abstractPool.SpindleThermalCompensationChart.TemperatureFirst,
+                    _abstractPool.SpindleThermalCompensationChart.TemperatureSecond,
+                    _abstractPool.SpindleThermalCompensationChart.TemperatureThird,
+                    _abstractPool.SpindleThermalCompensationChart.TemperatureFourth,
+                    _abstractPool.SpindleThermalCompensationChart.TemperatureFifth,
+                    RunCharts = _abstractPool.SpindleThermalCompensationChart.RunCharts.Select(item => new
                     {
                         item.XAxis,
                         item.YAxis,
@@ -66,6 +74,4 @@ public class Spindles : ControllerBase
             }
         }
     }
-    public required IAbstractPool AbstractPool { get; init; }
-    public required IMitsubishiPool MitsubishiPool { get; init; }
 }

@@ -1,8 +1,11 @@
-﻿using System.Net;
-
-namespace Manage.Warder.Services;
+﻿namespace Manage.Warder.Services;
 internal sealed class GuardianService : BackgroundService
 {
+    readonly IHttpClientFactory _httpClientFactory;
+    public GuardianService(IHttpClientFactory httpClientFactory)
+    {
+        _httpClientFactory = httpClientFactory;
+    }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (await new PeriodicTimer(TimeSpan.FromSeconds(1)).WaitForNextTickAsync(stoppingToken))
@@ -10,7 +13,7 @@ internal sealed class GuardianService : BackgroundService
             try
             {
 
-                var gg = HttpClientFactory;
+                var gg = _httpClientFactory;
             }
             catch (Exception e)
             {
@@ -22,7 +25,7 @@ internal sealed class GuardianService : BackgroundService
     {//https://learn.microsoft.com/zh-tw/aspnet/core/fundamentals/http-requests?view=aspnetcore-7.0
      //https://www.cnblogs.com/willick/p/net-core-httpclient.html
      //https://mp.weixin.qq.com/s/9INm3kWXMEYEJfevjUZt6A
-        var httpClient = HttpClientFactory.CreateClient();
+        var httpClient = _httpClientFactory.CreateClient();
         httpClient.BaseAddress = new Uri("https://imds.mynetgear.com:53080");
         httpClient.DefaultRequestVersion = HttpVersion.Version20;
         httpClient.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrLower;
@@ -45,10 +48,9 @@ internal sealed class GuardianService : BackgroundService
 
         if (httpResponseMessage.IsSuccessStatusCode)
         {
-            using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();
+            await using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();
 
             // GitHubBranches = await JsonSerializer.DeserializeAsync<IEnumerable<GitHubBranch>>(contentStream);
         }
     }
-    public required IHttpClientFactory HttpClientFactory { get; init; }
 }

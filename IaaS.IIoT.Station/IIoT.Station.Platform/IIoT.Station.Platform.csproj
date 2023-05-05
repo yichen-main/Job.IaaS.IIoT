@@ -32,7 +32,6 @@
 		<Using Include="Serilog" />
 		<Using Include="SoapCore" />
 		<Using Include="Volo.Abp" />
-		<Using Include="Volo.Abp.AspNetCore" />
 		<Using Include="Volo.Abp.DependencyInjection" />
 		<Using Include="Volo.Abp.Localization" />
 		<Using Include="Volo.Abp.Modularity" />
@@ -47,6 +46,7 @@
 		<Using Include="Microsoft.AspNetCore.Components.Web" />
 		<Using Include="Microsoft.AspNetCore.Cors" />
 		<Using Include="Microsoft.AspNetCore.Mvc" />
+		<Using Include="Microsoft.AspNetCore.Mvc.ApplicationModels" />
 		<Using Include="Microsoft.AspNetCore.Mvc.ModelBinding" />
 		<Using Include="Microsoft.Extensions.Localization" />
 		<Using Include="Microsoft.Extensions.Options" />
@@ -106,16 +106,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Infrastructure.Ministry" />
-		<Using Include="Infrastructure.Ministry.Develops" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Using Include="Infrastructure.Storage.Boundaries.Users" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="Station.Platform" />
+		<Using Include="Station.Platform.Hosts" />
 		<Using Include="Station.Platform.Structures" />
 	</ItemGroup>
 

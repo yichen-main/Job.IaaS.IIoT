@@ -3,6 +3,12 @@
 [ApiExplorerSettings(GroupName = nameof(Foundations))]
 public class Systems : ControllerBase
 {
+    readonly IFoundationPool _foundationPool;
+    public Systems(IFoundationPool foundationPool)
+    {
+        _foundationPool = foundationPool;
+    }
+
     [HttpGet("structural-informations", Name = nameof(GetSystemStructuralInformation))]
     public IActionResult GetSystemStructuralInformation([FromHeader] Header header)
     {
@@ -14,10 +20,10 @@ public class Systems : ControllerBase
                 {
                     Runner = new
                     {
-                        Host = FoundationPool.CourierBottom.ToTimestamp(header.TimeFormat),
-                        Shell = FoundationPool.ShellerBottom.ToTimestamp(header.TimeFormat),
-                        Reader = FoundationPool.ReaderBottom.ToTimestamp(header.TimeFormat),
-                        Writer = FoundationPool.WriterBottom.ToTimestamp(header.TimeFormat)
+                        Host = _foundationPool.CourierBottom.ToTimestamp(header.TimeFormat),
+                        Shell = _foundationPool.ShellerBottom.ToTimestamp(header.TimeFormat),
+                        Reader = _foundationPool.ReaderBottom.ToTimestamp(header.TimeFormat),
+                        Writer = _foundationPool.WriterBottom.ToTimestamp(header.TimeFormat)
                     }
                 });
             }
@@ -40,5 +46,4 @@ public class Systems : ControllerBase
             return NotFound(new { e.Message });
         }
     }
-    public required IFoundationPool FoundationPool { get; init; }
 }

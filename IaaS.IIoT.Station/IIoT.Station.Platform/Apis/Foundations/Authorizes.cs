@@ -3,17 +3,23 @@
 [ApiExplorerSettings(GroupName = nameof(Foundations))]
 public class Authorizes : ControllerBase
 {
+    readonly IAuthenticateService _authenticateService;
+    public Authorizes(IAuthenticateService authenticateService)
+    {
+        _authenticateService = authenticateService;
+    }
+
     [HttpPost("login", Name = nameof(InsertLogin))]
     public IActionResult InsertLogin([FromForm] LoginBody body)
     {
         try
         {
-            if (AuthenticateService.Login(body.Account, body.Password)) return Ok(new VerifyRow
+            if (_authenticateService.Login(body.Account, body.Password)) return Ok(new VerifyRow
             {
-                AccessToken = AuthenticateService.Token!,
-                ExpiresIn = AuthenticateService.ExpiresIn,
+                AccessToken = _authenticateService.Token!,
+                ExpiresIn = _authenticateService.ExpiresIn,
                 TokenType = JwtBearerDefaults.AuthenticationScheme,
-                RefreshToken = AuthenticateService.RefreshId
+                RefreshToken = _authenticateService.RefreshId
             });
             return Unauthorized();
         }
@@ -28,18 +34,18 @@ public class Authorizes : ControllerBase
     {
         try
         {
-            if (AuthenticateService.RefreshId == body.RefreshToken)
+            if (_authenticateService.RefreshId == body.RefreshToken)
             {
-                var token = AuthenticateService.Token;
+                var token = _authenticateService.Token;
                 if (token is not null)
                 {
-                    AuthenticateService.CreateRefreshId();
+                    _authenticateService.CreateRefreshId();
                     return Ok(new VerifyRow
                     {
                         AccessToken = token,
-                        ExpiresIn = AuthenticateService.ExpiresIn,
+                        ExpiresIn = _authenticateService.ExpiresIn,
                         TokenType = JwtBearerDefaults.AuthenticationScheme,
-                        RefreshToken = AuthenticateService.RefreshId
+                        RefreshToken = _authenticateService.RefreshId
                     });
                 }
             }
@@ -66,5 +72,4 @@ public class Authorizes : ControllerBase
         public required string TokenType { get; init; }
         public required Guid RefreshToken { get; init; }
     }
-    public required IAuthenticateService AuthenticateService { get; init; }
 }

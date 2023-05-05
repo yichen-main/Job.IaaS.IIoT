@@ -16,8 +16,8 @@ public sealed class ApplicationModule : AbpModule
         {
             context.Services.AddSingleton<UserAccountService>();
             context.Services.AddSingleton<IWebsiteTrigger, WebsiteTrigger>();
-            context.Services.AddSingleton<IEntrance, QueueTrigger>();
-            context.Services.AddSingleton<IEntrance, InitialTrigger>();
+            //context.Services.AddSingleton<IEntrance, QueueTrigger>();
+            //context.Services.AddSingleton<IEntrance, InitialTrigger>();
             {
                 context.Services.AddScoped<ProtectedSessionStorage>();
                 context.Services.AddScoped<AuthenticationStateProvider, CustomStateProvider>();
