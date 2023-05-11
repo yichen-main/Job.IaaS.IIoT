@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Core", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Base", "..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Base\IIoT.Infrastructure.Base.csproj", "{2DF8CA35-6A6B-4F9D-8AD8-546B830EDF6B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Host", "..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Host\IIoT.Infrastructure.Host.csproj", "{EEFF8A3E-D7DC-453F-9E2C-5198959B9088}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Pillbox", "..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Pillbox\IIoT.Infrastructure.Pillbox.csproj", "{348A97FF-1E97-40C5-852C-986EE04355A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,10 +55,10 @@ Global
 		{2DF8CA35-6A6B-4F9D-8AD8-546B830EDF6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DF8CA35-6A6B-4F9D-8AD8-546B830EDF6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DF8CA35-6A6B-4F9D-8AD8-546B830EDF6B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EEFF8A3E-D7DC-453F-9E2C-5198959B9088}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EEFF8A3E-D7DC-453F-9E2C-5198959B9088}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EEFF8A3E-D7DC-453F-9E2C-5198959B9088}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EEFF8A3E-D7DC-453F-9E2C-5198959B9088}.Release|Any CPU.Build.0 = Release|Any CPU
+		{348A97FF-1E97-40C5-852C-986EE04355A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{348A97FF-1E97-40C5-852C-986EE04355A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{348A97FF-1E97-40C5-852C-986EE04355A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{348A97FF-1E97-40C5-852C-986EE04355A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,7 +66,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{016C74E1-2A82-457B-9A9D-C5FB12A2C02A} = {8882487B-6C1B-4578-8B72-B4E734B3ACA4}
 		{2DF8CA35-6A6B-4F9D-8AD8-546B830EDF6B} = {8882487B-6C1B-4578-8B72-B4E734B3ACA4}
-		{EEFF8A3E-D7DC-453F-9E2C-5198959B9088} = {8882487B-6C1B-4578-8B72-B4E734B3ACA4}
+		{348A97FF-1E97-40C5-852C-986EE04355A7} = {8882487B-6C1B-4578-8B72-B4E734B3ACA4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EBF07F39-5BD4-4037-9D17-34F27AD602CD}

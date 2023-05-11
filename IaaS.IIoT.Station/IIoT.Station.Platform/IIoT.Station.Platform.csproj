@@ -19,7 +19,6 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 	</ItemGroup>
 
@@ -103,10 +102,6 @@
 		<Using Include="Infrastructure.Core.Boundaries" />
 		<Using Include="Infrastructure.Core.Languages.Fielders" />
 		<Using Include="Infrastructure.Core.Languages.Sensors" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Using Include="Infrastructure.Storage.Boundaries.Users" />
 	</ItemGroup>
 
 	<ItemGroup>

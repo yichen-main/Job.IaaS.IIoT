@@ -5,9 +5,10 @@ internal sealed class AppModule : AbpModule
 {
     public AppModule() => Assembly.GetExecutingAssembly().CreateKanban();
     public override void ConfigureServices(ServiceConfigurationContext context)
-    {        
+    {
         context.Services.AddSoapCore();
         context.Services.AddSwaggerGen();
+        context.Services.AddEndpointsApiExplorer();
         context.Services.AddControllers(item =>
         {
             item.ReturnHttpNotAcceptable = true;
@@ -36,11 +37,10 @@ internal sealed class AppModule : AbpModule
             item.SerializerSettings.DateFormatString = Menu.DefaultFormat;
             item.SerializerSettings.NullValueHandling = NullValueHandling.Include;
         }).AddMvcOptions(item => item.Conventions.Add(new ModelConvention())).AddControllersAsServices();
-        context.Services.AddAuthentication("FFG").AddScheme<AuthenticateOption, AuthenticateHandler>("FFG", configureOptions: default);
+        context.Services.AddAuthentication(nameof(Station)).AddScheme<AuthenticateOption, AuthenticateHandler>(nameof(Station), configureOptions: default);
         context.Services.AddCors(item => item.AddDefaultPolicy(item =>
         {
             item.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().WithExposedHeaders("*");
         }));
-        context.Services.AddEndpointsApiExplorer();        
     }
 }

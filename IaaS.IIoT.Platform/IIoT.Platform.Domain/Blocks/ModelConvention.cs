@@ -7,7 +7,7 @@ public sealed class ModelConvention : IControllerModelConvention
         if (model.Selectors.Count is 0) model.Selectors.Add(new());
         for (int i = default; i < model.Selectors.Count; i++) model.Selectors[i].AttributeRouteModel = new()
         {
-            Template = AttributeRouteModel.CombineTemplates("IIoT", model.ControllerName)
+            Template = AttributeRouteModel.CombineTemplates(nameof(Platform), model.ControllerName)
         };
         for (int i = default; i < model.Actions.Count; i++)
         {

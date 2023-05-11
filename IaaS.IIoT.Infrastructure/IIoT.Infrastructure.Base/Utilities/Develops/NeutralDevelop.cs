@@ -7,6 +7,17 @@ public static class NeutralDevelop
         Allow,
         Issued
     }
+    public static async ValueTask<WebApplication> UseWebsite<T>(this int port) where T : AbpModule
+    {
+        var builder = WebApplication.CreateBuilder();
+        builder.Host.ConfigureHostOptions(item =>
+        {
+            item.ShutdownTimeout = TimeSpan.FromSeconds(15);
+        }).AddAppSettingsSecretsJson().UseSystemd().UseSerilog();
+        builder.WebHost.UseKestrel(item => item.ListenAnyIP(port));
+        await builder.AddApplicationAsync<T>();
+        return builder.Build();
+    }
     public static void EndLocker(bool keep = false)
     {
         Log.CloseAndFlush();
@@ -24,7 +35,6 @@ public static class NeutralDevelop
         .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
         .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Error)
         .MinimumLevel.Override("Volo.Abp.Core", LogEventLevel.Error)
-        .MinimumLevel.Override("Volo.Abp.Autofac", LogEventLevel.Error)
         .MinimumLevel.Override("Volo.Abp.AspNetCore", LogEventLevel.Error)
         .WriteTo.File(path, outputTemplate: "[{Timestamp:HH:mm:ss.fff} {Level:u3}] {Message:lj}{Exception}{NewLine}",
         rollingInterval: RollingInterval.Day, retainedFileCountLimit: 10).CreateLogger();

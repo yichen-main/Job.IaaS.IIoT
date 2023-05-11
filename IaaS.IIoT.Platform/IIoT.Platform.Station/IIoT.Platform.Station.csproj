@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<FileVersion>7.0.1</FileVersion>
 		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -13,13 +12,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Meziantou.Analyzer" Version="2.0.45">
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.49">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0" />
 		<PackageReference Include="SoapCore" Version="1.1.0.37" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 	</ItemGroup>
@@ -32,6 +29,7 @@
 		<Using Include="Newtonsoft.Json" />
 		<Using Include="Serilog" />
 		<Using Include="SoapCore" />
+		<Using Include="Volo.Abp" />
 		<Using Include="Volo.Abp.DependencyInjection" />
 		<Using Include="Volo.Abp.Modularity" />
 	</ItemGroup>
@@ -45,11 +43,9 @@
 		<Using Include="Microsoft.AspNetCore.Mvc.ModelBinding" />
 		<Using Include="Microsoft.Extensions.Localization" />
 		<Using Include="Microsoft.Extensions.Options" />
-		<Using Include="Microsoft.IdentityModel.Tokens" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="System.IdentityModel.Tokens.Jwt" />
 		<Using Include="System.Net.Mime" />
 		<Using Include="System.Reflection" />
 		<Using Include="System.Security.Claims" />
@@ -68,26 +64,27 @@
 
 	<ItemGroup>
 		<Using Include="Infrastructure.Core.Boundaries" />
+		<Using Include="Infrastructure.Core.Enactments" />
 		<Using Include="Infrastructure.Core.Languages.Fielders" />
 		<Using Include="Infrastructure.Core.Languages.Sensors" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Infrastructure.Storage.Architects.Experts" />
-		<Using Include="Infrastructure.Storage.Businesses.Users" />
+		<Using Include="Infrastructure.Garner.Architects.Experts" />
+		<Using Include="Infrastructure.Garner.Businesses.Users" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="Platform.Application" />
+		<Using Include="Platform.Application.Endpoints.Machines" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="Platform.Domain.Blocks" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
-		<Using Include="Platform.Domain.Shared.Engines" />
-		<Using Include="Platform.Domain.Shared.Pools" />
+		<Using Include="Platform.Domain.Shared.Services" />
 	</ItemGroup>
 
 	<ItemGroup>

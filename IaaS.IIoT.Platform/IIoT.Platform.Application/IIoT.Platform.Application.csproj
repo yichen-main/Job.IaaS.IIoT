@@ -12,11 +12,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Using Include="Serilog" />
 		<Using Include="Volo.Abp.Modularity" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="Microsoft.AspNetCore.Builder" />
+		<Using Include="Microsoft.AspNetCore.Routing" />
 		<Using Include="Microsoft.Extensions.DependencyInjection" />
 		<Using Include="Microsoft.Extensions.Hosting" />
 		<Using Include="Microsoft.Extensions.Localization" />
@@ -34,8 +40,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Infrastructure.Storage.Architects.Experts" />
-		<Using Include="Infrastructure.Storage.Architects.Pools" />
+		<Using Include="Infrastructure.Garner.Architects.Experts" />
+		<Using Include="Infrastructure.Garner.Architects.Pools" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -43,11 +49,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Platform.Domain.Shared.Engines" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Using Include="Platform.Application.Hosts" />
+		<Using Include="Platform.Application.Carriers.Supports" />
 	</ItemGroup>
 
 </Project>

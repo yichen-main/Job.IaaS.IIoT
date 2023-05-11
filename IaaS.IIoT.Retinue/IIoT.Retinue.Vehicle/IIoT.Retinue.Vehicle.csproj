@@ -27,7 +27,6 @@
 
 	<ItemGroup>
 		<Using Include="Serilog" />
-		<Using Include="Volo.Abp.Autofac" />
 		<Using Include="Volo.Abp.Modularity" />
 	</ItemGroup>
 

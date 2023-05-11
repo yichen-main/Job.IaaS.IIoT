@@ -3,7 +3,7 @@ try
     await Host.CreateDefaultBuilder(args).ConfigureServices(async item =>
     {
         await item.AddApplicationAsync<AppModule>();
-    }).UseAutofac().Build().RunAsync();
+    }).Build().RunAsync();
 }
 catch (Exception e)
 {

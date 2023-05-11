@@ -63,6 +63,8 @@ public static class ProcessDevelop
     public static int OpcUa => 4840;
     public static int Metadata => 8086;
     public static int Postgres => 5432;
+    public static int Entrance => 7260;
     public static SystemStatus Status { get; set; }
     public static string StartupKey { get; set; } = string.Empty;
+    public static bool WindowsPass => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 }

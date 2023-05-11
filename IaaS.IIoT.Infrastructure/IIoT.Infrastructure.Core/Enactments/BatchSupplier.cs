@@ -63,5 +63,4 @@ public abstract class BatchSupplier
     %1 Mshta vbscript:CreateObject("Shell.Application").ShellExecute("Cmd.exe","/C ""%~0"" ::","","runas",1)(window.close)&&exit
     """;
     static string ScriptLocation => Path.Combine(Local.Native, $"{StartupKey.ToMd5()}.cmd");
-    static bool WindowsPass => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 }

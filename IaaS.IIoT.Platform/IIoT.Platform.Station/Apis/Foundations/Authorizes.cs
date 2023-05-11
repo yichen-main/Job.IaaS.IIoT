@@ -1,27 +1,22 @@
-﻿using Platform.Domain.Shared.Engines;
-
-namespace Platform.Station.Apis.Foundations;
+﻿namespace Platform.Station.Apis.Foundations;
 
 [ApiExplorerSettings(GroupName = nameof(Foundations))]
 public class Authorizes : ControllerBase
 {
-    readonly IAuthenticateEngine _authenticateService;
-    public Authorizes(IAuthenticateEngine authenticateService)
-    {
-        _authenticateService = authenticateService;
-    }
+    readonly IVerifyConstructor _verifyEngine;
+    public Authorizes(IVerifyConstructor verifyEngine) => _verifyEngine = verifyEngine;
 
     [HttpPost("login", Name = nameof(InsertLogin))]
     public IActionResult InsertLogin([FromForm] LoginBody body)
     {
         try
         {
-            if (_authenticateService.Login(body.Account, body.Password)) return Ok(new VerifyRow
+            if (_verifyEngine.Login(body.Account, body.Password)) return Ok(new LoginRow
             {
-                AccessToken = _authenticateService.Token!,
-                ExpiresIn = _authenticateService.ExpiresIn,
+                AccessToken = _verifyEngine.Token!,
+                ExpiresIn = _verifyEngine.ExpiresIn,
                 TokenType = JwtBearerDefaults.AuthenticationScheme,
-                RefreshToken = _authenticateService.RefreshId
+                RefreshToken = _verifyEngine.RefreshId
             });
             return Unauthorized();
         }
@@ -36,18 +31,18 @@ public class Authorizes : ControllerBase
     {
         try
         {
-            if (_authenticateService.RefreshId == body.RefreshToken)
+            if (_verifyEngine.RefreshId == body.RefreshToken)
             {
-                var token = _authenticateService.Token;
+                var token = _verifyEngine.Token;
                 if (token is not null)
                 {
-                    _authenticateService.CreateRefreshId();
-                    return Ok(new VerifyRow
+                    _verifyEngine.CreateRefreshId();
+                    return Ok(new LoginRow
                     {
                         AccessToken = token,
-                        ExpiresIn = _authenticateService.ExpiresIn,
+                        ExpiresIn = _verifyEngine.ExpiresIn,
                         TokenType = JwtBearerDefaults.AuthenticationScheme,
-                        RefreshToken = _authenticateService.RefreshId
+                        RefreshToken = _verifyEngine.RefreshId
                     });
                 }
             }
@@ -67,7 +62,7 @@ public class Authorizes : ControllerBase
     {
         public required Guid RefreshToken { get; init; }
     }
-    public readonly record struct VerifyRow
+    public readonly record struct LoginRow
     {
         public required string AccessToken { get; init; }
         public required int ExpiresIn { get; init; }

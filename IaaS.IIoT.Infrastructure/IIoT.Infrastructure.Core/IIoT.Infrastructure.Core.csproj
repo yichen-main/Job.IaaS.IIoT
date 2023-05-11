@@ -18,11 +18,12 @@
 
 	<ItemGroup>
 		<PackageReference Include="Coravel" Version="4.2.1" />
-		<PackageReference Include="Meziantou.Analyzer" Version="2.0.45">
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.49">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="MQTTnet" Version="4.2.0.706" />
+		<PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Server" Version="1.4.371.86" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -30,6 +31,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="MQTTnet" />
+		<Using Include="MQTTnet.Server" />
+		<Using Include="Serilog" />
 		<Using Include="Volo.Abp.DependencyInjection" />
 		<Using Include="Volo.Abp.Localization" />
 		<Using Include="Volo.Abp.Modularity" />
@@ -40,14 +44,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="Microsoft.AspNetCore.Builder" />
+		<Using Include="Microsoft.AspNetCore.Http" />
 		<Using Include="Microsoft.Extensions.Configuration" />
 		<Using Include="Microsoft.Extensions.DependencyInjection" />
+		<Using Include="Microsoft.IdentityModel.Tokens" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="System.Buffers" />
 		<Using Include="System.ComponentModel" />
-		<Using Include="System.Net" />
 		<Using Include="System.Diagnostics" />
+		<Using Include="System.IdentityModel.Tokens.Jwt" />
+		<Using Include="System.Net" />
+		<Using Include="System.Net.Mime" />
 		<Using Include="System.Reflection" />
 		<Using Include="System.Runtime.InteropServices" />
 		<Using Include="System.ServiceProcess" />
@@ -60,6 +70,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="Infrastructure.Core.Boundaries" />
 		<Using Include="Infrastructure.Core.Enactments" />
 		<Using Include="Infrastructure.Core.Languages.Fielders" />
 		<Using Include="Infrastructure.Core.Languages.Sensors" />

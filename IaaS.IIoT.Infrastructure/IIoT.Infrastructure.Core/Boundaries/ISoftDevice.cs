@@ -1,8 +1,8 @@
 ﻿namespace Infrastructure.Core.Boundaries;
 public interface ISoftDevice
 {
-    //bool IsEnable(string name);
-    //string Execute(string name, string path);
+    bool IsEnable(string name);
+    string Execute(string name, string path);
     readonly ref struct Tag
     {
         public const string Extension = "cmd";
@@ -18,7 +18,7 @@ public interface ISoftDevice
 [Dependency(ServiceLifetime.Transient)]
 file sealed class SoftDevice : ISoftDevice
 {
-    static bool IsEnable(string name)
+    public bool IsEnable(string name)
     {
         bool status = default;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -37,7 +37,7 @@ file sealed class SoftDevice : ISoftDevice
         }
         return status;
     }
-    static string Execute(string name, string path)
+    public string Execute(string name, string path)
     {
         using Process process = new();
         try

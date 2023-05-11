@@ -1235,23 +1235,15 @@ public abstract class FocasDevelop
         public short type;      /* axis number */
         public REALPRM rdata = new REALPRM();
     }
-    [StructLayout(LayoutKind.Explicit)]
-    public class IODBPSD_3
-    {
-        [FieldOffset(0)]
-        public short datano;    /* data number */
-        [FieldOffset(2)]
-        public short type;      /* axis number */
-        [FieldOffset(4),
-        MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public byte[] cdatas = new byte[MAX_AXIS];
-        [FieldOffset(4),
-        MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public short[] idatas = new short[MAX_AXIS];
-        [FieldOffset(4),
-        MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public int[] ldatas = new int[MAX_AXIS];
-    }
+    //[StructLayout(LayoutKind.Explicit)]
+    //public class IODBPSD_3
+    //{
+    //    [FieldOffset(0)] public short datano;    /* data number */
+    //    [FieldOffset(2)] public short type;      /* axis number */
+    //    [FieldOffset(4), MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public byte[] cdatas = new byte[MAX_AXIS];
+    //    [FieldOffset(4), MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public short[] idatas = new short[MAX_AXIS];
+    //    [FieldOffset(4), MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public int[] ldatas = new int[MAX_AXIS];
+    //}
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class IODBPSD_4
     {
@@ -1281,17 +1273,17 @@ public abstract class FocasDevelop
         public IODBPSD_2 data6 = new IODBPSD_2();
         public IODBPSD_2 data7 = new IODBPSD_2();
     } /* (sample) must be modified */
-    [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public class IODBPSD_C
-    {
-        public IODBPSD_3 data1 = new IODBPSD_3();
-        public IODBPSD_3 data2 = new IODBPSD_3();
-        public IODBPSD_3 data3 = new IODBPSD_3();
-        public IODBPSD_3 data4 = new IODBPSD_3();
-        public IODBPSD_3 data5 = new IODBPSD_3();
-        public IODBPSD_3 data6 = new IODBPSD_3();
-        public IODBPSD_3 data7 = new IODBPSD_3();
-    } /* (sample) must be modified */
+    //[StructLayout(LayoutKind.Sequential, Pack = 4)]
+    //public class IODBPSD_C
+    //{
+    //    public IODBPSD_3 data1 = new IODBPSD_3();
+    //    public IODBPSD_3 data2 = new IODBPSD_3();
+    //    public IODBPSD_3 data3 = new IODBPSD_3();
+    //    public IODBPSD_3 data4 = new IODBPSD_3();
+    //    public IODBPSD_3 data5 = new IODBPSD_3();
+    //    public IODBPSD_3 data6 = new IODBPSD_3();
+    //    public IODBPSD_3 data7 = new IODBPSD_3();
+    //} /* (sample) must be modified */
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class IODBPSD_D
     {
@@ -3623,20 +3615,14 @@ public abstract class FocasDevelop
         [FieldOffset(4)]
         public byte g_data;
     }
-    [StructLayout(LayoutKind.Explicit)]
-    public class ODBMDL_2
-    {
-        [FieldOffset(0)]
-        public short datano;
-        [FieldOffset(2)]
-        public short type;
-        [FieldOffset(4),
-        MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-        public byte[] g_1shot = new byte[4];
-        [FieldOffset(4),
-        MarshalAs(UnmanagedType.ByValArray, SizeConst = 35)]
-        public byte[] g_rdata = new byte[35];
-    }
+    //[StructLayout(LayoutKind.Explicit)]
+    //public class ODBMDL_2
+    //{
+    //    [FieldOffset(0)] public short datano;
+    //    [FieldOffset(2)] public short type;
+    //    [FieldOffset(4), MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)] public byte[] g_1shot = new byte[4];
+    //    [FieldOffset(4), MarshalAs(UnmanagedType.ByValArray, SizeConst = 35)] public byte[] g_rdata = new byte[35];
+    //}
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class ODBMDL_3
     {
@@ -3861,23 +3847,15 @@ public abstract class FocasDevelop
         public short type;      /* axis number */
         public REALDGN rdata = new REALDGN();
     }
-    [StructLayout(LayoutKind.Explicit)]
-    public class ODBDGN_3
-    {
-        [FieldOffset(0)]
-        public short datano;    /* data number */
-        [FieldOffset(2)]
-        public short type;      /* axis number */
-        [FieldOffset(4),
-        MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public byte[] cdatas;
-        [FieldOffset(4),
-        MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public short[] idatas;
-        [FieldOffset(4),
-        MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public int[] ldatas;
-    }
+    //[StructLayout(LayoutKind.Explicit)]
+    //public class ODBDGN_3
+    //{
+    //    [FieldOffset(0)] public short datano;    /* data number */
+    //    [FieldOffset(2)] public short type;      /* axis number */
+    //    [FieldOffset(4), MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public byte[] cdatas;
+    //    [FieldOffset(4), MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public short[] idatas;
+    //    [FieldOffset(4), MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public int[] ldatas;
+    //}
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class ODBDGN_4
     {
@@ -3907,17 +3885,17 @@ public abstract class FocasDevelop
         public ODBDGN_2 data6 = new ODBDGN_2();
         public ODBDGN_2 data7 = new ODBDGN_2();
     } /* (sample) must be modified */
-    [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public class ODBDGN_C
-    {
-        public ODBDGN_3 data1 = new ODBDGN_3();
-        public ODBDGN_3 data2 = new ODBDGN_3();
-        public ODBDGN_3 data3 = new ODBDGN_3();
-        public ODBDGN_3 data4 = new ODBDGN_3();
-        public ODBDGN_3 data5 = new ODBDGN_3();
-        public ODBDGN_3 data6 = new ODBDGN_3();
-        public ODBDGN_3 data7 = new ODBDGN_3();
-    } /* (sample) must be modified */
+    //[StructLayout(LayoutKind.Sequential, Pack = 4)]
+    //public class ODBDGN_C
+    //{
+    //    public ODBDGN_3 data1 = new ODBDGN_3();
+    //    public ODBDGN_3 data2 = new ODBDGN_3();
+    //    public ODBDGN_3 data3 = new ODBDGN_3();
+    //    public ODBDGN_3 data4 = new ODBDGN_3();
+    //    public ODBDGN_3 data5 = new ODBDGN_3();
+    //    public ODBDGN_3 data6 = new ODBDGN_3();
+    //    public ODBDGN_3 data7 = new ODBDGN_3();
+    //} /* (sample) must be modified */
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class ODBDGN_D
     {
@@ -8738,9 +8716,9 @@ public abstract class FocasDevelop
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_rdparam")]
     public static extern short cnc_rdparam(ushort FlibHndl,
         short a, short b, short c, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_2 d);
-    [DllImport("FWLIB64.dll", EntryPoint = "cnc_rdparam")]
-    public static extern short cnc_rdparam(ushort FlibHndl,
-        short a, short b, short c, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_3 d);
+    //[DllImport("FWLIB64.dll", EntryPoint = "cnc_rdparam")]
+    //public static extern short cnc_rdparam(ushort FlibHndl,
+    //    short a, short b, short c, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_3 d);
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_rdparam")]
     public static extern short cnc_rdparam(ushort FlibHndl,
         short a, short b, short c, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_4 d);
@@ -8753,8 +8731,8 @@ public abstract class FocasDevelop
     public static extern short cnc_wrparam(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_1 b);
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_wrparam")]
     public static extern short cnc_wrparam(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_2 b);
-    [DllImport("FWLIB64.dll", EntryPoint = "cnc_wrparam")]
-    public static extern short cnc_wrparam(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_3 b);
+    //[DllImport("FWLIB64.dll", EntryPoint = "cnc_wrparam")]
+    //public static extern short cnc_wrparam(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_3 b);
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_wrparam")]
     public static extern short cnc_wrparam(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_4 b);
 #endif
@@ -8790,9 +8768,9 @@ public abstract class FocasDevelop
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_rdset")]
     public static extern short cnc_rdset(ushort FlibHndl,
         short a, short b, short c, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_2 d);
-    [DllImport("FWLIB64.dll", EntryPoint = "cnc_rdset")]
-    public static extern short cnc_rdset(ushort FlibHndl,
-        short a, short b, short c, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_3 d);
+    //[DllImport("FWLIB64.dll", EntryPoint = "cnc_rdset")]
+    //public static extern short cnc_rdset(ushort FlibHndl,
+    //    short a, short b, short c, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_3 d);
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_rdset")]
     public static extern short cnc_rdset(ushort FlibHndl,
         short a, short b, short c, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_4 d);
@@ -8805,8 +8783,8 @@ public abstract class FocasDevelop
     public static extern short cnc_wrset(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_1 b);
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_wrset")]
     public static extern short cnc_wrset(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_2 b);
-    [DllImport("FWLIB64.dll", EntryPoint = "cnc_wrset")]
-    public static extern short cnc_wrset(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_3 b);
+    //[DllImport("FWLIB64.dll", EntryPoint = "cnc_wrset")]
+    //public static extern short cnc_wrset(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_3 b);
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_wrset")]
     public static extern short cnc_wrset(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_4 b);
 #endif
@@ -8835,9 +8813,9 @@ public abstract class FocasDevelop
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_rdparam3")]
     public static extern short cnc_rdparam3(ushort FlibHndl,
         short a, short b, short c, short d, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_2 e);
-    [DllImport("FWLIB64.dll", EntryPoint = "cnc_rdparam3")]
-    public static extern short cnc_rdparam3(ushort FlibHndl,
-        short a, short b, short c, short d, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_3 e);
+    //[DllImport("FWLIB64.dll", EntryPoint = "cnc_rdparam3")]
+    //public static extern short cnc_rdparam3(ushort FlibHndl,
+    //    short a, short b, short c, short d, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_3 e);
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_rdparam3")]
     public static extern short cnc_rdparam3(ushort FlibHndl,
         short a, short b, short c, short d, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPSD_4 e);
@@ -9398,9 +9376,9 @@ public abstract class FocasDevelop
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_modal")]
     public static extern short cnc_modal(ushort FlibHndl,
         short a, short b, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBMDL_1 c);
-    [DllImport("FWLIB64.dll", EntryPoint = "cnc_modal")]
-    public static extern short cnc_modal(ushort FlibHndl,
-        short a, short b, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBMDL_2 c);
+    //[DllImport("FWLIB64.dll", EntryPoint = "cnc_modal")]
+    //public static extern short cnc_modal(ushort FlibHndl,
+    //    short a, short b, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBMDL_2 c);
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_modal")]
     public static extern short cnc_modal(ushort FlibHndl,
         short a, short b, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBMDL_3 c);
@@ -9432,9 +9410,9 @@ public abstract class FocasDevelop
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_diagnoss")]
     public static extern short cnc_diagnoss(ushort FlibHndl,
         short a, short b, short c, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBDGN_2 d);
-    [DllImport("FWLIB64.dll", EntryPoint = "cnc_diagnoss")]
-    public static extern short cnc_diagnoss(ushort FlibHndl,
-        short a, short b, short c, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBDGN_3 d);
+    //[DllImport("FWLIB64.dll", EntryPoint = "cnc_diagnoss")]
+    //public static extern short cnc_diagnoss(ushort FlibHndl,
+    //    short a, short b, short c, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBDGN_3 d);
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_diagnoss")]
     public static extern short cnc_diagnoss(ushort FlibHndl,
         short a, short b, short c, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBDGN_4 d);

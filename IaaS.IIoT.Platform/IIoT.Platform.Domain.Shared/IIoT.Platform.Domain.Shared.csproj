@@ -8,13 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Core\IIoT.Infrastructure.Core.csproj" />
 		<ProjectReference Include="..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Pillbox\IIoT.Infrastructure.Pillbox.csproj" />
-		<ProjectReference Include="..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Storage\IIoT.Infrastructure.Storage.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -27,18 +21,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Microsoft.Extensions.DependencyInjection" />		
-	</ItemGroup>
-
-	<ItemGroup>
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
 		<Using Include="Microsoft.IdentityModel.Tokens" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
 		<Using Include="System.Buffers" />
 		<Using Include="System.IdentityModel.Tokens.Jwt" />
 		<Using Include="System.Reflection" />
 		<Using Include="System.Runtime.InteropServices" />
+		<Using Include="System.ServiceModel" />
 		<Using Include="System.Text" />
 	</ItemGroup>
 
@@ -53,11 +45,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Infrastructure.Pillbox" />
+		<Using Include="Infrastructure.Garner" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Infrastructure.Storage" />
+		<Using Include="Infrastructure.Pillbox" />
 	</ItemGroup>
 
 </Project>

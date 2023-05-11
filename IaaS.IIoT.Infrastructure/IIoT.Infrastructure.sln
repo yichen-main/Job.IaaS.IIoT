@@ -7,13 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Base", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Core", "IIoT.Infrastructure.Core\IIoT.Infrastructure.Core.csproj", "{FEE8A02C-2CAC-48D3-9C97-94C87890D2CF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Protocol", "IIoT.Infrastructure.Protocol\IIoT.Infrastructure.Protocol.csproj", "{8B7792E4-204F-40A0-BF49-1A245F400B7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Pillbox", "IIoT.Infrastructure.Pillbox\IIoT.Infrastructure.Pillbox.csproj", "{8C394F3D-7D91-43A6-A0B8-C03348463E62}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Ministry", "IIoT.Infrastructure.Ministry\IIoT.Infrastructure.Ministry.csproj", "{9E5D08C1-9338-465C-A375-D0DE52D2E182}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Storage", "IIoT.Infrastructure.Storage\IIoT.Infrastructure.Storage.csproj", "{02653A3E-3A07-4E3C-911F-B6612D91B056}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Host", "IIoT.Infrastructure.Host\IIoT.Infrastructure.Host.csproj", "{A1C619C7-0CC4-4115-BA86-36C8A429ADB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Garner", "IIoT.Infrastructure.Garner\IIoT.Infrastructure.Garner.csproj", "{146F46F1-4261-4A62-8162-A66A90A4763C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,22 +25,14 @@ Global
 		{FEE8A02C-2CAC-48D3-9C97-94C87890D2CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEE8A02C-2CAC-48D3-9C97-94C87890D2CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEE8A02C-2CAC-48D3-9C97-94C87890D2CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8B7792E4-204F-40A0-BF49-1A245F400B7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B7792E4-204F-40A0-BF49-1A245F400B7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B7792E4-204F-40A0-BF49-1A245F400B7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B7792E4-204F-40A0-BF49-1A245F400B7C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9E5D08C1-9338-465C-A375-D0DE52D2E182}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E5D08C1-9338-465C-A375-D0DE52D2E182}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E5D08C1-9338-465C-A375-D0DE52D2E182}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E5D08C1-9338-465C-A375-D0DE52D2E182}.Release|Any CPU.Build.0 = Release|Any CPU
-		{02653A3E-3A07-4E3C-911F-B6612D91B056}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{02653A3E-3A07-4E3C-911F-B6612D91B056}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{02653A3E-3A07-4E3C-911F-B6612D91B056}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{02653A3E-3A07-4E3C-911F-B6612D91B056}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A1C619C7-0CC4-4115-BA86-36C8A429ADB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1C619C7-0CC4-4115-BA86-36C8A429ADB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1C619C7-0CC4-4115-BA86-36C8A429ADB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1C619C7-0CC4-4115-BA86-36C8A429ADB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C394F3D-7D91-43A6-A0B8-C03348463E62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C394F3D-7D91-43A6-A0B8-C03348463E62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C394F3D-7D91-43A6-A0B8-C03348463E62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C394F3D-7D91-43A6-A0B8-C03348463E62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{146F46F1-4261-4A62-8162-A66A90A4763C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{146F46F1-4261-4A62-8162-A66A90A4763C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{146F46F1-4261-4A62-8162-A66A90A4763C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{146F46F1-4261-4A62-8162-A66A90A4763C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
@@ -8,14 +8,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Meziantou.Analyzer" Version="2.0.45">
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.49">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\IIoT.Infrastructure.Base\IIoT.Infrastructure.Base.csproj" />
+	  <ProjectReference Include="..\IIoT.Infrastructure.Garner\IIoT.Infrastructure.Garner.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -28,6 +28,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="NUglify.Helpers" />
+		<Using Include="Serilog" />
+		<Using Include="Volo.Abp.DependencyInjection" />
 		<Using Include="Volo.Abp.Modularity" />
 	</ItemGroup>
 
@@ -36,6 +39,32 @@
 		<Using Include="System.Reflection" />
 		<Using Include="System.Runtime.InteropServices" />
 		<Using Include="System.Text" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
+		<Using Include="Microsoft.Extensions.Hosting" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Base.Utilities.Develops" />
+		<Using Include="Infrastructure.Base.Utilities.Develops.ProcessDevelop" Static="true" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Core.Boundaries" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Garner" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Pillbox.Bounds" />
+		<Using Include="Infrastructure.Pillbox.Carriers" />
+		<Using Include="Infrastructure.Pillbox.Develops" />
+		<Using Include="Infrastructure.Pillbox.Develops.FocasDevelop" Static="true" />
+		<Using Include="Infrastructure.Pillbox.Wrappers" />
 	</ItemGroup>
 
 </Project>

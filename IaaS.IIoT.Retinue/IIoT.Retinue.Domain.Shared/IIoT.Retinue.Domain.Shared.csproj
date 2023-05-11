@@ -13,17 +13,14 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Server" Version="1.4.371.86" />
-		<PackageReference Include="Volo.Abp.Autofac" Version="7.1.1" />
-		<PackageReference Include="Volo.Abp.Core" Version="7.1.1" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Core\IIoT.Infrastructure.Core.csproj" />
-		<ProjectReference Include="..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Host\IIoT.Infrastructure.Host.csproj" />
+		<ProjectReference Include="..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Pillbox\IIoT.Infrastructure.Pillbox.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Volo.Abp.Autofac" />
 		<Using Include="Volo.Abp.Modularity" />
 	</ItemGroup>
 
@@ -40,8 +37,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Infrastructure.Host" />
-		<Using Include="Infrastructure.Host.Develops.FocasDevelop" Static="true" />
+		<Using Include="Infrastructure.Pillbox" />
+		<Using Include="Infrastructure.Pillbox.Develops.FocasDevelop" Static="true" />
 	</ItemGroup>
 
 </Project>

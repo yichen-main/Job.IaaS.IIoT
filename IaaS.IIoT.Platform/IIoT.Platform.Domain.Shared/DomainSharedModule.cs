@@ -1,6 +1,6 @@
 ﻿namespace Platform.Domain.Shared;
 
-[DependsOn(typeof(InfrastructurePillboxModule), typeof(InfrastructureStorageModule))]
+[DependsOn(typeof(InfrastructurePillboxModule))]
 public sealed class DomainSharedModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

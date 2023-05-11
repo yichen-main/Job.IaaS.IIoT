@@ -12,12 +12,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="InfluxDB.Client" />
-		<Using Include="InfluxDB.Client.Api.Domain" />
-		<Using Include="InfluxDB.Client.Linq" />
-		<Using Include="MQTTnet" />
-		<Using Include="MQTTnet.Server" />
-		<Using Include="Serilog" />
 		<Using Include="Volo.Abp.DependencyInjection" />
 		<Using Include="Volo.Abp.Modularity" />
 	</ItemGroup>
@@ -57,8 +51,6 @@
 
 	<ItemGroup>
 		<Using Include="Platform.Domain.Shared" />
-		<Using Include="Platform.Domain.Shared.Engines" />
-		<Using Include="Platform.Domain.Shared.Pools" />
 	</ItemGroup>
 
 </Project>
