@@ -23,10 +23,7 @@ public interface IInfluxExpert
 file sealed class InfluxExpert : IInfluxExpert
 {
     readonly IMainProfile _mainProfile;
-    public InfluxExpert(IMainProfile mainProfile)
-    {
-        _mainProfile = mainProfile;
-    }
+    public InfluxExpert(IMainProfile mainProfile) => _mainProfile = mainProfile;
     public async ValueTask InitialDataPoolAsync(string bucket)
     {
         var text = _mainProfile.Text!;
