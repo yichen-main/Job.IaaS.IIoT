@@ -15,16 +15,15 @@ public interface IElectricMeter
     }
     enum Field
     {
-        [Description("Vrms")] VoltageRootMeanSquare,
-        [Description("Irms")] CurrentRootMeanSquare,
+        [Description("V")] AverageVoltage,
+        [Description("A")] AverageCurrent,
+        [Description("PF")] PowerFactor,
+        [Description("kvar")] ReactivePower,
+        [Description("kvarh")] ReactiveEnergy,
         [Description("kW")] ActivePower,
         [Description("kWh")] ActiveEnergy,
         [Description("kVA")] ApparentPower,
-        [Description("kVAh")] ApparentEnergy,
-        [Description("kVAR")] ReactivePower,
-        [Description("kVARh")] ReactiveEnergy,
-        [Description("PF")] PowerFactor,
-        [Description("Hz")] Frequency
+        [Description("kVAh")] ApparentEnergy
     }
 }
 

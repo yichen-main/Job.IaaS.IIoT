@@ -18,7 +18,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Coravel" Version="4.2.1" />
-		<PackageReference Include="Meziantou.Analyzer" Version="2.0.49">
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.50">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -56,6 +56,7 @@
 		<Using Include="System.ComponentModel" />
 		<Using Include="System.Diagnostics" />
 		<Using Include="System.IdentityModel.Tokens.Jwt" />
+		<Using Include="System.IO.Ports" />
 		<Using Include="System.Net" />
 		<Using Include="System.Net.Mime" />
 		<Using Include="System.Reflection" />

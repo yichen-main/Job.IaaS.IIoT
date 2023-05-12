@@ -2,11 +2,11 @@
 internal sealed class HostCollector : BackgroundService
 {
     readonly IMainProfile _mainProfile;
-    readonly IControllerReader _controllerReader;
-    public HostCollector(IMainProfile mainProfile, IControllerReader controllerReader)
+    readonly IPeripheralReader _peripheralReader;
+    public HostCollector(IMainProfile mainProfile, IPeripheralReader peripheralReader)
     {
         _mainProfile = mainProfile;
-        _controllerReader = controllerReader;
+        _peripheralReader = peripheralReader;
     }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -14,27 +14,29 @@ internal sealed class HostCollector : BackgroundService
         {
             try
             {
-                var text = _mainProfile.Text;
-                if (text is not null)
+                if (_mainProfile.Text is not null)
                 {
-                    switch (text.Controller.Type)
+                    List<Task> tasks = new();
+                    switch (_mainProfile.Text.Controller.Type)
                     {
-                        case Core.Enactments.MainText.TextController.TextType.Fanuc:
-                            await _controllerReader.ActionFanucX64(text.Controller.IP, Convert.ToUInt16(text.Controller.Port));
+                        case MainText.TextController.TextType.Fanuc:
+                            tasks.Add(_peripheralReader.FanucX64Async(_mainProfile.Text.Controller.IP, Convert.ToUInt16(_mainProfile.Text.Controller.Port)));
                             break;
 
-                        case Core.Enactments.MainText.TextController.TextType.Siemens:
+                        case MainText.TextController.TextType.Siemens:
                             break;
 
-                        case Core.Enactments.MainText.TextController.TextType.Mitsubishi:
+                        case MainText.TextController.TextType.Mitsubishi:
                             break;
 
-                        case Core.Enactments.MainText.TextController.TextType.Heidenhain:
+                        case MainText.TextController.TextType.Heidenhain:
                             break;
 
                         default:
                             break;
                     }
+                    tasks.Add(_peripheralReader.ComponentAsync(_mainProfile.Text));
+                    await Task.WhenAll(tasks);
                 }
             }
             catch (Exception e)

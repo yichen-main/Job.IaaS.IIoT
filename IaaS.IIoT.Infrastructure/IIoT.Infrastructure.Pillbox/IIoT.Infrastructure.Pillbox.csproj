@@ -8,14 +8,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Meziantou.Analyzer" Version="2.0.49">
+		<PackageReference Include="FluentModbus" Version="5.0.2" />
+		<PackageReference Include="Meziantou.Analyzer" Version="2.0.50">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\IIoT.Infrastructure.Garner\IIoT.Infrastructure.Garner.csproj" />
+		<ProjectReference Include="..\IIoT.Infrastructure.Garner\IIoT.Infrastructure.Garner.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -28,6 +29,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="FluentModbus" />
 		<Using Include="NUglify.Helpers" />
 		<Using Include="Serilog" />
 		<Using Include="Volo.Abp.DependencyInjection" />
@@ -36,6 +38,7 @@
 
 	<ItemGroup>
 		<Using Include="System.Diagnostics" />
+		<Using Include="System.IO.Ports" />
 		<Using Include="System.Reflection" />
 		<Using Include="System.Runtime.InteropServices" />
 		<Using Include="System.Text" />
@@ -53,6 +56,7 @@
 
 	<ItemGroup>
 		<Using Include="Infrastructure.Core.Boundaries" />
+		<Using Include="Infrastructure.Core.Enactments" />
 	</ItemGroup>
 
 	<ItemGroup>
