@@ -1,3 +1,5 @@
+using Infrastructure.Garner.Architects.Formulas;
+
 try
 {
     var apply = await Entrance.UseWebsite<AppModule>();
@@ -21,7 +23,7 @@ try
             apply.MapControllers();
             apply.MapMessageQueuer();
             {
-                apply.MapDemoEndpoint();
+                apply.MapDemoEndpoint();              
             }
             apply.UseEndpoints(item => item.UseSoapEndpoint<IWebsiteService>(Sign.SoapPath, new SoapEncoderOptions
             {

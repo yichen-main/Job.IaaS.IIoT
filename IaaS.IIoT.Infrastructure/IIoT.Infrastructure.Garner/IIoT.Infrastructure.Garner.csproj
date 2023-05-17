@@ -10,6 +10,7 @@
 	<ItemGroup>
 		<PackageReference Include="Dapper" Version="2.0.123" />
 		<PackageReference Include="InfluxDB.Client.Linq" Version="4.12.0" />
+		<PackageReference Include="MathNet.Numerics" Version="5.0.0" />
 		<PackageReference Include="Meziantou.Analyzer" Version="2.0.50">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -18,7 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\IIoT.Infrastructure.Core\IIoT.Infrastructure.Core.csproj" />
+		<ProjectReference Include="..\IIoT.Infrastructure.Core\IIoT.Infrastructure.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -42,6 +43,7 @@
 		<Using Include="System.Collections.Immutable" />
 		<Using Include="System.ComponentModel" />
 		<Using Include="System.Net" />
+		<Using Include="System.Numerics" />
 		<Using Include="System.Reflection" />
 		<Using Include="System.Runtime.InteropServices" />
 		<Using Include="System.Text" />
@@ -56,13 +58,16 @@
 	<ItemGroup>
 		<Using Include="Infrastructure.Core" />
 		<Using Include="Infrastructure.Core.Boundaries" />
+		<Using Include="Infrastructure.Core.Enactments" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="Infrastructure.Garner.Architects.Develops" />
 		<Using Include="Infrastructure.Garner.Architects.Develops.NpgsqlDevelop" Static="true" />
-		<Using Include="Infrastructure.Garner.Architects.Experts" />
+		<Using Include="Infrastructure.Garner.Architects.Expertise" />
+		<Using Include="Infrastructure.Garner.Architects.Formulas" />
 		<Using Include="Infrastructure.Garner.Architects.Pools" />
+		<Using Include="Infrastructure.Garner.Timeliness.Basics" />
 		<Using Include="Infrastructure.Garner.Timeseries.Bases.Enrollments" />
 		<Using Include="Infrastructure.Garner.Timeseries.Parts.Controllers" />
 		<Using Include="Infrastructure.Garner.Timeseries.Parts.Spindles" />

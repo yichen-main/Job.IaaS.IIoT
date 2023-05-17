@@ -1,6 +1,4 @@
-﻿using static Infrastructure.Garner.Architects.Experts.IInfluxExpert;
-
-namespace Infrastructure.Garner.Timeseries.Parts.WaterTanks;
+﻿namespace Infrastructure.Garner.Timeseries.Parts.WaterTanks;
 public interface ICuttingFluidInformation
 {
     Task InsertAsync(Data data);
@@ -14,28 +12,24 @@ public interface ICuttingFluidInformation
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class CuttingFluidInformation : DepotDevelop<CuttingFluidInformation.Entity>, ICuttingFluidInformation
+file sealed class CuttingFluidInformation : ICuttingFluidInformation
 {
-    readonly string _machineID;
-    public CuttingFluidInformation(IInfluxExpert influxExpert, IMainProfile mainProfile) : base(influxExpert, mainProfile)
-    {
-        _machineID = mainProfile.Text?.MachineID ?? string.Empty;
-    }
-    public async Task InsertAsync(ICuttingFluidInformation.Data data) => await WriteAsync(new Entity
+    readonly IInfluxExpert _influxExpert;
+    public CuttingFluidInformation(IInfluxExpert influxExpert) => _influxExpert = influxExpert;
+    public async Task InsertAsync(ICuttingFluidInformation.Data data) => await _influxExpert.WriteAsync(new Entity
     {
         Temperature = data.Temperature,
         PowerOfHydrogen = data.PowerOfHydrogen,
-        MachineID = _machineID,
         Identifier = Identifier,
         Timestamp = DateTime.UtcNow
     }, Bucket);
 
     [Measurement("cutting_fluid_informations")]
-    internal sealed class Entity : MetaBase
+    sealed class Entity : IInfluxExpert.MetaBase
     {
         [Column("temperature")] public required float Temperature { get; init; }
         [Column("ph_value")] public required float PowerOfHydrogen { get; init; }
     }
     static string Identifier => nameof(CuttingFluidInformation).ToMd5().ToLower();
-    static string Bucket => BucketTag.WaterTank.GetDescription();
+    static string Bucket => IInfluxExpert.BucketTag.WaterTank.GetDESC();
 }

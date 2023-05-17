@@ -1,8 +1,8 @@
 ﻿namespace Infrastructure.Garner.Wrappers;
 public interface ITimelineWrapper
 {
-    IOpcUaRegistrant OpcUaRegistrant { get; }
     IRootInformation RootInformation { get; }
+    IOpcUaRegistrant OpcUaRegistrant { get; }
     IMaintenanceCycle MaintenanceCycle { get; }
     ISpeedOdometer SpeedOdometer { get; }
     IThermalCompensation ThermalCompensation { get; }
@@ -16,8 +16,8 @@ public interface ITimelineWrapper
 file sealed class TimelineWrapper : ITimelineWrapper
 {
     public TimelineWrapper(
-        IOpcUaRegistrant opcUaRegistrant,
         IRootInformation rootInformation,
+        IOpcUaRegistrant opcUaRegistrant,
         IMaintenanceCycle maintenanceCycle,
         ISpeedOdometer speedOdometer,
         IThermalCompensation thermalCompensation,
@@ -26,8 +26,8 @@ file sealed class TimelineWrapper : ITimelineWrapper
         IElectricMeter electricMeter,
         IAttachedSensor attachedSensor)
     {
-        OpcUaRegistrant = opcUaRegistrant;
         RootInformation = rootInformation;
+        OpcUaRegistrant = opcUaRegistrant;
         MaintenanceCycle = maintenanceCycle;
         SpeedOdometer = speedOdometer;
         ThermalCompensation = thermalCompensation;

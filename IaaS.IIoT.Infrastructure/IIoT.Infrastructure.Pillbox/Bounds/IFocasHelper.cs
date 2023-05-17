@@ -4,9 +4,7 @@ namespace Infrastructure.Pillbox.Bounds;
 public interface IFocasHelper
 {
     void Close();
-    bool Open(string ip, ushort port);
-    ValueTask PushAsync(Template template);
-    void ConnectionStatus(bool enable);
+    void Open(string ip, ushort port);
     string GetProgramName();
     BaseInformation GetBaseInformation();
     JobInformation GetJobInformation();
@@ -71,24 +69,26 @@ public interface IFocasHelper
         public required ProgramInformation ProgramInformation { get; init; }
         public required IEnumerable<Coordinate> Coordinates { get; init; }
     }
-    bool Enable { get; }
-    Template Result { get; }
+    bool Enabled { get; }
 }
 
 [Dependency(ServiceLifetime.Singleton)]
 file sealed class FocasHelper : FocasDevelop, IFocasHelper
 {
     ushort _handle;
-    readonly IMainProfile _mainProfile;
-    public FocasHelper(IMainProfile mainProfile) => _mainProfile = mainProfile;
-    public void Close() => DisconnectCNC(_handle);
-    public bool Open(string ip, ushort port) => ConnectCNC(ip, port, 5, out _handle) == default;
-    public async ValueTask PushAsync(Template template)
+    public void Close()
     {
-        Result = template;
-        await _mainProfile.PushMessageAsync("parts/controllers/data", Result.ToJson());
+        Enabled = default;
+        DisconnectCNC(_handle);
     }
-    public void ConnectionStatus(bool enable) => Enable = enable;
+    public void Open(string ip, ushort port)
+    {
+        if (WindowsPass)
+        {
+            Enabled = ConnectCNC(ip, port, 5, out _handle) == default;
+        }
+        else Enabled = default;
+    }
     public string GetProgramName()
     {
         ODBEXEPRG info = new();
@@ -364,6 +364,5 @@ file sealed class FocasHelper : FocasDevelop, IFocasHelper
         };
         return alarmMessage;
     }
-    public bool Enable { get; private set; }
-    public Template Result { get; private set; }
+    public bool Enabled { get; private set; }
 }

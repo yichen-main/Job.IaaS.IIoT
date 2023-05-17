@@ -1,6 +1,4 @@
-﻿using static Infrastructure.Garner.Architects.Experts.IInfluxExpert;
-
-namespace Infrastructure.Garner.Timeseries.Bases.Enrollments;
+﻿namespace Infrastructure.Garner.Timeseries.Bases.Enrollments;
 public interface IOpcUaRegistrant
 {
     Task InsertAsync(Data data);
@@ -12,28 +10,24 @@ public interface IOpcUaRegistrant
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class OpcUaRegistrant : DepotDevelop<OpcUaRegistrant.Entity>, IOpcUaRegistrant
+file sealed class OpcUaRegistrant : IOpcUaRegistrant
 {
-    readonly string _machineID;
-    public OpcUaRegistrant(IInfluxExpert influxExpert, IMainProfile mainProfile) : base(influxExpert, mainProfile)
-    {
-        _machineID = mainProfile.Text?.MachineID ?? string.Empty;
-    }
-    public async Task InsertAsync(IOpcUaRegistrant.Data data) => await WriteAsync(new Entity
+    readonly IInfluxExpert _influxExpert;
+    public OpcUaRegistrant(IInfluxExpert influxExpert) => _influxExpert = influxExpert;
+    public async Task InsertAsync(IOpcUaRegistrant.Data data) => await _influxExpert.WriteAsync(new Entity
     {
         Status = (byte)data.Status,
         SessionName = data.SessionName,
-        MachineID = _machineID,
         Identifier = Identifier,
         Timestamp = DateTime.UtcNow
     }, Bucket);
 
     [Measurement("opc_ua_registrants")]
-    internal sealed class Entity : MetaBase
+    sealed class Entity : IInfluxExpert.MetaBase
     {
         [Column("status")] public required byte Status { get; init; }
         [Column("session_name", IsTag = true)] public required string SessionName { get; init; }
     }
     static string Identifier => nameof(OpcUaRegistrant).ToMd5().ToLower();
-    static string Bucket => BucketTag.Enrollment.GetDescription();
+    static string Bucket => IInfluxExpert.BucketTag.BaseMachine.GetDESC();
 }

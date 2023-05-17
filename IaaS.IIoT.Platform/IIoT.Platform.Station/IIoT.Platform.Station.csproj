@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
+		<FileVersion>1.7.0.1</FileVersion>
 		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -70,7 +71,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Infrastructure.Garner.Architects.Experts" />
+		<Using Include="Infrastructure.Garner.Architects.Expertise" />
 		<Using Include="Infrastructure.Garner.Businesses.Users" />
 	</ItemGroup>
 

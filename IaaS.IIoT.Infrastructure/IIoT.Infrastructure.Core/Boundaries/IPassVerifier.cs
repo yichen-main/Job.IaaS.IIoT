@@ -1,5 +1,5 @@
 ﻿namespace Infrastructure.Core.Boundaries;
-public interface IVerifyConstructor
+public interface IPassVerifier
 {
     bool Login(string account, string password);
     void CreateRefreshId();
@@ -11,16 +11,21 @@ public interface IVerifyConstructor
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class VerifyConstructor : IVerifyConstructor
+file sealed class PassVerifier : IPassVerifier
 {
+    readonly IBaseLoader _baseLoader;
+    public PassVerifier(IBaseLoader baseLoader) => _baseLoader = baseLoader;
     public bool Login(string account, string password)
     {
-        if (Front.Grade.UseDecryptAES() == $"{account}{password}".ToMd5())
+        if(_baseLoader.Profile is not null)
         {
-            CreateToken();
-            CreateRefreshId();
-            return true;
-        }
+            if (_baseLoader.Profile.UserCode.UseDecryptAES() == $"{account}{password}".ToMd5())
+            {
+                CreateToken();
+                CreateRefreshId();
+                return true;
+            }
+        }       
         return false;
     }
     public void CreateRefreshId() => RefreshId = Guid.NewGuid();

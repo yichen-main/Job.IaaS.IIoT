@@ -80,4 +80,47 @@ public static class MainDilation
             Data = data;
         }
     }
+    public sealed class Profile
+    {
+        [YamlMember(ApplyNamingConventions = false)] public string MachineID { get; init; } = string.Empty;   
+        [YamlMember(ApplyNamingConventions = false)] public string BaseCode { get; init; } = Hash.BaseGate;
+        [YamlMember(ApplyNamingConventions = false)] public string UserCode { get; init; } = Hash.UserGate;
+        [YamlMember(ApplyNamingConventions = false)] public TextDatabase Database { get; init; } = new();
+        [YamlMember(ApplyNamingConventions = false)] public TextController Controller { get; init; } = new();
+        [YamlMember(ApplyNamingConventions = false)] public TextSerialEntry SerialEntry { get; init; } = new();
+        public sealed class TextDatabase
+        {
+            [YamlMember(ApplyNamingConventions = false)] public string IP { get; init; } = IPAddress.Loopback.ToString();
+            [YamlMember(ApplyNamingConventions = false)] public int InfluxDB { get; init; } = 8086;
+            [YamlMember(ApplyNamingConventions = false)] public int PostgreSQL { get; init; } = 5432;
+        }
+        public sealed class TextController
+        {
+            public enum TextType
+            {
+                None = 0,
+                Fanuc = 1,
+                Siemens = 2,
+                Mitsubishi = 3,
+                Heidenhain = 4
+            }
+            [YamlMember(ApplyNamingConventions = false)] public string IP { get; init; } = IPAddress.Loopback.ToString();
+            [YamlMember(ApplyNamingConventions = false)] public int Port { get; init; } = 8193;
+
+            [YamlMember(ApplyNamingConventions = false, Description = "None, Fanuc, Siemens, Mitsubishi, Heidenhain")]
+            public TextType Type { get; init; } = TextType.None;
+        }
+        public sealed class TextSerialEntry
+        {
+            [YamlMember(ApplyNamingConventions = false)] public bool Enabled { get; init; }
+            [YamlMember(ApplyNamingConventions = false)] public int BaudRate { get; init; } = 19200;
+            [YamlMember(ApplyNamingConventions = false)] public string Port { get; init; } = "COM1";
+
+            [YamlMember(ApplyNamingConventions = false, Description = $"{nameof(Parity.None)}, {nameof(Parity.Odd)}, {nameof(Parity.Even)}, {nameof(Parity.Mark)}, {nameof(Parity.Space)}")]
+            public Parity Parity { get; init; } = Parity.None;
+
+            [YamlMember(ApplyNamingConventions = false, Description = $"{nameof(StopBits.None)}, {nameof(StopBits.One)}, {nameof(StopBits.Two)}, {nameof(StopBits.OnePointFive)}")]
+            public StopBits StopBits { get; init; } = StopBits.One;
+        }
+    }
 }

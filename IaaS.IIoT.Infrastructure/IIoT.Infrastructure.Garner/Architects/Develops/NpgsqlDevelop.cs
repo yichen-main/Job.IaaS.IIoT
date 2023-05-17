@@ -14,7 +14,7 @@ public static class NpgsqlDevelop
         foreach (var content in contents)
         {
             result.AppendFormatted(content);
-            if (contents.Count() - count++ is not 1) result.AppendFormatted(delimiter.GetDescription());
+            if (contents.Count() - count++ is not 1) result.AppendFormatted(delimiter.GetDESC());
         }
         return result.ToStringAndClear();
     }

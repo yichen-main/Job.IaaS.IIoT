@@ -1,6 +1,4 @@
-﻿using static Infrastructure.Garner.Architects.Experts.IInfluxExpert;
-
-namespace Infrastructure.Garner.Timeseries.Parts.Controllers;
+﻿namespace Infrastructure.Garner.Timeseries.Parts.Controllers;
 public interface ISpeedOdometer
 {
     Task InsertAsync(Data[] datas);
@@ -17,29 +15,25 @@ public interface ISpeedOdometer
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class SpeedOdometer : DepotDevelop<SpeedOdometer.Entity>, ISpeedOdometer
+file sealed class SpeedOdometer : ISpeedOdometer
 {
-    readonly string _machineID;
-    public SpeedOdometer(IInfluxExpert influxExpert, IMainProfile mainProfile) : base(influxExpert, mainProfile)
-    {
-        _machineID = mainProfile.Text?.MachineID ?? string.Empty;
-    }
+    readonly IInfluxExpert _influxExpert;
+    public SpeedOdometer(IInfluxExpert influxExpert) => _influxExpert = influxExpert;
     public async Task InsertAsync(ISpeedOdometer.Data[] datas)
     {
-        if (datas.Any()) await WriteAsync(datas.Select(item => new Entity
+        if (datas.Any()) await _influxExpert.WriteAsync(datas.Select(item => new Entity
         {
             SerialNo = item.SerialNo,
             Hour = item.Hour,
             Minute = item.Minute,
             Second = item.Second,
-            MachineID = _machineID,
             Identifier = Identifier,
             Timestamp = DateTime.UtcNow
         }).ToArray(), Bucket);
     }
     public IDictionary<int, IAbstractPool.SpindleSpeedOdometerChartData.Detail> LatestTimeGroup(DateTime startTime, DateTime endTime)
     {
-        return Read(Bucket, Identifier, startTime, endTime).GroupBy(item => item.SerialNo).ToDictionary(item => item.Key, item =>
+        return _influxExpert.Read<Entity>(Bucket, Identifier, startTime, endTime).GroupBy(item => item.SerialNo).ToDictionary(item => item.Key, item =>
         {
             int hour = default, minute = default, second = default;
             var entity = item.FirstOrDefault();
@@ -60,7 +54,7 @@ file sealed class SpeedOdometer : DepotDevelop<SpeedOdometer.Entity>, ISpeedOdom
     }
 
     [Measurement("speed_odometers")]
-    internal sealed class Entity : MetaBase
+    sealed class Entity : IInfluxExpert.MetaBase
     {
         [Column("serial_no")] public required int SerialNo { get; init; }
         [Column("hour")] public required int Hour { get; init; }
@@ -68,5 +62,5 @@ file sealed class SpeedOdometer : DepotDevelop<SpeedOdometer.Entity>, ISpeedOdom
         [Column("second")] public required int Second { get; init; }
     }
     static string Identifier => nameof(SpeedOdometer).ToMd5().ToLower();
-    static string Bucket => BucketTag.Controller.GetDescription();
+    static string Bucket => IInfluxExpert.BucketTag.Controller.GetDESC();
 }

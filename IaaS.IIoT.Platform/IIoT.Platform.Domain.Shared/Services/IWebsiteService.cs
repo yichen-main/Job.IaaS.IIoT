@@ -1,6 +1,6 @@
 ﻿namespace Platform.Domain.Shared.Services;
 
-[ServiceContract(Name = Sign.ManufacturerName, Namespace = Sign.Namespace)]
+[ServiceContract(Name = "FFG-iMDS", Namespace = "https://imds.ffg-tw.com")]
 public interface IWebsiteService
 {
     [OperationContract(AsyncPattern = true, Name = "invokeSrv", ReplyAction = "*")] Task<string> InvokeAsync(string text);

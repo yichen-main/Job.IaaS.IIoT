@@ -1,12 +1,6 @@
 ﻿namespace Infrastructure.Base.Utilities.Develops;
 public static class NeutralDevelop
 {
-    public enum SystemStatus
-    {
-        Invalid,
-        Allow,
-        Issued
-    }
     public static async ValueTask<WebApplication> UseWebsite<T>(this int port) where T : AbpModule
     {
         var builder = WebApplication.CreateBuilder();
@@ -155,16 +149,22 @@ public static class NeutralDevelop
             return srDecrypt.ReadToEnd();
         }
     }
-    public static string ToTimestamp(this DateTime time, string? format) => time.AddHours(Local.CalibrationHour).ToString(format ?? Menu.DefaultFormat);
+    public static string ToTimestamp(this DateTime time, TimeZoneType timeZone, string format = DefaultDateFormat) => time.AddHours(timeZone switch
+    {
+        TimeZoneType.CEST => (int)TimeZoneType.CEST,
+        TimeZoneType.CET => (int)TimeZoneType.CET,
+        TimeZoneType.CST => (int)TimeZoneType.CST,
+        _ => (int)TimeZoneType.UTC
+    }).ToString(format);
     public static DateTime ToNowHour(this DateTime time) => DateTime.ParseExact(time.ToString(Menu.HourFormat), Menu.HourFormat, CultureInfo.InvariantCulture);
     public static string Joint(this string front, string latter = "", string tag = ".") => $"{front}{tag}{latter}";
     public static string GetRootNamespace(this Assembly assembly) => assembly.GetName().Name!.Replace("FFG".Joint(), string.Empty);
     public static string GetDescription(this Type type, string name) => type.GetRuntimeField(name)!.GetCustomAttribute<DescriptionAttribute>()!.Description;
-    public static string GetDescription(this Enum @enum) => @enum.GetType().GetRuntimeField(@enum.ToString())!.GetCustomAttribute<DescriptionAttribute>()!.Description;
+    public static string GetDESC(this Enum @enum) => @enum.GetType().GetRuntimeField(@enum.ToString())!.GetCustomAttribute<DescriptionAttribute>()!.Description;
     public static IDictionary<string, (int number, string description)> GetDescription<T>()
     {
         Dictionary<string, (int number, string description)> results = new();
-        foreach (Enum @enum in Enum.GetValues(typeof(T))) results.Add(@enum.ToString(), (@enum.GetHashCode(), @enum.GetDescription()));
+        foreach (Enum @enum in Enum.GetValues(typeof(T))) results.Add(@enum.ToString(), (@enum.GetHashCode(), @enum.GetDESC()));
         return results.ToImmutableDictionary();
     }
     public static T? ToObject<T>(this string content) => JsonSerializer.Deserialize<T>(content, new JsonSerializerOptions

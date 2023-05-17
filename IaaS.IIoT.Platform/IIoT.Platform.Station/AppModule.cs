@@ -34,10 +34,10 @@ internal sealed class AppModule : AbpModule
             };
         }).AddNewtonsoftJson(item =>
         {
-            item.SerializerSettings.DateFormatString = Menu.DefaultFormat;
+            item.SerializerSettings.DateFormatString = DefaultDateFormat;
             item.SerializerSettings.NullValueHandling = NullValueHandling.Include;
         }).AddMvcOptions(item => item.Conventions.Add(new ModelConvention())).AddControllersAsServices();
-        context.Services.AddAuthentication(nameof(Station)).AddScheme<AuthenticateOption, AuthenticateHandler>(nameof(Station), configureOptions: default);
+        context.Services.AddAuthentication(nameof(Station)).AddScheme<AuthenticateHandler.Option, AuthenticateHandler>(nameof(Station), configureOptions: default);
         context.Services.AddCors(item => item.AddDefaultPolicy(item =>
         {
             item.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().WithExposedHeaders("*");

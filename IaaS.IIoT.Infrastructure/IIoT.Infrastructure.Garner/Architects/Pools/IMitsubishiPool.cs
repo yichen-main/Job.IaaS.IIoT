@@ -8,7 +8,7 @@ public interface IMitsubishiPool
     void Push(in FixtureGate value);
     void Push(in MaintenanceCycleData value);
     void Push(in SpindleSpeedOdometer[] values);
-    void Push(in IRootInformation.Data.MachineStatusType value);
+    void Push(in IRootInformation.MachineStatus value);
 
     [StructLayout(LayoutKind.Auto)]
     readonly record struct AlarmGate
@@ -75,7 +75,7 @@ public interface IMitsubishiPool
         public required int Second { get; init; }
         public required string Description { get; init; }
     }
-    IRootInformation.Data.MachineStatusType MachineStatus { get; }
+    IRootInformation.MachineStatus MachineStatus { get; }
     AlarmGate Alarm { get; }
     PartGate Part { get; }
     FixtureGate Fixture { get; }
@@ -91,8 +91,8 @@ file sealed class MitsubishiPool : IMitsubishiPool
     public void Push(in AlarmGate value) => Alarm = value;
     public void Push(in MaintenanceCycleData value) => MaintenanceCycle = value;
     public void Push(in SpindleSpeedOdometer[] values) => SpindleSpeedOdometers = values;
-    public void Push(in IRootInformation.Data.MachineStatusType value) => MachineStatus = value;
-    public IRootInformation.Data.MachineStatusType MachineStatus { get; private set; }
+    public void Push(in IRootInformation.MachineStatus value) => MachineStatus = value;
+    public IRootInformation.MachineStatus MachineStatus { get; private set; }
     public AlarmGate Alarm { get; private set; } = new();
     public PartGate Part { get; private set; } = new();
     public FixtureGate Fixture { get; private set; } = new();

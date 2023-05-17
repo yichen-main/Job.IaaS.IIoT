@@ -1,6 +1,4 @@
-﻿using static Infrastructure.Garner.Architects.Experts.IInfluxExpert;
-
-namespace Infrastructure.Garner.Timeseries.Tacks.Sensors;
+﻿namespace Infrastructure.Garner.Timeseries.Tacks.Sensors;
 public interface IAttachedSensor
 {
     Task InsertAsync(Data data);
@@ -15,30 +13,26 @@ public interface IAttachedSensor
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class AttachedSensor : DepotDevelop<AttachedSensor.Entity>, IAttachedSensor
+file sealed class AttachedSensor : IAttachedSensor
 {
-    readonly string _machineID;
-    public AttachedSensor(IInfluxExpert influxExpert, IMainProfile mainProfile) : base(influxExpert, mainProfile)
-    {
-        _machineID = mainProfile.Text?.MachineID ?? string.Empty;
-    }
-    public async Task InsertAsync(IAttachedSensor.Data data) => await WriteAsync(new Entity
+    readonly IInfluxExpert _influxExpert;
+    public AttachedSensor(IInfluxExpert influxExpert) => _influxExpert = influxExpert;
+    public async Task InsertAsync(IAttachedSensor.Data data) => await _influxExpert.WriteAsync(new Entity
     {
         ElectricalBoxHumidity = data.ElectricalBoxHumidity,
         ElectricalBoxTemperature = data.ElectricalBoxTemperature,
         WaterTankTemperature = data.WaterTankTemperature,
-        MachineID = _machineID,
         Identifier = Identifier,
         Timestamp = DateTime.UtcNow
     }, Bucket);
 
     [Measurement("attached_sensors")]
-    internal sealed class Entity : MetaBase
+    sealed class Entity : IInfluxExpert.MetaBase
     {
         [Column("electrical_box_humidity")] public required float ElectricalBoxHumidity { get; init; }
         [Column("electrical_box_temperature")] public required float ElectricalBoxTemperature { get; init; }
         [Column("water_tank_temperature")] public required float WaterTankTemperature { get; init; }
     }
     static string Identifier => nameof(AttachedSensor).ToMd5().ToLower();
-    static string Bucket => BucketTag.Sensor.GetDescription();
+    static string Bucket => IInfluxExpert.BucketTag.Sensor.GetDESC();
 }

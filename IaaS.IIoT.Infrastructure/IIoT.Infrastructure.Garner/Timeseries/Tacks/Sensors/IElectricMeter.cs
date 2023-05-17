@@ -1,6 +1,4 @@
-﻿using static Infrastructure.Garner.Architects.Experts.IInfluxExpert;
-
-namespace Infrastructure.Garner.Timeseries.Tacks.Sensors;
+﻿namespace Infrastructure.Garner.Timeseries.Tacks.Sensors;
 public interface IElectricMeter
 {
     Task InsertAsync(Data data);
@@ -28,19 +26,22 @@ public interface IElectricMeter
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class ElectricMeter : DepotDevelop<ElectricMeter.Entity>, IElectricMeter
+file sealed class ElectricMeter : IElectricMeter
 {
-    readonly string _machineID;
-    public ElectricMeter(IInfluxExpert influxExpert, IMainProfile mainProfile) : base(influxExpert, mainProfile)
+    readonly IInfluxExpert _influxExpert;
+    readonly IDescriptiveStatistics _descriptiveStatistics;
+    public ElectricMeter(
+        IInfluxExpert influxExpert,
+        IDescriptiveStatistics descriptiveStatistics)
     {
-        _machineID = mainProfile.Text?.MachineID ?? string.Empty;
+        _influxExpert = influxExpert;
+        _descriptiveStatistics = descriptiveStatistics;
     }
-    public async Task InsertAsync(IElectricMeter.Data data) => await WriteAsync(new Entity
+    public async Task InsertAsync(IElectricMeter.Data data) => await _influxExpert.WriteAsync(new Entity
     {
         AverageVoltage = data.AverageVoltage,
         AverageCurrent = data.AverageCurrent,
         ApparentPower = data.ApparentPower,
-        MachineID = _machineID,
         Identifier = Identifier,
         Timestamp = DateTime.UtcNow
     }, Bucket);
@@ -49,14 +50,14 @@ file sealed class ElectricMeter : DepotDevelop<ElectricMeter.Entity>, IElectricM
         var endTime = DateTime.UtcNow.ToNowHour();
         var startTime = endTime.AddDays(Timeout.Infinite);
         var intervalTime = endTime.AddHours(Timeout.Infinite);
-        var entities = Read(Bucket, Identifier, startTime, endTime).Where(item => item.ApparentPower is not 0);
+        var entities = _influxExpert.Read<Entity>(Bucket, Identifier, startTime, endTime).Where(item => item.ApparentPower is not 0);
         List<IAbstractPool.ElectricityStatisticData> results = new();
         while (startTime <= intervalTime)
         {
             var datas = entities.Where(item => item.Timestamp > intervalTime && item.Timestamp < intervalTime.AddHours(1)).ToArray();
             results.Add(new()
             {
-                KilowattHour = Median(datas.Select(item => item.ApparentPower).ToArray()),
+                KilowattHour = _descriptiveStatistics.Median(datas.Select(item => item.ApparentPower).ToArray()),
                 EventTime = intervalTime.AddHours(1)
             });
             intervalTime = intervalTime.AddHours(Timeout.Infinite);
@@ -65,12 +66,12 @@ file sealed class ElectricMeter : DepotDevelop<ElectricMeter.Entity>, IElectricM
     }
 
     [Measurement("electric_meters")]
-    internal sealed class Entity : MetaBase
+    sealed class Entity : IInfluxExpert.MetaBase
     {
         [Column("average_voltage")] public required float AverageVoltage { get; init; }
         [Column("average_current")] public required float AverageCurrent { get; init; }
         [Column("apparent_power")] public required float ApparentPower { get; init; }
     }
     static string Identifier => nameof(ElectricMeter).ToMd5().ToLower();
-    static string Bucket => BucketTag.Sensor.GetDescription();
+    static string Bucket => IInfluxExpert.BucketTag.Sensor.GetDESC();
 }

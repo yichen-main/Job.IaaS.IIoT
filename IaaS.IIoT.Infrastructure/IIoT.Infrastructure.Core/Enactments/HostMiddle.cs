@@ -3,18 +3,27 @@ public static class HostMiddle
 {
     public static IApplicationBuilder MapMessageQueuer(this IApplicationBuilder app)
     {
-        var service = app.ApplicationServices.GetRequiredService<IMainProfile>();
+        var service = app.ApplicationServices.GetRequiredService<IBaseLoader>();
         service.Transport.InterceptingPublishAsync += @event => Task.Run(() =>
         {
             try
             {
                 var paths = @event.ApplicationMessage.Topic.Split('/');
                 var text = Encoding.UTF8.GetString(@event.ApplicationMessage.PayloadSegment);
-
+                if (Histories.Any()) Histories.Clear();
             }
             catch (Exception e)
             {
-                Log.Error(Menu.Title, nameof(MapMessageQueuer), new { e.Message });
+                if (!Histories.Contains(e.Message))
+                {
+                    Histories.Add(e.Message);
+                    service.Record(RecordType.BasicSettings, new()
+                    {
+                        Title = $"{nameof(HostMiddle)}.{nameof(MapMessageQueuer)}",
+                        Name = "MQTT Server",
+                        Message = e.Message
+                    });
+                }
             }
         });
         return app;
@@ -40,4 +49,5 @@ public static class HostMiddle
             await _request(context);
         }
     }
+    static List<string> Histories => new();
 }

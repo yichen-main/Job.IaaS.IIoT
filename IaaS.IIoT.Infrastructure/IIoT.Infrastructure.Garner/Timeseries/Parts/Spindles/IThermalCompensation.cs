@@ -1,6 +1,4 @@
-﻿using static Infrastructure.Garner.Architects.Experts.IInfluxExpert;
-
-namespace Infrastructure.Garner.Timeseries.Parts.Spindles;
+﻿namespace Infrastructure.Garner.Timeseries.Parts.Spindles;
 public interface IThermalCompensation
 {
     Task InsertAsync(Data data);
@@ -21,14 +19,18 @@ public interface IThermalCompensation
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class ThermalCompensation : DepotDevelop<ThermalCompensation.Entity>, IThermalCompensation
+file sealed class ThermalCompensation : IThermalCompensation
 {
-    readonly string _machineID;
-    public ThermalCompensation(IInfluxExpert influxExpert, IMainProfile mainProfile) : base(influxExpert, mainProfile)
+    readonly IInfluxExpert _influxExpert;
+    readonly IDescriptiveStatistics _descriptiveStatistics;
+    public ThermalCompensation(
+        IInfluxExpert influxExpert,
+        IDescriptiveStatistics descriptiveStatistics)
     {
-        _machineID = mainProfile.Text?.MachineID ?? string.Empty;
+        _influxExpert = influxExpert;
+        _descriptiveStatistics = descriptiveStatistics;
     }
-    public async Task InsertAsync(IThermalCompensation.Data data) => await WriteAsync(new Entity
+    public async Task InsertAsync(IThermalCompensation.Data data) => await _influxExpert.WriteAsync(new Entity
     {
         TemperatureFirst = data.ThermalFirst,
         TemperatureSecond = data.ThermalSecond,
@@ -38,7 +40,6 @@ file sealed class ThermalCompensation : DepotDevelop<ThermalCompensation.Entity>
         CompensationX = data.CompensationX,
         CompensationY = data.CompensationY,
         CompensationZ = data.CompensationZ,
-        MachineID = _machineID,
         Identifier = Identifier,
         Timestamp = DateTime.UtcNow
     }, Bucket);
@@ -47,33 +48,33 @@ file sealed class ThermalCompensation : DepotDevelop<ThermalCompensation.Entity>
         var endTime = DateTime.UtcNow.ToNowHour();
         var startTime = endTime.AddHours(Timeout.Infinite);
         var intervalTime = endTime.AddMinutes(Timeout.Infinite);
-        var entities = Read(Bucket, Identifier, startTime, endTime).Where(item => item.TemperatureFirst is not 0);
+        var entities = _influxExpert.Read<Entity>(Bucket, Identifier, startTime, endTime).Where(item => item.TemperatureFirst is not 0);
         List<IAbstractPool.SpindleThermalCompensationChartData.AxisCompensation> results = new();
         while (startTime <= intervalTime)
         {
             var datas = entities.Where(item => item.Timestamp > intervalTime && item.Timestamp < intervalTime.AddMinutes(1));
             results.Add(new()
             {
-                XAxis = (int)Median(datas.Select(item => item.CompensationX).ToArray()),
-                YAxis = (int)Median(datas.Select(item => item.CompensationY).ToArray()),
-                ZAxis = (int)Median(datas.Select(item => item.CompensationZ).ToArray()),
+                XAxis = (int)_descriptiveStatistics.Median(datas.Select(item => item.CompensationX).ToArray()),
+                YAxis = (int)_descriptiveStatistics.Median(datas.Select(item => item.CompensationY).ToArray()),
+                ZAxis = (int)_descriptiveStatistics.Median(datas.Select(item => item.CompensationZ).ToArray()),
                 EventTime = intervalTime.AddMinutes(1)
             });
             intervalTime = intervalTime.AddMinutes(Timeout.Infinite);
         }
         return new()
         {
-            TemperatureFirst = Median(entities.Select(item => item.TemperatureFirst).ToArray()),
-            TemperatureSecond = Median(entities.Select(item => item.TemperatureSecond).ToArray()),
-            TemperatureThird = Median(entities.Select(item => item.TemperatureThird).ToArray()),
-            TemperatureFourth = Median(entities.Select(item => item.TemperatureFourth).ToArray()),
-            TemperatureFifth = Median(entities.Select(item => item.TemperatureFifth).ToArray()),
+            TemperatureFirst = _descriptiveStatistics.Median(entities.Select(item => item.TemperatureFirst).ToArray()),
+            TemperatureSecond = _descriptiveStatistics.Median(entities.Select(item => item.TemperatureSecond).ToArray()),
+            TemperatureThird = _descriptiveStatistics.Median(entities.Select(item => item.TemperatureThird).ToArray()),
+            TemperatureFourth = _descriptiveStatistics.Median(entities.Select(item => item.TemperatureFourth).ToArray()),
+            TemperatureFifth = _descriptiveStatistics.Median(entities.Select(item => item.TemperatureFifth).ToArray()),
             RunCharts = results
         };
     }
 
     [Measurement("thermal_compensations")]
-    internal sealed class Entity : MetaBase
+    sealed class Entity : IInfluxExpert.MetaBase
     {
         [Column("temperature_first")] public required float TemperatureFirst { get; init; }
         [Column("temperature_second")] public required float TemperatureSecond { get; init; }
@@ -85,5 +86,5 @@ file sealed class ThermalCompensation : DepotDevelop<ThermalCompensation.Entity>
         [Column("compensation_z")] public required float CompensationZ { get; init; }
     }
     static string Identifier => nameof(ThermalCompensation).ToMd5().ToLower();
-    static string Bucket => BucketTag.Spindle.GetDescription();
+    static string Bucket => IInfluxExpert.BucketTag.Spindle.GetDESC();
 }

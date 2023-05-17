@@ -66,6 +66,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="Infrastructure.Base.Calculators.Processes" />
 		<Using Include="Infrastructure.Base.Utilities.Develops" />
 		<Using Include="Infrastructure.Base.Utilities.Develops.ProcessDevelop" Static="true" />
 	</ItemGroup>

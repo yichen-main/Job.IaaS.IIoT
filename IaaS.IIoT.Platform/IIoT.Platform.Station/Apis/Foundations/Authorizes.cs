@@ -3,20 +3,20 @@
 [ApiExplorerSettings(GroupName = nameof(Foundations))]
 public class Authorizes : ControllerBase
 {
-    readonly IVerifyConstructor _verifyEngine;
-    public Authorizes(IVerifyConstructor verifyEngine) => _verifyEngine = verifyEngine;
+    readonly IPassVerifier _passVerifier;
+    public Authorizes(IPassVerifier passVerifier) => _passVerifier = passVerifier;
 
     [HttpPost("login", Name = nameof(InsertLogin))]
     public IActionResult InsertLogin([FromForm] LoginBody body)
     {
         try
         {
-            if (_verifyEngine.Login(body.Account, body.Password)) return Ok(new LoginRow
+            if (_passVerifier.Login(body.Account, body.Password)) return Ok(new LoginRow
             {
-                AccessToken = _verifyEngine.Token!,
-                ExpiresIn = _verifyEngine.ExpiresIn,
+                AccessToken = _passVerifier.Token!,
+                ExpiresIn = _passVerifier.ExpiresIn,
                 TokenType = JwtBearerDefaults.AuthenticationScheme,
-                RefreshToken = _verifyEngine.RefreshId
+                RefreshToken = _passVerifier.RefreshId
             });
             return Unauthorized();
         }
@@ -31,18 +31,18 @@ public class Authorizes : ControllerBase
     {
         try
         {
-            if (_verifyEngine.RefreshId == body.RefreshToken)
+            if (_passVerifier.RefreshId == body.RefreshToken)
             {
-                var token = _verifyEngine.Token;
+                var token = _passVerifier.Token;
                 if (token is not null)
                 {
-                    _verifyEngine.CreateRefreshId();
+                    _passVerifier.CreateRefreshId();
                     return Ok(new LoginRow
                     {
                         AccessToken = token,
-                        ExpiresIn = _verifyEngine.ExpiresIn,
+                        ExpiresIn = _passVerifier.ExpiresIn,
                         TokenType = JwtBearerDefaults.AuthenticationScheme,
-                        RefreshToken = _verifyEngine.RefreshId
+                        RefreshToken = _passVerifier.RefreshId
                     });
                 }
             }

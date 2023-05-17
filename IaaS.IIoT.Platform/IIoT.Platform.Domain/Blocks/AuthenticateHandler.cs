@@ -1,15 +1,15 @@
 ﻿namespace Platform.Domain.Blocks;
-public sealed class AuthenticateHandler : AuthenticationHandler<AuthenticateOption>
+public sealed class AuthenticateHandler : AuthenticationHandler<AuthenticateHandler.Option>
 {
-    readonly IVerifyConstructor _verifyEngine;
+    readonly IPassVerifier _passVerifier;
     public AuthenticateHandler(
         UrlEncoder urlEncoder,
         ISystemClock systemClock,
         ILoggerFactory loggerFactory,
-        IOptionsMonitor<AuthenticateOption> authenticateOption,
-        IVerifyConstructor verifyEngine) : base(authenticateOption, loggerFactory, urlEncoder, systemClock)
+        IOptionsMonitor<Option> authenticateOption,
+        IPassVerifier passVerifier) : base(authenticateOption, loggerFactory, urlEncoder, systemClock)
     {
-        _verifyEngine = verifyEngine;
+        _passVerifier = passVerifier;
     }
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
@@ -26,14 +26,14 @@ public sealed class AuthenticateHandler : AuthenticationHandler<AuthenticateOpti
                     result = header[JwtBearerDefaults.AuthenticationScheme.Length..].Trim();
                     if (string.IsNullOrEmpty(result)) throw new Exception();
                 }
-                if (DateTime.UtcNow.Subtract(_verifyEngine.CreateTime).TotalSeconds < _verifyEngine.ExpiresIn)
+                if (DateTime.UtcNow.Subtract(_passVerifier.CreateTime).TotalSeconds < _passVerifier.ExpiresIn)
                 {
-                    if (_verifyEngine.Token == result) return Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(new GenericPrincipal(new ClaimsIdentity(new[]
+                    if (_passVerifier.Token == result) return Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(new GenericPrincipal(new ClaimsIdentity(new[]
                     {
                         new Claim(ClaimTypes.Name, string.Empty)
                     }, result), roles: null), Scheme.Name)));
                 }
-                else _verifyEngine.CreateToken();
+                else _passVerifier.CreateToken();
             }
             return Task.FromResult(AuthenticateResult.NoResult());
         }
@@ -41,5 +41,9 @@ public sealed class AuthenticateHandler : AuthenticationHandler<AuthenticateOpti
         {
             return Task.FromResult(AuthenticateResult.Fail(e));
         }
+    }
+    public sealed class Option : AuthenticationSchemeOptions
+    {
+
     }
 }

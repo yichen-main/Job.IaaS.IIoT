@@ -40,8 +40,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Infrastructure.Garner.Architects.Experts" />
+		<Using Include="Infrastructure.Garner.Architects.Expertise" />
+		<Using Include="Infrastructure.Garner.Architects.Formulas" />
 		<Using Include="Infrastructure.Garner.Architects.Pools" />
+		<Using Include="Infrastructure.Garner.Wrappers" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -49,7 +51,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Platform.Application.Carriers.Supports" />
+		<Using Include="Platform.Application.Supports.Carriers" />
 	</ItemGroup>
 
 </Project>

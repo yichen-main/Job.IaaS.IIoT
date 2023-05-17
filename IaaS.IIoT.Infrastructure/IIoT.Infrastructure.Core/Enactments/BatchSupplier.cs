@@ -31,7 +31,7 @@ public abstract class BatchSupplier
     }
     static string Move(string path) => $"cd {path}";
     static string Variable(string definition) => $"set {definition}";
-    string OutputLocation(ButtonType button) => Path.Combine(Local.Native, "..", $"{_service.GetDescription()}{button.GetDescription()}.cmd");
+    string OutputLocation(ButtonType button) => Path.Combine(Native, "..", $"{_service.GetDESC()}{button.GetDESC()}.cmd");
     protected enum ButtonType
     {
         [Description("\u00A0[START]")] Boot,
@@ -51,10 +51,10 @@ public abstract class BatchSupplier
     {Sign.Declaration}
     {Administrator}
     {Move("\\")}
-    {char.ToLower(Local.Native.FirstOrDefault())}:
+    {char.ToLower(Native.FirstOrDefault())}:
     {Move(Menu.GetToolPath())}
     {Variable($"{NssmTag}=service")}
-    {Variable($"{IdentifyTag}={_service.GetDescription()}")}
+    {Variable($"{IdentifyTag}={_service.GetDESC()}")}
     """;
     static string NssmTag => "vehicle";
     static string IdentifyTag => "identify";
@@ -62,5 +62,5 @@ public abstract class BatchSupplier
     static string Administrator => """
     %1 Mshta vbscript:CreateObject("Shell.Application").ShellExecute("Cmd.exe","/C ""%~0"" ::","","runas",1)(window.close)&&exit
     """;
-    static string ScriptLocation => Path.Combine(Local.Native, $"{StartupKey.ToMd5()}.cmd");
+    static string ScriptLocation => Path.Combine(Native, $"{StartupKey.ToMd5()}.cmd");
 }

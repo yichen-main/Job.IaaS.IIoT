@@ -3,7 +3,7 @@
 namespace Infrastructure.Pillbox.Bounds;
 internal interface IModbusHelper
 {
-    Task ReadAsync(MainText.TextSerialEntry serialEntry);
+    Task ReadAsync();
 
     [StructLayout(LayoutKind.Auto)]
     readonly record struct MainElectricityBucket
@@ -18,31 +18,62 @@ internal interface IModbusHelper
         public required int ApparentPower { get; init; }
         public required int ApparentEnergy { get; init; }
     }
-    MainElectricityBucket MainElectricity { get; }
 }
 
 [Dependency(ServiceLifetime.Singleton)]
 file sealed class ModbusHelper : IModbusHelper
 {
-    public async Task ReadAsync(MainText.TextSerialEntry serialEntry)
+    readonly IBaseLoader _baseLoader;
+    public ModbusHelper(IBaseLoader baseLoader) => _baseLoader = baseLoader;
+    public async Task ReadAsync()
     {
         try
         {
-            Master ??= new() { Parity = serialEntry.Parity, BaudRate = serialEntry.BaudRate, StopBits = serialEntry.StopBits };
-            Master.Connect(serialEntry.SerialPort);
-            await MainElectricityAsync(0x01);
-            Master.Dispose();
-            Master = null;
+            if (_baseLoader.Profile is not null && _baseLoader.Profile.SerialEntry.Enabled)
+            {
+                Master ??= new()
+                {
+                    Parity = _baseLoader.Profile.SerialEntry.Parity,
+                    BaudRate = _baseLoader.Profile.SerialEntry.BaudRate,
+                    StopBits = _baseLoader.Profile.SerialEntry.StopBits
+                };
+                Master.Connect(_baseLoader.Profile.SerialEntry.Port);
+                await MainElectricityAsync(0x01);
+                if (Histories.Any()) Histories.Clear();
+                Master.Dispose();
+                Master = null;
+            }
         }
         catch (Exception e)
         {
-            await Console.Out.WriteLineAsync(e.Message);
+            if (!Histories.Contains(e.Message))
+            {
+                Histories.Add(e.Message);
+                _baseLoader.Record(RecordType.MachineParts, new()
+                {
+                    Title = $"{nameof(ModbusHelper)}.{nameof(ReadAsync)}",
+                    Name = "Modbus RTU",
+                    Message = e.Message
+                });
+            }
+        }
+        async ValueTask MainElectricityAsync(int slaveId)
+        {
+            var datas = await Master.ReadInputRegistersAsync<int>(slaveId, 0x1333, 17);
+            await _baseLoader.PushBrokerAsync("parts/smart-meters/data", new MainElectricityBucket
+            {
+                AverageVoltage = 0,
+                AverageCurrent = 0,
+                PowerFactor = 0,
+                ReactivePower = 0,
+                ReactiveEnergy = 0,
+                ActiveEnergy = 0x01,
+                ActivePower = 0x01,
+                ApparentPower = 0,
+                ApparentEnergy = 0
+            }.ToJson());
         }
     }
-    async ValueTask MainElectricityAsync(int slaveId)
-    {
-        var datas = await Master!.ReadInputRegistersAsync<uint>(slaveId, 0x1233, 17);
-    }
     ModbusRtuClient? Master { get; set; }
-    public MainElectricityBucket MainElectricity { get; private set; }
+    List<string> Histories { get; init; } = new();
 }

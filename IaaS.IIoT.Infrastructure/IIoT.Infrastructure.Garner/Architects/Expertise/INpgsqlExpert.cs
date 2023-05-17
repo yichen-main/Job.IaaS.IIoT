@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Garner.Architects.Experts;
+﻿namespace Infrastructure.Garner.Architects.Expertise;
 public interface INpgsqlExpert
 {
     string MarkTable<T>(in TableInfo info) where T : struct;

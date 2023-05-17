@@ -1,6 +1,6 @@
 ﻿try
 {
-    var provider = await AbpApplicationFactory.CreateAsync<AppModule>(item => item.UseAutofac());
+    var provider = await AbpApplicationFactory.CreateAsync<AppModule>();
     if (Status is not SystemStatus.Invalid)
     {
         await provider.InitializeAsync();
