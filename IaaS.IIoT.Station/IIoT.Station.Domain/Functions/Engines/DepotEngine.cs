@@ -6,10 +6,10 @@ public abstract class DepotEngine<T> where T : MetaBase
     readonly string? _userName;
     readonly string? _password;
     readonly string? _organize;
-    protected DepotEngine(IStructuralEngine engine, IMainProfile profile)
+    protected DepotEngine(IStructuralEngine engine, IBaseLoader profile)
     {
         _enabled = engine.EnableStorage;
-        _address = profile.Text?.InfluxDB.URL;
+        _address = profile.Profile?.InfluxDB.URL;
         _userName = profile.Text?.InfluxDB.UserName;
         _password = profile.Text?.InfluxDB.Password;
         _organize = profile.Text?.InfluxDB.Organize;

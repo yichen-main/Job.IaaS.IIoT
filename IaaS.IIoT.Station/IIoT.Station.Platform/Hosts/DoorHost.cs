@@ -38,7 +38,7 @@ internal sealed class DoorHost : BackgroundService
             };
         }).AddNewtonsoftJson(item =>
         {
-            item.SerializerSettings.DateFormatString = Menu.DefaultFormat;
+            item.SerializerSettings.DateFormatString = DefaultDateFormat;
             item.SerializerSettings.NullValueHandling = NullValueHandling.Include;
         }).AddMvcOptions(item => item.Conventions.Add(new ModelConvention())).AddControllersAsServices();
         builder.Services.AddAuthentication("FFG").AddScheme<AuthenticateOption, AuthenticateHandler>("FFG", configureOptions: default);

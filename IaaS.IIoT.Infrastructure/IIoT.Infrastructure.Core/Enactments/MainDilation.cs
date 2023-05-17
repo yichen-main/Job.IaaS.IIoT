@@ -82,7 +82,7 @@ public static class MainDilation
     }
     public sealed class Profile
     {
-        [YamlMember(ApplyNamingConventions = false)] public string MachineID { get; init; } = string.Empty;   
+        [YamlMember(ApplyNamingConventions = false)] public string MachineID { get; init; } = string.Empty;
         [YamlMember(ApplyNamingConventions = false)] public string BaseCode { get; init; } = Hash.BaseGate;
         [YamlMember(ApplyNamingConventions = false)] public string UserCode { get; init; } = Hash.UserGate;
         [YamlMember(ApplyNamingConventions = false)] public TextDatabase Database { get; init; } = new();

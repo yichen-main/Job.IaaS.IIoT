@@ -17,7 +17,7 @@ file sealed class PassVerifier : IPassVerifier
     public PassVerifier(IBaseLoader baseLoader) => _baseLoader = baseLoader;
     public bool Login(string account, string password)
     {
-        if(_baseLoader.Profile is not null)
+        if (_baseLoader.Profile is not null)
         {
             if (_baseLoader.Profile.UserCode.UseDecryptAES() == $"{account}{password}".ToMd5())
             {
@@ -25,7 +25,7 @@ file sealed class PassVerifier : IPassVerifier
                 CreateRefreshId();
                 return true;
             }
-        }       
+        }
         return false;
     }
     public void CreateRefreshId() => RefreshId = Guid.NewGuid();

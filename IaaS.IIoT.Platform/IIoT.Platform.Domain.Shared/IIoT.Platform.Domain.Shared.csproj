@@ -46,6 +46,7 @@
 
 	<ItemGroup>
 		<Using Include="Infrastructure.Garner" />
+		<Using Include="Infrastructure.Garner.Wrappers" />
 	</ItemGroup>
 
 	<ItemGroup>

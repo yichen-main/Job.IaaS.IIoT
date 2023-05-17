@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Core", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Base", "..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Base\IIoT.Infrastructure.Base.csproj", "{B94F319E-FE94-4AF8-A370-5AA276424182}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Storage", "..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Storage\IIoT.Infrastructure.Storage.csproj", "{3FD84329-1944-4B93-AE75-0FBA0C1C194A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Pillbox", "..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Pillbox\IIoT.Infrastructure.Pillbox.csproj", "{DB0FAFD9-FBAE-4E80-8F61-B3A2AC8159D6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Garner", "..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Garner\IIoT.Infrastructure.Garner.csproj", "{E249F162-4195-4BFF-A79C-0D9E0709E977}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,14 +57,14 @@ Global
 		{B94F319E-FE94-4AF8-A370-5AA276424182}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B94F319E-FE94-4AF8-A370-5AA276424182}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B94F319E-FE94-4AF8-A370-5AA276424182}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3FD84329-1944-4B93-AE75-0FBA0C1C194A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3FD84329-1944-4B93-AE75-0FBA0C1C194A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3FD84329-1944-4B93-AE75-0FBA0C1C194A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3FD84329-1944-4B93-AE75-0FBA0C1C194A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DB0FAFD9-FBAE-4E80-8F61-B3A2AC8159D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DB0FAFD9-FBAE-4E80-8F61-B3A2AC8159D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB0FAFD9-FBAE-4E80-8F61-B3A2AC8159D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB0FAFD9-FBAE-4E80-8F61-B3A2AC8159D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E249F162-4195-4BFF-A79C-0D9E0709E977}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E249F162-4195-4BFF-A79C-0D9E0709E977}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E249F162-4195-4BFF-A79C-0D9E0709E977}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E249F162-4195-4BFF-A79C-0D9E0709E977}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,8 +72,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C273DF07-44E7-4C42-87BF-6DA1C1FB5983} = {E32FD00A-333C-43A5-8072-95E032D86B1F}
 		{B94F319E-FE94-4AF8-A370-5AA276424182} = {E32FD00A-333C-43A5-8072-95E032D86B1F}
-		{3FD84329-1944-4B93-AE75-0FBA0C1C194A} = {E32FD00A-333C-43A5-8072-95E032D86B1F}
 		{DB0FAFD9-FBAE-4E80-8F61-B3A2AC8159D6} = {E32FD00A-333C-43A5-8072-95E032D86B1F}
+		{E249F162-4195-4BFF-A79C-0D9E0709E977} = {E32FD00A-333C-43A5-8072-95E032D86B1F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {952820CC-D42F-4EC7-8CA0-46D6C20207BD}

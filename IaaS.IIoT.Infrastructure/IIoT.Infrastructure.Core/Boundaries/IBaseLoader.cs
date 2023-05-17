@@ -11,7 +11,6 @@ public interface IBaseLoader
     string? Password { get; }
     MqttServer Transport { get; }
     MainDilation.Profile? Profile { get; }
-    ArrayPool<byte> BytePool { get; }
 }
 
 [Dependency(ServiceLifetime.Singleton)]
@@ -97,5 +96,4 @@ file sealed class BaseLoader : IBaseLoader
     public string? Password { get; private set; }
     public required MqttServer Transport { get; init; }
     public MainDilation.Profile? Profile { get; private set; }
-    public ArrayPool<byte> BytePool { get; } = ArrayPool<byte>.Shared;
 }

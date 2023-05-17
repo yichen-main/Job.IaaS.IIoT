@@ -8,15 +8,12 @@ internal interface IModbusHelper
     [StructLayout(LayoutKind.Auto)]
     readonly record struct MainElectricityBucket
     {
-        public required uint AverageVoltage { get; init; }
-        public required uint AverageCurrent { get; init; }
-        public required short PowerFactor { get; init; }
-        public required int ReactivePower { get; init; }
-        public required int ReactiveEnergy { get; init; }
-        public required int ActivePower { get; init; }
-        public required int ActiveEnergy { get; init; }
-        public required int ApparentPower { get; init; }
-        public required int ApparentEnergy { get; init; }
+        public required double AverageVoltage { get; init; }
+        public required double AverageCurrent { get; init; }
+        public required double PowerFactor { get; init; }
+        public required double ReactiveEnergy { get; init; }
+        public required double ActiveEnergy { get; init; }
+        public required double ApparentEnergy { get; init; }
     }
 }
 
@@ -37,7 +34,7 @@ file sealed class ModbusHelper : IModbusHelper
                     BaudRate = _baseLoader.Profile.SerialEntry.BaudRate,
                     StopBits = _baseLoader.Profile.SerialEntry.StopBits
                 };
-                Master.Connect(_baseLoader.Profile.SerialEntry.Port);
+                Master.Connect(_baseLoader.Profile.SerialEntry.Port, ModbusEndianness.BigEndian);
                 await MainElectricityAsync(0x01);
                 if (Histories.Any()) Histories.Clear();
                 Master.Dispose();
@@ -59,19 +56,30 @@ file sealed class ModbusHelper : IModbusHelper
         }
         async ValueTask MainElectricityAsync(int slaveId)
         {
-            var datas = await Master.ReadInputRegistersAsync<int>(slaveId, 0x1333, 17);
-            await _baseLoader.PushBrokerAsync("parts/smart-meters/data", new MainElectricityBucket
+            var length = 72;
+            var decimalPlaces = 2;
+            var count = length / 2;
+            var floats = new float[count];
+            var ushorts = new ushort[length];
+            var values = await Master.ReadInputRegistersAsync<ushort>(slaveId, 0x1100, length);
+            ushorts = values.ToArray();
             {
-                AverageVoltage = 0,
-                AverageCurrent = 0,
-                PowerFactor = 0,
-                ReactivePower = 0,
-                ReactiveEnergy = 0,
-                ActiveEnergy = 0x01,
-                ActivePower = 0x01,
-                ApparentPower = 0,
-                ApparentEnergy = 0
-            }.ToJson());
+                for (var item = 0; item < count; item++)
+                {
+                    var lowOrder = BitConverter.GetBytes(ushorts[2 * item]);
+                    var highOrder = BitConverter.GetBytes(ushorts[2 * item + 1]);
+                    floats[item] = BitConverter.ToSingle(CollectionUtility.Concat(lowOrder, highOrder), default);
+                }
+                await _baseLoader.PushBrokerAsync("parts/smart-meters/data", new MainElectricityBucket
+                {
+                    AverageVoltage = Math.Round(floats[9], decimalPlaces),
+                    AverageCurrent = Math.Round(floats[10], decimalPlaces),
+                    PowerFactor = Math.Round(floats[14], decimalPlaces),
+                    ReactiveEnergy = Math.Round(floats[16], decimalPlaces),
+                    ActiveEnergy = Math.Round(floats[15], decimalPlaces),
+                    ApparentEnergy = Math.Round(floats[17], decimalPlaces)
+                }.ToJson());
+            }
         }
     }
     ModbusRtuClient? Master { get; set; }

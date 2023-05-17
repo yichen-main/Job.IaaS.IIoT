@@ -16,9 +16,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Core\IIoT.Infrastructure.Core.csproj" />
 		<ProjectReference Include="..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Pillbox\IIoT.Infrastructure.Pillbox.csproj" />
-		<ProjectReference Include="..\..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Storage\IIoT.Infrastructure.Storage.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -68,15 +66,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Infrastructure.Core" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Using Include="Infrastructure.Pillbox" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Using Include="Infrastructure.Storage" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,10 +1,10 @@
 ﻿namespace Platform.Application.Supports.Carriers;
-internal sealed class NavelOperator : BackgroundService
+internal sealed class EnvironmentLayout : BackgroundService
 {
     readonly IBaseLoader _baseLoader;
     readonly IInfluxExpert _influxExpert;
     readonly IFoundationPool _foundationPool;
-    public NavelOperator(
+    public EnvironmentLayout(
         IBaseLoader baseLoader,
         IInfluxExpert influxExpert,
         IFoundationPool foundationPool)
@@ -45,7 +45,7 @@ internal sealed class NavelOperator : BackgroundService
                         Histories.Add(e.Message);
                         _baseLoader.Record(RecordType.BasicSettings, new()
                         {
-                            Title = $"{nameof(NavelOperator)}.{nameof(ExecuteAsync)}",
+                            Title = $"{nameof(EnvironmentLayout)}.{nameof(ExecuteAsync)}",
                             Name = "InfluxDB",
                             Message = e.Message
                         });
@@ -58,7 +58,7 @@ internal sealed class NavelOperator : BackgroundService
             if (!Histories.Contains(e.Message))
             {
                 Histories.Add(e.Message);
-                Log.Fatal(Menu.Title, nameof(NavelOperator), new { e.Message, e.StackTrace });
+                Log.Fatal(Menu.Title, nameof(EnvironmentLayout), new { e.Message, e.StackTrace });
             }
         }
     }

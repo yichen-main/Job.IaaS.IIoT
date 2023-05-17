@@ -1,16 +1,16 @@
 ﻿namespace Platform.Application.Supports.Carriers;
-internal sealed class DataCalculator : BackgroundService
+internal sealed class ComplexOperator : BackgroundService
 {
     readonly IBaseLoader _baseLoader;
     readonly ITimelineWrapper _timelineWrapper;
-    public DataCalculator(IBaseLoader baseLoader, ITimelineWrapper timelineWrapper)
+    public ComplexOperator(IBaseLoader baseLoader, ITimelineWrapper timelineWrapper)
     {
         _baseLoader = baseLoader;
         _timelineWrapper = timelineWrapper;
     }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        while (await new PeriodicTimer(TimeSpan.FromMinutes(1)).WaitForNextTickAsync(stoppingToken))
+        while (await new PeriodicTimer(TimeSpan.FromSeconds(1)).WaitForNextTickAsync(stoppingToken))
         {
             try
             {
@@ -26,7 +26,7 @@ internal sealed class DataCalculator : BackgroundService
                     Histories.Add(e.Message);
                     _baseLoader.Record(RecordType.BasicSettings, new()
                     {
-                        Title = $"{nameof(DataCalculator)}.{nameof(ExecuteAsync)}",
+                        Title = $"{nameof(ComplexOperator)}.{nameof(ExecuteAsync)}",
                         Name = "Statistics",
                         Message = e.Message
                     });
