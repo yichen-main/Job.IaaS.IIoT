@@ -1,7 +1,7 @@
 ﻿using static Infrastructure.Pillbox.Bounds.IModbusHelper;
 
 namespace Infrastructure.Pillbox.Bounds;
-internal interface IModbusHelper
+public interface IModbusHelper
 {
     Task ReadAsync();
 
@@ -15,6 +15,7 @@ internal interface IModbusHelper
         public required double ActiveEnergy { get; init; }
         public required double ApparentEnergy { get; init; }
     }
+    MainElectricityBucket MainElectricity { get; }
 }
 
 [Dependency(ServiceLifetime.Singleton)]
@@ -70,7 +71,7 @@ file sealed class ModbusHelper : IModbusHelper
                     var highOrder = BitConverter.GetBytes(ushorts[2 * item + 1]);
                     floats[item] = BitConverter.ToSingle(CollectionUtility.Concat(lowOrder, highOrder), default);
                 }
-                await _baseLoader.PushBrokerAsync("parts/smart-meters/data", new MainElectricityBucket
+                MainElectricity = new()
                 {
                     AverageVoltage = Math.Round(floats[9], decimalPlaces),
                     AverageCurrent = Math.Round(floats[10], decimalPlaces),
@@ -78,10 +79,11 @@ file sealed class ModbusHelper : IModbusHelper
                     ReactiveEnergy = Math.Round(floats[16], decimalPlaces),
                     ActiveEnergy = Math.Round(floats[15], decimalPlaces),
                     ApparentEnergy = Math.Round(floats[17], decimalPlaces)
-                }.ToJson());
+                };
             }
         }
     }
     ModbusRtuClient? Master { get; set; }
     List<string> Histories { get; init; } = new();
+    public MainElectricityBucket MainElectricity { get; private set; }
 }

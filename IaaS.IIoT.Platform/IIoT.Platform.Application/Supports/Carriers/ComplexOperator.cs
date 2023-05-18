@@ -2,36 +2,44 @@
 internal sealed class ComplexOperator : BackgroundService
 {
     readonly IBaseLoader _baseLoader;
-    readonly ITimelineWrapper _timelineWrapper;
-    public ComplexOperator(IBaseLoader baseLoader, ITimelineWrapper timelineWrapper)
+    readonly IRawCalculation _rawCalculation;
+    public ComplexOperator(IBaseLoader baseLoader, IRawCalculation rawCalculation)
     {
         _baseLoader = baseLoader;
-        _timelineWrapper = timelineWrapper;
+        _rawCalculation = rawCalculation;
     }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        while (await new PeriodicTimer(TimeSpan.FromSeconds(1)).WaitForNextTickAsync(stoppingToken))
+        try
         {
-            try
+            while (await new PeriodicTimer(TimeSpan.FromMinutes(1)).WaitForNextTickAsync(stoppingToken))
             {
-                var oneDayMachineStatusMinutes = _timelineWrapper.RootInformation.OneDayMachineStatusMinutes();
-
-
-                if (Histories.Any()) Histories.Clear();
-            }
-            catch (Exception e)
-            {
-                if (!Histories.Contains(e.Message))
+                try
                 {
-                    Histories.Add(e.Message);
-                    _baseLoader.Record(RecordType.BasicSettings, new()
+                    if (_baseLoader.StorageEnabled)
                     {
-                        Title = $"{nameof(ComplexOperator)}.{nameof(ExecuteAsync)}",
-                        Name = "Statistics",
-                        Message = e.Message
-                    });
+                        _rawCalculation.PushSstatisticsUnitDay();
+                    }
+                    if (Histories.Any()) Histories.Clear();
+                }
+                catch (Exception e)
+                {
+                    if (!Histories.Contains(e.Message))
+                    {
+                        Histories.Add(e.Message);
+                        _baseLoader.Record(RecordType.BasicSettings, new()
+                        {
+                            Title = $"{nameof(ComplexOperator)}.{nameof(ExecuteAsync)}",
+                            Name = "Statistics",
+                            Message = e.Message
+                        });
+                    }
                 }
             }
+        }
+        catch (Exception e)
+        {
+            Log.Fatal(Menu.Title, nameof(ComplexOperator), new { e.Message, e.StackTrace });
         }
     }
     List<string> Histories { get; init; } = new();

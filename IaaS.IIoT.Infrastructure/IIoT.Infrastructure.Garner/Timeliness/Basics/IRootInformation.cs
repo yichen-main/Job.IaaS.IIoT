@@ -4,6 +4,7 @@ namespace Infrastructure.Garner.Timeliness.Basics;
 public interface IRootInformation
 {
     Task InsertAsync(Data data);
+    byte MachineAvailability();
     IEnumerable<(byte status, DateTime time)> OneDayMachineStatusMinutes();
     public enum MachineStatus
     {
@@ -25,14 +26,20 @@ public interface IRootInformation
 [Dependency(ServiceLifetime.Singleton)]
 file sealed class RootInformation : IRootInformation
 {
+    readonly IBaseLoader _baseLoader;
     readonly IInfluxExpert _influxExpert;
     readonly IDescriptiveStatistics _descriptiveStatistics;
+    readonly IOverallEquipmentEffectiveness _OEE;
     public RootInformation(
+        IBaseLoader baseLoader,
         IInfluxExpert influxExpert,
-        IDescriptiveStatistics descriptiveStatistics)
+        IDescriptiveStatistics descriptiveStatistics,
+        IOverallEquipmentEffectiveness OEE)
     {
+        _baseLoader = baseLoader;
         _influxExpert = influxExpert;
         _descriptiveStatistics = descriptiveStatistics;
+        _OEE = OEE;
     }
     public async Task InsertAsync(Data data) => await _influxExpert.WriteAsync(new Entity
     {
@@ -40,9 +47,39 @@ file sealed class RootInformation : IRootInformation
         Identifier = Identifier,
         Timestamp = DateTime.UtcNow
     }, Bucket);
+    public byte MachineAvailability()
+    {
+        byte availability = default;
+        if (_baseLoader.Profile is not null)
+        {
+            var effectiveMinute = 0;
+            List<(DateTime start, DateTime end)> periodTimes = new();
+            foreach (var interval in _baseLoader.Profile.Formulation.WorkIntervals)
+            {
+                var endTime = Conversion(interval.EndMinute);
+                var startTime = Conversion(interval.StartMinute);
+                effectiveMinute += (int)endTime.Subtract(startTime).TotalMinutes;
+                periodTimes.Add((startTime, endTime));
+            }
+            var currentTime = DateTime.Parse(DateTime.UtcNow.ToString("yyyy/MM/dd HH:mm"));
+            var entities = _influxExpert.Read<Entity>(Bucket, Identifier, periodTimes[0].start, periodTimes[^1].end);
+            var breakMinute = effectiveMinute;
+            if (entities.Any())
+            {
+                foreach (var (start, end) in periodTimes)
+                {
+                    var result = entities.Where(item => item.Timestamp > start && item.Timestamp < end).Select(item => item.Status == (byte)MachineStatus.Run).ToArray();
+                    if (result.Any()) breakMinute -= result.Length;
+                }
+            }
+            availability = _OEE.PlanMachineAvailability(effectiveMinute, breakMinute);
+        }
+        static DateTime Conversion(string date) => DateTime.ParseExact(date, "HHmm", CultureInfo.InvariantCulture);
+        return availability;
+    }
     public IEnumerable<(byte status, DateTime time)> OneDayMachineStatusMinutes()
     {
-        var endTime = DateTime.UtcNow.ToNowHour();
+        var endTime = DateTime.Parse(DateTime.UtcNow.ToString("yyyy/MM/dd HH:mm"));
         var startTime = endTime.AddDays(Timeout.Infinite);
         var intervalTime = endTime.AddMinutes(Timeout.Infinite);
         var entities = _influxExpert.Read<Entity>(Bucket, Identifier, startTime, endTime);

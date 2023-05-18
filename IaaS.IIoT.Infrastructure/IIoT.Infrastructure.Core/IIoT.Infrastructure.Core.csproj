@@ -18,6 +18,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Coravel" Version="4.2.1" />
+		<PackageReference Include="InfluxDB.Client.Linq" Version="4.12.0" />
 		<PackageReference Include="Meziantou.Analyzer" Version="2.0.52">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -31,7 +32,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="InfluxDB.Client" />
+		<Using Include="InfluxDB.Client.Api.Domain" />
 		<Using Include="MQTTnet" />
+		<Using Include="MQTTnet.Protocol" />
 		<Using Include="MQTTnet.Server" />
 		<Using Include="Serilog" />
 		<Using Include="Volo.Abp.DependencyInjection" />

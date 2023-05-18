@@ -18,9 +18,10 @@ public static class MainDilation
     }
     public static async ValueTask CreateProfileAaync<T>(this T entity, bool cover = default)
     {
-        if ((!File.Exists(Menu.ProfilePath) || cover) && entity is not null)
+        if ((!System.IO.File.Exists(Menu.ProfilePath) || cover) && entity is not null)
         {
-            await File.WriteAllTextAsync(Menu.ProfilePath, new SerializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build().Serialize(entity), Encoding.UTF8);
+            await System.IO.File.WriteAllTextAsync(Menu.ProfilePath, new SerializerBuilder()
+                .WithNamingConvention(CamelCaseNamingConvention.Instance).Build().Serialize(entity), Encoding.UTF8);
         }
     }
     sealed class ConfigurationSource : FileConfigurationSource
@@ -85,9 +86,13 @@ public static class MainDilation
         [YamlMember(ApplyNamingConventions = false)] public string MachineID { get; init; } = string.Empty;
         [YamlMember(ApplyNamingConventions = false)] public string BaseCode { get; init; } = Hash.BaseGate;
         [YamlMember(ApplyNamingConventions = false)] public string UserCode { get; init; } = Hash.UserGate;
+
+        [YamlMember(ApplyNamingConventions = false, Description = $"{nameof(TimeZoneType.UTC)}, {nameof(TimeZoneType.CEST)}, {nameof(TimeZoneType.CET)}, {nameof(TimeZoneType.CST)}")]
+        public string TimeZone { get; init; } = nameof(TimeZoneType.CST);
         [YamlMember(ApplyNamingConventions = false)] public TextDatabase Database { get; init; } = new();
         [YamlMember(ApplyNamingConventions = false)] public TextController Controller { get; init; } = new();
         [YamlMember(ApplyNamingConventions = false)] public TextSerialEntry SerialEntry { get; init; } = new();
+        [YamlMember(ApplyNamingConventions = false)] public TextFormulation Formulation { get; init; } = new();
         public sealed class TextDatabase
         {
             [YamlMember(ApplyNamingConventions = false)] public string IP { get; init; } = IPAddress.Loopback.ToString();
@@ -96,7 +101,7 @@ public static class MainDilation
         }
         public sealed class TextController
         {
-            public enum TextType
+            public enum HostType
             {
                 None = 0,
                 Fanuc = 1,
@@ -108,7 +113,7 @@ public static class MainDilation
             [YamlMember(ApplyNamingConventions = false)] public int Port { get; init; } = 8193;
 
             [YamlMember(ApplyNamingConventions = false, Description = "None, Fanuc, Siemens, Mitsubishi, Heidenhain")]
-            public TextType Type { get; init; } = TextType.None;
+            public HostType Type { get; init; } = HostType.None;
         }
         public sealed class TextSerialEntry
         {
@@ -121,6 +126,18 @@ public static class MainDilation
 
             [YamlMember(ApplyNamingConventions = false, Description = $"{nameof(StopBits.None)}, {nameof(StopBits.One)}, {nameof(StopBits.Two)}, {nameof(StopBits.OnePointFive)}")]
             public StopBits StopBits { get; init; } = StopBits.One;
+        }
+        public sealed class TextFormulation
+        {
+            [YamlMember(ApplyNamingConventions = false)] public double CarbonEmissionFactor { get; init; } = 0.509;
+
+            [YamlMember(ApplyNamingConventions = false)]
+            public WorkInterval[] WorkIntervals { get; set; } = Array.Empty<WorkInterval>();
+            public sealed class WorkInterval
+            {
+                [YamlMember(ApplyNamingConventions = false)] public string StartMinute { get; init; } = string.Empty;
+                [YamlMember(ApplyNamingConventions = false)] public string EndMinute { get; init; } = string.Empty;
+            }
         }
     }
 }

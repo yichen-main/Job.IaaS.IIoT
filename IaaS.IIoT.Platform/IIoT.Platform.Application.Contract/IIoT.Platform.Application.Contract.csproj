@@ -12,11 +12,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="Volo.Abp.DependencyInjection" />
 		<Using Include="Volo.Abp.Modularity" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Pillbox.Bounds" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Using Include="Platform.Domain" />
+		<Using Include="Platform.Domain.Shared.Pools" />
 	</ItemGroup>
 
 </Project>

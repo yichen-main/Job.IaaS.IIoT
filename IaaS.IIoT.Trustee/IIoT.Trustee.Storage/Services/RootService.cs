@@ -1,4 +1,4 @@
-﻿namespace Trustee.DataPool.Services;
+﻿namespace Trustee.Storage.Services;
 
 [Dependency(ServiceLifetime.Singleton)]
 internal sealed class RootService

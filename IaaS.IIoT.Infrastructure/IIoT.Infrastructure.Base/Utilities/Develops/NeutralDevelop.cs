@@ -41,16 +41,16 @@ public static class NeutralDevelop
         Console.CursorVisible = default;
         Console.InputEncoding = Encoding.UTF8;
         Console.OutputEncoding = Encoding.UTF8;
-        Output(string.Join(Environment.NewLine, new string[]
+        Output(Menu(new (string title, string content)[]
         {
-            string.Concat("　Hostname        =>   　", Dns.GetHostName()),
-            string.Concat("　Username        =>   　", Environment.UserName),
-            string.Concat("　Language        =>   　", Thread.CurrentThread.CurrentCulture.IetfLanguageTag),
-            string.Concat("　Internet        =>   　", NetworkInterface.GetIsNetworkAvailable()),
-            string.Concat("　.NET Version    =>   　", Environment.Version),
-            string.Concat("　IPv4 Physical   =>   　", NetworkInterfaceType.Ethernet.AddLocalIPv4()),
-            string.Concat("　IPv4 Wireless   =>   　", NetworkInterfaceType.Wireless80211.AddLocalIPv4()),
-            string.Concat("　OS Environment  =>   　", Environment.OSVersion)
+            ("Internet", NetworkInterface.GetIsNetworkAvailable().ToString()),
+            ("Language", Thread.CurrentThread.CurrentCulture.IetfLanguageTag),
+            ("Host Name", Dns.GetHostName()),
+            ("User Name", Environment.UserName),
+            (".NET Version", Environment.Version.ToString()),
+            ("IPv4 Physical", NetworkInterfaceType.Ethernet.AddLocalIPv4()),
+            ("IPv4 Wireless", NetworkInterfaceType.Wireless80211.AddLocalIPv4()),
+            ("OS Environment", Environment.OSVersion.ToString())
         }), ConsoleColor.Yellow);
         Output(new[]
         {
@@ -62,6 +62,12 @@ public static class NeutralDevelop
         {
             Console.ForegroundColor = consoleColor;
             Console.WriteLine(content);
+        }
+        static string Menu((string title, string content)[] groups)
+        {
+            List<string> lines = new();
+            foreach (var (title, content) in groups) lines.Add($"{title,16}   =>   {content,-10}{Environment.NewLine}");
+            return lines.ToArray().Concat();
         }
         string Plaque(string name) => $"{name} v{FileVersionInfo.GetVersionInfo(assembly.Location).FileVersion}";
         SystemStatus InitialAuthenticator()

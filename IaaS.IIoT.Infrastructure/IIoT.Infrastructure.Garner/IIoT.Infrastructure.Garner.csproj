@@ -9,7 +9,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="Dapper" Version="2.0.123" />
-		<PackageReference Include="InfluxDB.Client.Linq" Version="4.12.0" />
 		<PackageReference Include="MathNet.Numerics" Version="5.0.0" />
 		<PackageReference Include="Meziantou.Analyzer" Version="2.0.52">
 			<PrivateAssets>all</PrivateAssets>
@@ -42,6 +41,7 @@
 		<Using Include="System.Collections.Concurrent" />
 		<Using Include="System.Collections.Immutable" />
 		<Using Include="System.ComponentModel" />
+		<Using Include="System.Globalization" />
 		<Using Include="System.Net" />
 		<Using Include="System.Numerics" />
 		<Using Include="System.Reflection" />

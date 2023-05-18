@@ -36,6 +36,7 @@
 
 	<ItemGroup>
 		<Using Include="Infrastructure.Core.Boundaries" />
+		<Using Include="Infrastructure.Core.Enactments" />
 		<Using Include="Infrastructure.Core.Languages.Fielders" />
 	</ItemGroup>
 
@@ -48,10 +49,15 @@
 
 	<ItemGroup>
 		<Using Include="Platform.Application.Contract" />
+		<Using Include="Platform.Application.Contract.Wrappers" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="Platform.Application.Supports.Carriers" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Platform.Domain.Shared.Pools" />
 	</ItemGroup>
 
 </Project>

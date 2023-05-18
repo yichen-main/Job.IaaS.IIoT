@@ -19,6 +19,7 @@ public interface IFocasHelper
     int GetBootTime();
     string AlarmMessage();
     IEnumerable<Coordinate> GetCoordinateAxes();
+    void PushTemplate(TemplateEntity template);
     enum OperatingState
     {
         Idle = 0,
@@ -53,7 +54,7 @@ public interface IFocasHelper
         public required double AbsoluteAxis { get; init; }
         public required double RelativeAxis { get; init; }
     }
-    readonly record struct Template
+    readonly record struct TemplateEntity
     {
         public required string AlarmMessage { get; init; }
         public required string ProgramName { get; init; }
@@ -70,6 +71,7 @@ public interface IFocasHelper
         public required IEnumerable<Coordinate> Coordinates { get; init; }
     }
     bool Enabled { get; }
+    TemplateEntity Template { get; }
 }
 
 [Dependency(ServiceLifetime.Singleton)]
@@ -364,5 +366,7 @@ file sealed class FocasHelper : FocasDevelop, IFocasHelper
         };
         return alarmMessage;
     }
+    public void PushTemplate(TemplateEntity template) => Template = template;
     public bool Enabled { get; private set; }
+    public TemplateEntity Template { get; private set; }
 }

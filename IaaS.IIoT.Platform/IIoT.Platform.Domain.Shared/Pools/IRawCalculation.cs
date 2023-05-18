@@ -1,7 +1,20 @@
-﻿namespace Platform.Domain.Shared.Pools;
-internal interface IRawCalculation
-{
+﻿using static Platform.Domain.Shared.Pools.IRawCalculation;
 
+namespace Platform.Domain.Shared.Pools;
+public interface IRawCalculation
+{
+    void PushSstatisticsUnitDay();
+    readonly record struct StatisticalUnitDayEntity
+    {
+        public required byte Availability { get; init; }
+        public required IEnumerable<RunChartMinute> RunChartMinutes { get; init; }
+        public readonly record struct RunChartMinute
+        {
+            public required string MachineStatus { get; init; }
+            public required string Timestamp { get; init; }
+        }
+    }
+    StatisticalUnitDayEntity StatisticalUnitDay { get; }
 }
 
 [Dependency(ServiceLifetime.Singleton)]
@@ -14,11 +27,28 @@ file sealed class RawCalculation : IRawCalculation
         _baseLoader = baseLoader;
         _timelineWrapper = timelineWrapper;
     }
-    public async ValueTask BasisSstatistics()
+    public void PushSstatisticsUnitDay()
     {
-        var oneDayMachineStatusMinutes = _timelineWrapper.RootInformation.OneDayMachineStatusMinutes();
-
-
-        await _baseLoader.PushBrokerAsync("basis/statistics/data", string.Empty);
+        List<StatisticalUnitDayEntity.RunChartMinute> runChartMinutes = new();
+        foreach (var (status, time) in _timelineWrapper.RootInformation.OneDayMachineStatusMinutes())
+        {
+            runChartMinutes.Add(new()
+            {
+                MachineStatus = status switch
+                {
+                    (byte)IRootInformation.MachineStatus.Idle => nameof(IRootInformation.MachineStatus.Idle),
+                    (byte)IRootInformation.MachineStatus.Run => nameof(IRootInformation.MachineStatus.Run),
+                    (byte)IRootInformation.MachineStatus.Error => nameof(IRootInformation.MachineStatus.Error),
+                    _ => nameof(IRootInformation.MachineStatus.Shutdown)
+                },
+                Timestamp = time.ToTimestamp(_baseLoader.GetTimeZone(), "MM/dd HH:mm")
+            });
+        }
+        StatisticalUnitDay = new StatisticalUnitDayEntity
+        {
+            Availability = _timelineWrapper.RootInformation.MachineAvailability(),
+            RunChartMinutes = runChartMinutes
+        };
     }
+    public StatisticalUnitDayEntity StatisticalUnitDay { get; private set; }
 }

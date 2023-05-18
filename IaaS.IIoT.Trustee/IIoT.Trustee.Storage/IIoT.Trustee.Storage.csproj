@@ -5,7 +5,7 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<RootNamespace>Trustee.DataPool</RootNamespace>
+		<RootNamespace>Trustee.Storage</RootNamespace>
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 		<ServerGarbageCollection>false</ServerGarbageCollection>
 		<ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
@@ -52,9 +52,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Using Include="Trustee.DataPool" />
-		<Using Include="Trustee.DataPool.Boundaries" />
-		<Using Include="Trustee.DataPool.Services" />
+		<Using Include="Trustee.Storage" />
+		<Using Include="Trustee.Storage.Boundaries" />
+		<Using Include="Trustee.Storage.Services" />
 	</ItemGroup>
 
 </Project>

@@ -1,16 +1,15 @@
 ﻿namespace Infrastructure.Garner.Architects.Formulas;
 public interface IOverallEquipmentEffectiveness
 {
-    byte MachineAvailability(short workingMnutes, short breakMinutes, short downtimeMinutes);
+    byte PlanMachineAvailability(int effectiveMinute, int downtimeMinute);
 }
 
 [Dependency(ServiceLifetime.Singleton)]
 file sealed class OverallEquipmentEffectiveness : IOverallEquipmentEffectiveness
 {
-    public byte MachineAvailability(short workingMnutes, short breakMinutes, short downtimeMinutes)
+    public byte PlanMachineAvailability(int effectiveMinute, int downtimeMinute)
     {
-        var planWorkingMinutes = workingMnutes - breakMinutes;
-        var actualWorkingMinutes = planWorkingMinutes - downtimeMinutes;
-        return (byte)(Math.Round((double)actualWorkingMinutes / planWorkingMinutes, 2) * 100);
+        var actualWorkingMinutes = effectiveMinute - downtimeMinute;
+        return (byte)(Math.Round((double)actualWorkingMinutes / effectiveMinute, 2) * 100);
     }
 }

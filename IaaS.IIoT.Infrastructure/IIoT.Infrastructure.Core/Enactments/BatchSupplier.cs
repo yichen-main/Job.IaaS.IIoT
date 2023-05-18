@@ -5,14 +5,14 @@ public abstract class BatchSupplier
     protected BatchSupplier(ServiceType service, string? text = null)
     {
         _service = service;
-        if (WindowsPass) File.WriteAllText(ScriptLocation, text ?? $"""
+        if (WindowsPass) System.IO.File.WriteAllText(ScriptLocation, text ?? $"""
         {Sign.Declaration}
         cls & {StartupKey}.exe {StartupKey.ToMd5()} -app
         """, Encoding.UTF8);
     }
     protected async ValueTask StarterAsync()
     {
-        if (WindowsPass) await File.WriteAllTextAsync(OutputLocation(ButtonType.Boot), $""""
+        if (WindowsPass) await System.IO.File.WriteAllTextAsync(OutputLocation(ButtonType.Boot), $""""
         {BatchHeader}
         %{NssmTag}% install "%{IdentifyTag}%" "{ScriptLocation}"
         %{NssmTag}% start "%{IdentifyTag}%"
@@ -21,7 +21,7 @@ public abstract class BatchSupplier
     }
     protected async ValueTask StopperAsync()
     {
-        if (WindowsPass) await File.WriteAllTextAsync(OutputLocation(ButtonType.Shutdown), $"""
+        if (WindowsPass) await System.IO.File.WriteAllTextAsync(OutputLocation(ButtonType.Shutdown), $"""
         {BatchHeader}
         %{NssmTag}% stop %{IdentifyTag}% 
         %{NssmTag}% remove %{IdentifyTag}% confirm
@@ -39,9 +39,9 @@ public abstract class BatchSupplier
     }
     protected enum ServiceType
     {
-        [Description("iMDS.IIoT.Platform")] Platform,
-        [Description("iMDS.IIoT.Storage")] Storage,
-        [Description("iMDS.IIoT.Warder")] Warder
+        [Description("IIoT.Platform")] Platform,
+        [Description("IIoT.Storage")] Storage,
+        [Description("IIoT.Warder")] Warder
     }
     protected ref struct Sign
     {

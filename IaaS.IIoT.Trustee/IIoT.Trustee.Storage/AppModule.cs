@@ -1,4 +1,4 @@
-﻿namespace Trustee.DataPool;
+﻿namespace Trustee.Storage;
 
 [DependsOn(typeof(InfrastructureCoreModule))]
 internal sealed class AppModule : AbpModule

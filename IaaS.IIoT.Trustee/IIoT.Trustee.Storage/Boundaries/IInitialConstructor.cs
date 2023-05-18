@@ -1,4 +1,4 @@
-﻿namespace Trustee.DataPool.Boundaries;
+﻿namespace Trustee.Storage.Boundaries;
 public interface IInitialConstructor
 {
     ValueTask CreateSwitchFileAsync();

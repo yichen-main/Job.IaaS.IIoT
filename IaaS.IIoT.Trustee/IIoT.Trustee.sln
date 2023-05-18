@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Base", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Infrastructure.Core", "..\IaaS.IIoT.Infrastructure\IIoT.Infrastructure.Core\IIoT.Infrastructure.Core.csproj", "{A1D1F982-1F39-4CEC-9CCF-7176F330D3D8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Trustee.DataPool", "IIoT.Trustee.DataPool\IIoT.Trustee.DataPool.csproj", "{A2414120-F2DC-4707-AEC1-2A4BDB1853DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IIoT.Trustee.Storage", "IIoT.Trustee.Storage\IIoT.Trustee.Storage.csproj", "{161E6554-5868-491D-8D21-2DA2C5ED8EE9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +25,10 @@ Global
 		{A1D1F982-1F39-4CEC-9CCF-7176F330D3D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1D1F982-1F39-4CEC-9CCF-7176F330D3D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1D1F982-1F39-4CEC-9CCF-7176F330D3D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2414120-F2DC-4707-AEC1-2A4BDB1853DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2414120-F2DC-4707-AEC1-2A4BDB1853DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2414120-F2DC-4707-AEC1-2A4BDB1853DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2414120-F2DC-4707-AEC1-2A4BDB1853DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{161E6554-5868-491D-8D21-2DA2C5ED8EE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{161E6554-5868-491D-8D21-2DA2C5ED8EE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{161E6554-5868-491D-8D21-2DA2C5ED8EE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{161E6554-5868-491D-8D21-2DA2C5ED8EE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,16 +2,16 @@
 internal sealed class EnvironmentLayout : BackgroundService
 {
     readonly IBaseLoader _baseLoader;
-    readonly IInfluxExpert _influxExpert;
     readonly IFoundationPool _foundationPool;
+    readonly IMessagePublisher _messagePublisher;
     public EnvironmentLayout(
         IBaseLoader baseLoader,
-        IInfluxExpert influxExpert,
-        IFoundationPool foundationPool)
+        IFoundationPool foundationPool,
+        IMessagePublisher messagePublisher)
     {
         _baseLoader = baseLoader;
-        _influxExpert = influxExpert;
         _foundationPool = foundationPool;
+        _messagePublisher = messagePublisher;
     }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -30,16 +30,31 @@ internal sealed class EnvironmentLayout : BackgroundService
                         foreach (IInfluxExpert.BucketTag item in Enum.GetValues(typeof(IInfluxExpert.BucketTag)))
                         {
                             var name = item.GetType().GetDescription(item.ToString());
-                            await _influxExpert.InitialDataPoolAsync(name);
+                            await _baseLoader.InitialStorageAsync(name);
                         }
-                        _influxExpert.Enabled = true;
+                        _baseLoader.StorageEnabled = true;
+                        _messagePublisher.RawCalculation.PushSstatisticsUnitDay();
+                        {
+                            List<Task> tasks = new()
+                            {
+                                _baseLoader.PushBrokerAsync("basis/statistics/unit-day", _messagePublisher.RawCalculation.StatisticalUnitDay.ToJson()),
+                                _baseLoader.PushBrokerAsync("parts/smart-meters/raw-data", _messagePublisher.ModbusHelper.MainElectricity.ToJson())
+                            };
+                            switch (_baseLoader.Profile.Controller.Type)
+                            {
+                                case MainDilation.Profile.TextController.HostType.Fanuc:
+                                    tasks.Add(_baseLoader.PushBrokerAsync("parts/fanuc-controllers/raw-data", _messagePublisher.FocasHelper.Template.ToJson()));
+                                    break;
+                            }
+                            await Task.WhenAll(tasks);
+                        }
                     }
                     if (Histories.Any()) Histories.Clear();
                     _foundationPool.PushShellerBottom(DateTime.UtcNow);
                 }
                 catch (Exception e)
                 {
-                    _influxExpert.Enabled = false;
+                    _baseLoader.StorageEnabled = false;
                     if (!Histories.Contains(e.Message))
                     {
                         Histories.Add(e.Message);
@@ -55,11 +70,7 @@ internal sealed class EnvironmentLayout : BackgroundService
         }
         catch (Exception e)
         {
-            if (!Histories.Contains(e.Message))
-            {
-                Histories.Add(e.Message);
-                Log.Fatal(Menu.Title, nameof(EnvironmentLayout), new { e.Message, e.StackTrace });
-            }
+            Log.Fatal(Menu.Title, nameof(EnvironmentLayout), new { e.Message, e.StackTrace });
         }
     }
     List<string> Histories { get; init; } = new();

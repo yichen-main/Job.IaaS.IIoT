@@ -17,7 +17,7 @@ file sealed class DataTransfer : IDataTransfer
         _focasHelper = focasHelper;
         _modbusHelper = modbusHelper;
     }
-    public async Task ControllerAsync()
+    public Task ControllerAsync()
     {
         try
         {
@@ -25,7 +25,7 @@ file sealed class DataTransfer : IDataTransfer
             {
                 switch (_baseLoader.Profile.Controller.Type)
                 {
-                    case MainDilation.Profile.TextController.TextType.Fanuc:
+                    case MainDilation.Profile.TextController.HostType.Fanuc:
                         {
                             _focasHelper.Open(_baseLoader.Profile.Controller.IP, Convert.ToUInt16(_baseLoader.Profile.Controller.Port));
                             if (_focasHelper.Enabled)
@@ -43,7 +43,7 @@ file sealed class DataTransfer : IDataTransfer
                                 var bootTime = _focasHelper.GetBootTime();
                                 var coordinateAxes = _focasHelper.GetCoordinateAxes();
                                 var alarmMessage = _focasHelper.AlarmMessage();
-                                await _baseLoader.PushBrokerAsync("parts/controllers/data", new IFocasHelper.Template
+                                _focasHelper.PushTemplate(new()
                                 {
                                     AlarmMessage = alarmMessage,
                                     ProgramName = programName,
@@ -58,19 +58,19 @@ file sealed class DataTransfer : IDataTransfer
                                     JobInformation = jobInformation,
                                     ProgramInformation = programInformation,
                                     Coordinates = coordinateAxes
-                                }.ToJson());
+                                });
                                 _focasHelper.Close();
                             }
                         }
                         break;
 
-                    case MainDilation.Profile.TextController.TextType.Siemens:
+                    case MainDilation.Profile.TextController.HostType.Siemens:
                         break;
 
-                    case MainDilation.Profile.TextController.TextType.Mitsubishi:
+                    case MainDilation.Profile.TextController.HostType.Mitsubishi:
                         break;
 
-                    case MainDilation.Profile.TextController.TextType.Heidenhain:
+                    case MainDilation.Profile.TextController.HostType.Heidenhain:
                         break;
                 }
                 if (Histories.Any()) Histories.Clear();
@@ -89,6 +89,7 @@ file sealed class DataTransfer : IDataTransfer
                 });
             }
         }
+        return Task.CompletedTask;
     }
     public async Task MerchandiseAsync()
     {
