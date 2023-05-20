@@ -18,7 +18,7 @@ internal sealed class ComplexOperator : BackgroundService
                 {
                     if (_baseLoader.StorageEnabled)
                     {
-                        _rawCalculation.PushSstatisticsUnitDay();
+                        _rawCalculation.SstatisticsUnitDay();
                     }
                     if (Histories.Any()) Histories.Clear();
                 }

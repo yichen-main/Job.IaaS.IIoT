@@ -12,11 +12,7 @@ file sealed class DataTransfer : IDataTransfer
     readonly IFocasHelper _focasHelper;
     readonly IModbusHelper _modbusHelper;
     public DataTransfer(IBaseLoader baseLoader, IFocasHelper focasHelper, IModbusHelper modbusHelper)
-    {
-        _baseLoader = baseLoader;
-        _focasHelper = focasHelper;
-        _modbusHelper = modbusHelper;
-    }
+        => (_baseLoader, _focasHelper, _modbusHelper) = (baseLoader, focasHelper, modbusHelper);
     public Task ControllerAsync()
     {
         try
@@ -26,42 +22,7 @@ file sealed class DataTransfer : IDataTransfer
                 switch (_baseLoader.Profile.Controller.Type)
                 {
                     case MainDilation.Profile.TextController.HostType.Fanuc:
-                        {
-                            _focasHelper.Open(_baseLoader.Profile.Controller.IP, Convert.ToUInt16(_baseLoader.Profile.Controller.Port));
-                            if (_focasHelper.Enabled)
-                            {
-                                var programName = _focasHelper.GetProgramName();
-                                var baseInformation = _focasHelper.GetBaseInformation();
-                                var jobInformation = _focasHelper.GetJobInformation();
-                                var programInformation = _focasHelper.GetProgramInformation();
-                                var spindleSpeed = _focasHelper.GetSpindleSpeed();
-                                var cuttingSpeed = _focasHelper.GetCuttingSpeed();
-                                var feedRate = _focasHelper.GetFeedRate();
-                                var turretCapacity = _focasHelper.GetTurretCapacity();
-                                var cuttingTime = _focasHelper.GetCuttingTime();
-                                var runTime = _focasHelper.GetRunTime();
-                                var bootTime = _focasHelper.GetBootTime();
-                                var coordinateAxes = _focasHelper.GetCoordinateAxes();
-                                var alarmMessage = _focasHelper.AlarmMessage();
-                                _focasHelper.PushTemplate(new()
-                                {
-                                    AlarmMessage = alarmMessage,
-                                    ProgramName = programName,
-                                    FeedRate = feedRate,
-                                    SpindleSpeed = spindleSpeed,
-                                    CuttingSpeed = cuttingSpeed,
-                                    CuttingTime = cuttingTime,
-                                    BootTime = bootTime,
-                                    RunTime = runTime,
-                                    TurretCapacity = turretCapacity,
-                                    BaseInformation = baseInformation,
-                                    JobInformation = jobInformation,
-                                    ProgramInformation = programInformation,
-                                    Coordinates = coordinateAxes
-                                });
-                                _focasHelper.Close();
-                            }
-                        }
+                        _focasHelper.Open(_baseLoader.Profile.Controller.IP, Convert.ToUInt16(_baseLoader.Profile.Controller.Port));
                         break;
 
                     case MainDilation.Profile.TextController.HostType.Siemens:

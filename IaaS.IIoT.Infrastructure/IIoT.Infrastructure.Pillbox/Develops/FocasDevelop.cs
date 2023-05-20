@@ -9331,7 +9331,7 @@ public abstract class FocasDevelop
 
     /* read CNC system information */
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_sysinfo")]
-    public static extern short SystemInfoCNC(ushort FlibHndl, [Out, MarshalAs(UnmanagedType.LPStruct)] SystemInfo a);
+    public static extern short cnc_sysinfo(ushort FlibHndl, [Out, MarshalAs(UnmanagedType.LPStruct)] SystemInfo a);
 
     /* read CNC status information */
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_statinfo")]
@@ -9456,7 +9456,7 @@ public abstract class FocasDevelop
 
     /* free library handle */
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_freelibhndl")]
-    protected static extern short DisconnectCNC(ushort FlibHndl);
+    protected static extern short cnc_freelibhndl(ushort FlibHndl);
 
     /* get library option */
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_getlibopt")]
@@ -11424,7 +11424,7 @@ public abstract class FocasDevelop
     /*---------------------*/
 
     /* allocate library handle 3 */
-    [DllImport("FWLIB64.dll", EntryPoint = "cnc_allclibhndl3")] protected static extern short ConnectCNC([In, MarshalAs(UnmanagedType.AsAny)] object ip, ushort port, int timeout, out ushort FlibHndl);
+    [DllImport("FWLIB64.dll", EntryPoint = "cnc_allclibhndl3")] protected static extern short cnc_allclibhndl3([In, MarshalAs(UnmanagedType.AsAny)] object ip, ushort port, int timeout, out ushort FlibHndl);
 
     /* allocate library handle 4 */
     [DllImport("FWLIB64.dll", EntryPoint = "cnc_allclibhndl4")] protected static extern short cnc_allclibhndl4([In, MarshalAs(UnmanagedType.AsAny)] object ip, ushort port, int timeout, uint id, out ushort FlibHndl);

@@ -42,6 +42,7 @@
 
 	<ItemGroup>
 		<Using Include="Infrastructure.Core.Boundaries" />
+		<Using Include="Infrastructure.Core.Enactments" />
 	</ItemGroup>
 
 	<ItemGroup>

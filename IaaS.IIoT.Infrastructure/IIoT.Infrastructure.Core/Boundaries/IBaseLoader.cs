@@ -6,10 +6,10 @@ public interface IBaseLoader
     void Record(in RecordType type, in RecordTemplate template);
     ValueTask RefreshProfileAsync();
     ValueTask OverwriteProfileAsync(MainDilation.Profile profile);
-    Task PushBrokerAsync(string path, string message);
     TimeZoneType GetTimeZone();
     ValueTask InitialStorageAsync(string bucket);
     string GetStorageAddress(string ip, int port);
+    bool FileLock { get; set; }
     bool StorageEnabled { get; set; }
     string? UserName { get; }
     string? Password { get; }
@@ -24,6 +24,8 @@ file sealed class BaseLoader : IBaseLoader
     const string extension = ".log";
     const RollingInterval _interval = RollingInterval.Day;
     const string _template = "[{Timestamp:HH:mm:ss}] {Message:lj}{Exception}{NewLine}";
+
+    [SetsRequiredMembers]
     public BaseLoader()
     {
         BasicSettings ??= new LoggerConfiguration().Enrich.FromLogContext().MinimumLevel
@@ -73,12 +75,15 @@ file sealed class BaseLoader : IBaseLoader
     }
     public async ValueTask RefreshProfileAsync()
     {
-        MainDilation.Profile entity = new();
-        await entity.CreateProfileAaync();
-        Profile = MainDilation.ReadFile(ref entity, Menu.ProfilePath);
-        var code = Profile.BaseCode.UseDecryptAES().Split('/');
-        UserName = code[0];
-        Password = code[1];
+        if (!FileLock)
+        {
+            MainDilation.Profile entity = new();
+            await entity.CreateProfileAaync();
+            Profile = MainDilation.ReadFile(ref entity, Menu.ProfilePath);
+            var code = Profile.BaseCode.UseDecryptAES().Split('/');
+            UserName = code[0];
+            Password = code[1];
+        }
     }
     public async ValueTask OverwriteProfileAsync(MainDilation.Profile profile)
     {
@@ -96,19 +101,9 @@ file sealed class BaseLoader : IBaseLoader
             }
         };
         await profile.CreateProfileAaync(cover: true);
+        FileLock = false;
     }
-    public async Task PushBrokerAsync(string path, string message)
-    {
-        if (Transport.IsStarted) await Transport.InjectApplicationMessage(
-        new(new()
-        {
-            Topic = path,
-            Retain = true,
-            QualityOfServiceLevel = MqttQualityOfServiceLevel.AtLeastOnce,
-            PayloadSegment = Encoding.UTF8.GetBytes(message),
-        })
-        { SenderClientId = path.ToMd5() });
-    }
+
     public TimeZoneType GetTimeZone()
     {
         if (Profile is not null) return Profile.TimeZone switch
@@ -140,6 +135,7 @@ file sealed class BaseLoader : IBaseLoader
     ILogger MachineParts { get; init; }
     Task? Marquee { get; set; }
     bool Executioner { get; set; }
+    public bool FileLock { get; set; }
     public bool StorageEnabled { get; set; }
     public string? UserName { get; private set; }
     public string? Password { get; private set; }

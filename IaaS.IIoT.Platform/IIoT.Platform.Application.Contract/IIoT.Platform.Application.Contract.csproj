@@ -12,12 +12,26 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="MQTTnet.Protocol" />
 		<Using Include="Volo.Abp.DependencyInjection" />
 		<Using Include="Volo.Abp.Modularity" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Using Include="Microsoft.Extensions.DependencyInjection" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="System.Text" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Base.Utilities.Develops" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Infrastructure.Core.Boundaries" />
+		<Using Include="Infrastructure.Core.Enactments" />
 	</ItemGroup>
 
 	<ItemGroup>

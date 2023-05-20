@@ -15,6 +15,7 @@ public interface ITimelineWrapper
 [Dependency(ServiceLifetime.Singleton)]
 file sealed class TimelineWrapper : ITimelineWrapper
 {
+    [SetsRequiredMembers]
     public TimelineWrapper(
         IRootInformation rootInformation,
         IOpcUaRegistrant opcUaRegistrant,

@@ -59,6 +59,7 @@
 		<Using Include="System.Buffers" />
 		<Using Include="System.ComponentModel" />
 		<Using Include="System.Diagnostics" />
+		<Using Include="System.Diagnostics.CodeAnalysis" />
 		<Using Include="System.IdentityModel.Tokens.Jwt" />
 		<Using Include="System.IO.Ports" />
 		<Using Include="System.Net" />

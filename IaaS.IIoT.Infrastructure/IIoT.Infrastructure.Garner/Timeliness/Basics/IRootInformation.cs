@@ -30,17 +30,8 @@ file sealed class RootInformation : IRootInformation
     readonly IInfluxExpert _influxExpert;
     readonly IDescriptiveStatistics _descriptiveStatistics;
     readonly IOverallEquipmentEffectiveness _OEE;
-    public RootInformation(
-        IBaseLoader baseLoader,
-        IInfluxExpert influxExpert,
-        IDescriptiveStatistics descriptiveStatistics,
-        IOverallEquipmentEffectiveness OEE)
-    {
-        _baseLoader = baseLoader;
-        _influxExpert = influxExpert;
-        _descriptiveStatistics = descriptiveStatistics;
-        _OEE = OEE;
-    }
+    public RootInformation(IBaseLoader baseLoader, IInfluxExpert influxExpert, IDescriptiveStatistics descriptiveStatistics, IOverallEquipmentEffectiveness OEE)
+        => (_baseLoader, _influxExpert, _descriptiveStatistics, _OEE) = (baseLoader, influxExpert, descriptiveStatistics, OEE);
     public async Task InsertAsync(Data data) => await _influxExpert.WriteAsync(new Entity
     {
         Status = (byte)data.Status,

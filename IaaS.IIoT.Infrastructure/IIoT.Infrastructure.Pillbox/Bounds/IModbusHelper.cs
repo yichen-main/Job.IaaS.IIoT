@@ -6,7 +6,7 @@ public interface IModbusHelper
     Task ReadAsync();
 
     [StructLayout(LayoutKind.Auto)]
-    readonly record struct MainElectricityBucket
+    readonly record struct ElectricityEnergyBucket
     {
         public required double AverageVoltage { get; init; }
         public required double AverageCurrent { get; init; }
@@ -14,8 +14,9 @@ public interface IModbusHelper
         public required double ReactiveEnergy { get; init; }
         public required double ActiveEnergy { get; init; }
         public required double ApparentEnergy { get; init; }
+        public required double CarbonEmission { get; init; }
     }
-    MainElectricityBucket MainElectricity { get; }
+    ElectricityEnergyBucket ElectricityEnergy { get; }
 }
 
 [Dependency(ServiceLifetime.Singleton)]
@@ -36,7 +37,7 @@ file sealed class ModbusHelper : IModbusHelper
                     StopBits = _baseLoader.Profile.SerialEntry.StopBits
                 };
                 Master.Connect(_baseLoader.Profile.SerialEntry.Port, ModbusEndianness.BigEndian);
-                await MainElectricityAsync(0x01);
+                await ElectricityEnergyAsync(0x01, _baseLoader.Profile.Formulation.CarbonEmissionFactor, _baseLoader.Profile.Formulation.GlobalWarmingPotential);
                 if (Histories.Any()) Histories.Clear();
                 Master.Dispose();
                 Master = null;
@@ -55,7 +56,7 @@ file sealed class ModbusHelper : IModbusHelper
                 });
             }
         }
-        async ValueTask MainElectricityAsync(int slaveId)
+        async ValueTask ElectricityEnergyAsync(int slaveId, double carbonEmissionFactor, int globalWarmingPotential)
         {
             var length = 72;
             var decimalPlaces = 2;
@@ -71,19 +72,21 @@ file sealed class ModbusHelper : IModbusHelper
                     var highOrder = BitConverter.GetBytes(ushorts[2 * item + 1]);
                     floats[item] = BitConverter.ToSingle(CollectionUtility.Concat(lowOrder, highOrder), default);
                 }
-                MainElectricity = new()
+                var activeEnergy = Math.Round(floats[15], decimalPlaces);
+                ElectricityEnergy = new()
                 {
                     AverageVoltage = Math.Round(floats[9], decimalPlaces),
                     AverageCurrent = Math.Round(floats[10], decimalPlaces),
                     PowerFactor = Math.Round(floats[14], decimalPlaces),
                     ReactiveEnergy = Math.Round(floats[16], decimalPlaces),
-                    ActiveEnergy = Math.Round(floats[15], decimalPlaces),
-                    ApparentEnergy = Math.Round(floats[17], decimalPlaces)
+                    ActiveEnergy = activeEnergy,
+                    ApparentEnergy = Math.Round(floats[17], decimalPlaces),
+                    CarbonEmission = activeEnergy * carbonEmissionFactor * globalWarmingPotential
                 };
             }
         }
     }
     ModbusRtuClient? Master { get; set; }
     List<string> Histories { get; init; } = new();
-    public MainElectricityBucket MainElectricity { get; private set; }
+    public ElectricityEnergyBucket ElectricityEnergy { get; private set; }
 }

@@ -16,6 +16,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="InfluxDB.Client.Core.Exceptions" />
 		<Using Include="Serilog" />
 		<Using Include="Volo.Abp.Modularity" />
 	</ItemGroup>
@@ -58,6 +59,7 @@
 
 	<ItemGroup>
 		<Using Include="Platform.Domain.Shared.Pools" />
+		<Using Include="Platform.Domain.Shared.Services" />
 	</ItemGroup>
 
 </Project>

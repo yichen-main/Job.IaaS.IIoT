@@ -3,7 +3,7 @@
 namespace Platform.Domain.Shared.Pools;
 public interface IRawCalculation
 {
-    void PushSstatisticsUnitDay();
+    void SstatisticsUnitDay();
     readonly record struct StatisticalUnitDayEntity
     {
         public required byte Availability { get; init; }
@@ -27,7 +27,7 @@ file sealed class RawCalculation : IRawCalculation
         _baseLoader = baseLoader;
         _timelineWrapper = timelineWrapper;
     }
-    public void PushSstatisticsUnitDay()
+    public void SstatisticsUnitDay()
     {
         List<StatisticalUnitDayEntity.RunChartMinute> runChartMinutes = new();
         foreach (var (status, time) in _timelineWrapper.RootInformation.OneDayMachineStatusMinutes())

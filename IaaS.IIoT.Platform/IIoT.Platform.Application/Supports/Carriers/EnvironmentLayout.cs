@@ -2,25 +2,19 @@
 internal sealed class EnvironmentLayout : BackgroundService
 {
     readonly IBaseLoader _baseLoader;
-    readonly IFoundationPool _foundationPool;
+    readonly IInitialService _initialService;
     readonly IMessagePublisher _messagePublisher;
-    public EnvironmentLayout(
-        IBaseLoader baseLoader,
-        IFoundationPool foundationPool,
-        IMessagePublisher messagePublisher)
-    {
-        _baseLoader = baseLoader;
-        _foundationPool = foundationPool;
-        _messagePublisher = messagePublisher;
-    }
+    public EnvironmentLayout(IBaseLoader baseLoader, IInitialService initialService, IMessagePublisher messagePublisher)
+        => (_baseLoader, _initialService, _messagePublisher) = (baseLoader, initialService, messagePublisher);
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         try
         {
             await _baseLoader.RefreshProfileAsync();
             await _baseLoader.Transport.StartAsync();
+            await _initialService.CreateSwitchFileAsync();
             if (_baseLoader.Profile is not null) await _baseLoader.OverwriteProfileAsync(_baseLoader.Profile);
-            while (await new PeriodicTimer(TimeSpan.FromSeconds(1)).WaitForNextTickAsync(stoppingToken))
+            while (await new PeriodicTimer(TimeSpan.FromSeconds(15)).WaitForNextTickAsync(stoppingToken))
             {
                 try
                 {
@@ -33,26 +27,10 @@ internal sealed class EnvironmentLayout : BackgroundService
                             await _baseLoader.InitialStorageAsync(name);
                         }
                         _baseLoader.StorageEnabled = true;
-                        _messagePublisher.RawCalculation.PushSstatisticsUnitDay();
-                        {
-                            List<Task> tasks = new()
-                            {
-                                _baseLoader.PushBrokerAsync("basis/statistics/unit-day", _messagePublisher.RawCalculation.StatisticalUnitDay.ToJson()),
-                                _baseLoader.PushBrokerAsync("parts/smart-meters/raw-data", _messagePublisher.ModbusHelper.MainElectricity.ToJson())
-                            };
-                            switch (_baseLoader.Profile.Controller.Type)
-                            {
-                                case MainDilation.Profile.TextController.HostType.Fanuc:
-                                    tasks.Add(_baseLoader.PushBrokerAsync("parts/fanuc-controllers/raw-data", _messagePublisher.FocasHelper.Template.ToJson()));
-                                    break;
-                            }
-                            await Task.WhenAll(tasks);
-                        }
                     }
                     if (Histories.Any()) Histories.Clear();
-                    _foundationPool.PushShellerBottom(DateTime.UtcNow);
                 }
-                catch (Exception e)
+                catch (InfluxException e)
                 {
                     _baseLoader.StorageEnabled = false;
                     if (!Histories.Contains(e.Message))
@@ -61,7 +39,20 @@ internal sealed class EnvironmentLayout : BackgroundService
                         _baseLoader.Record(RecordType.BasicSettings, new()
                         {
                             Title = $"{nameof(EnvironmentLayout)}.{nameof(ExecuteAsync)}",
-                            Name = "InfluxDB",
+                            Name = nameof(InfluxException),
+                            Message = e.Message
+                        });
+                    }
+                }
+                catch (Exception e)
+                {
+                    if (!Histories.Contains(e.Message))
+                    {
+                        Histories.Add(e.Message);
+                        _baseLoader.Record(RecordType.BasicSettings, new()
+                        {
+                            Title = $"{nameof(EnvironmentLayout)}.{nameof(ExecuteAsync)}",
+                            Name = nameof(Exception),
                             Message = e.Message
                         });
                     }

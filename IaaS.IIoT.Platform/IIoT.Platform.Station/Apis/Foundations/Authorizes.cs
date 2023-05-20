@@ -3,11 +3,12 @@
 [ApiExplorerSettings(GroupName = nameof(Foundations))]
 public class Authorizes : ControllerBase
 {
+    const string _loginTag = "login";
     readonly IPassVerifier _passVerifier;
     public Authorizes(IPassVerifier passVerifier) => _passVerifier = passVerifier;
 
-    [HttpPost("login", Name = nameof(InsertLogin))]
-    public IActionResult InsertLogin([FromForm] LoginBody body)
+    [HttpPost(_loginTag, Name = nameof(InsertLogin))]
+    public IActionResult InsertLogin([FromForm] InputLoginBody body)
     {
         try
         {
@@ -19,6 +20,19 @@ public class Authorizes : ControllerBase
                 RefreshToken = _passVerifier.RefreshId
             });
             return Unauthorized();
+        }
+        catch (Exception e)
+        {
+            return NotFound(new { e.Message });
+        }
+    }
+
+    [HttpPut(_loginTag, Name = nameof(UpdateLogin))]
+    public IActionResult UpdateLogin([FromForm] InputLoginBody body)
+    {
+        try
+        {
+            return NoContent();
         }
         catch (Exception e)
         {
@@ -53,7 +67,7 @@ public class Authorizes : ControllerBase
             return NotFound(new { e.Message });
         }
     }
-    public sealed class LoginBody
+    public sealed class InputLoginBody
     {
         public required string Account { get; init; }
         public required string Password { get; init; }

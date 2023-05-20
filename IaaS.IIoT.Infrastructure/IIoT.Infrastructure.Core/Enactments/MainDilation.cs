@@ -83,21 +83,21 @@ public static class MainDilation
     }
     public sealed class Profile
     {
-        [YamlMember(ApplyNamingConventions = false)] public string MachineID { get; init; } = string.Empty;
-        [YamlMember(ApplyNamingConventions = false)] public string BaseCode { get; init; } = Hash.BaseGate;
-        [YamlMember(ApplyNamingConventions = false)] public string UserCode { get; init; } = Hash.UserGate;
+        [YamlMember(ApplyNamingConventions = false)] public string MachineID { get; set; } = string.Empty;
+        [YamlMember(ApplyNamingConventions = false)] public string BaseCode { get; set; } = Hash.BaseGate;
+        [YamlMember(ApplyNamingConventions = false)] public string UserCode { get; set; } = Hash.UserGate;
 
         [YamlMember(ApplyNamingConventions = false, Description = $"{nameof(TimeZoneType.UTC)}, {nameof(TimeZoneType.CEST)}, {nameof(TimeZoneType.CET)}, {nameof(TimeZoneType.CST)}")]
-        public string TimeZone { get; init; } = nameof(TimeZoneType.CST);
-        [YamlMember(ApplyNamingConventions = false)] public TextDatabase Database { get; init; } = new();
-        [YamlMember(ApplyNamingConventions = false)] public TextController Controller { get; init; } = new();
-        [YamlMember(ApplyNamingConventions = false)] public TextSerialEntry SerialEntry { get; init; } = new();
-        [YamlMember(ApplyNamingConventions = false)] public TextFormulation Formulation { get; init; } = new();
+        public string TimeZone { get; set; } = nameof(TimeZoneType.CST);
+        [YamlMember(ApplyNamingConventions = false)] public TextDatabase Database { get; set; } = new();
+        [YamlMember(ApplyNamingConventions = false)] public TextController Controller { get; set; } = new();
+        [YamlMember(ApplyNamingConventions = false)] public TextSerialEntry SerialEntry { get; set; } = new();
+        [YamlMember(ApplyNamingConventions = false)] public TextFormulation Formulation { get; set; } = new();
         public sealed class TextDatabase
         {
-            [YamlMember(ApplyNamingConventions = false)] public string IP { get; init; } = IPAddress.Loopback.ToString();
-            [YamlMember(ApplyNamingConventions = false)] public int InfluxDB { get; init; } = 8086;
-            [YamlMember(ApplyNamingConventions = false)] public int PostgreSQL { get; init; } = 5432;
+            [YamlMember(ApplyNamingConventions = false)] public string IP { get; set; } = IPAddress.Loopback.ToString();
+            [YamlMember(ApplyNamingConventions = false)] public int InfluxDB { get; set; } = 8086;
+            [YamlMember(ApplyNamingConventions = false)] public int PostgreSQL { get; set; } = 5432;
         }
         public sealed class TextController
         {
@@ -109,34 +109,35 @@ public static class MainDilation
                 Mitsubishi = 3,
                 Heidenhain = 4
             }
-            [YamlMember(ApplyNamingConventions = false)] public string IP { get; init; } = IPAddress.Loopback.ToString();
-            [YamlMember(ApplyNamingConventions = false)] public int Port { get; init; } = 8193;
+            [YamlMember(ApplyNamingConventions = false)] public string IP { get; set; } = IPAddress.Loopback.ToString();
+            [YamlMember(ApplyNamingConventions = false)] public int Port { get; set; } = 8193;
 
             [YamlMember(ApplyNamingConventions = false, Description = "None, Fanuc, Siemens, Mitsubishi, Heidenhain")]
-            public HostType Type { get; init; } = HostType.None;
+            public HostType Type { get; set; } = HostType.None;
         }
         public sealed class TextSerialEntry
         {
-            [YamlMember(ApplyNamingConventions = false)] public bool Enabled { get; init; }
-            [YamlMember(ApplyNamingConventions = false)] public int BaudRate { get; init; } = 19200;
-            [YamlMember(ApplyNamingConventions = false)] public string Port { get; init; } = "COM1";
+            [YamlMember(ApplyNamingConventions = false)] public bool Enabled { get; set; }
+            [YamlMember(ApplyNamingConventions = false)] public int BaudRate { get; set; } = 19200;
+            [YamlMember(ApplyNamingConventions = false)] public string Port { get; set; } = "COM1";
 
             [YamlMember(ApplyNamingConventions = false, Description = $"{nameof(Parity.None)}, {nameof(Parity.Odd)}, {nameof(Parity.Even)}, {nameof(Parity.Mark)}, {nameof(Parity.Space)}")]
-            public Parity Parity { get; init; } = Parity.None;
+            public Parity Parity { get; set; } = Parity.None;
 
             [YamlMember(ApplyNamingConventions = false, Description = $"{nameof(StopBits.None)}, {nameof(StopBits.One)}, {nameof(StopBits.Two)}, {nameof(StopBits.OnePointFive)}")]
-            public StopBits StopBits { get; init; } = StopBits.One;
+            public StopBits StopBits { get; set; } = StopBits.One;
         }
         public sealed class TextFormulation
         {
-            [YamlMember(ApplyNamingConventions = false)] public double CarbonEmissionFactor { get; init; } = 0.509;
+            [YamlMember(ApplyNamingConventions = false)] public double CarbonEmissionFactor { get; set; } = 0.509;
+            [YamlMember(ApplyNamingConventions = false)] public int GlobalWarmingPotential { get; set; } = 1;
 
             [YamlMember(ApplyNamingConventions = false)]
             public WorkInterval[] WorkIntervals { get; set; } = Array.Empty<WorkInterval>();
             public sealed class WorkInterval
             {
-                [YamlMember(ApplyNamingConventions = false)] public string StartMinute { get; init; } = string.Empty;
-                [YamlMember(ApplyNamingConventions = false)] public string EndMinute { get; init; } = string.Empty;
+                [YamlMember(ApplyNamingConventions = false)] public string StartMinute { get; set; } = string.Empty;
+                [YamlMember(ApplyNamingConventions = false)] public string EndMinute { get; set; } = string.Empty;
             }
         }
     }

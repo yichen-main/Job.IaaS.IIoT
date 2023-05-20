@@ -41,6 +41,7 @@
 		<Using Include="System.Collections.Concurrent" />
 		<Using Include="System.Collections.Immutable" />
 		<Using Include="System.ComponentModel" />
+		<Using Include="System.Diagnostics.CodeAnalysis" />
 		<Using Include="System.Globalization" />
 		<Using Include="System.Net" />
 		<Using Include="System.Numerics" />
