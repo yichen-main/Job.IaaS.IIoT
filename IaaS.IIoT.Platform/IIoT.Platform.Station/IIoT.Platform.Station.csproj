@@ -5,6 +5,7 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>preview</LangVersion>
 		<RootNamespace>Platform.Station</RootNamespace>
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 		<ServerGarbageCollection>false</ServerGarbageCollection>
@@ -42,6 +43,7 @@
 		<Using Include="Microsoft.AspNetCore.Mvc.ApplicationModels" />
 		<Using Include="Microsoft.AspNetCore.Mvc.Filters" />
 		<Using Include="Microsoft.AspNetCore.Mvc.ModelBinding" />
+		<Using Include="Microsoft.AspNetCore.RateLimiting" />
 		<Using Include="Microsoft.Extensions.Localization" />
 		<Using Include="Microsoft.Extensions.Options" />
 	</ItemGroup>
@@ -53,6 +55,7 @@
 		<Using Include="System.Security.Principal" />
 		<Using Include="System.Text" />
 		<Using Include="System.Text.Encodings.Web" />
+		<Using Include="System.Threading.RateLimiting" />
 		<Using Include="System.Xml" />
 	</ItemGroup>
 

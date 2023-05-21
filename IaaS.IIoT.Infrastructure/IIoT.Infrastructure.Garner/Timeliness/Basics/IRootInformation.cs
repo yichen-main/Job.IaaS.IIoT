@@ -24,14 +24,12 @@ public interface IRootInformation
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class RootInformation : IRootInformation
+file sealed class RootInformation(IBaseLoader baseLoader, IInfluxExpert influxExpert, IDescriptiveStatistics descriptiveStatistics, IOverallEquipmentEffectiveness OEE) : IRootInformation
 {
-    readonly IBaseLoader _baseLoader;
-    readonly IInfluxExpert _influxExpert;
-    readonly IDescriptiveStatistics _descriptiveStatistics;
-    readonly IOverallEquipmentEffectiveness _OEE;
-    public RootInformation(IBaseLoader baseLoader, IInfluxExpert influxExpert, IDescriptiveStatistics descriptiveStatistics, IOverallEquipmentEffectiveness OEE)
-        => (_baseLoader, _influxExpert, _descriptiveStatistics, _OEE) = (baseLoader, influxExpert, descriptiveStatistics, OEE);
+    readonly IBaseLoader _baseLoader = baseLoader;
+    readonly IInfluxExpert _influxExpert = influxExpert;
+    readonly IDescriptiveStatistics _descriptiveStatistics = descriptiveStatistics;
+    readonly IOverallEquipmentEffectiveness _OEE = OEE;
     public async Task InsertAsync(Data data) => await _influxExpert.WriteAsync(new Entity
     {
         Status = (byte)data.Status,

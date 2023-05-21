@@ -1,11 +1,10 @@
 ﻿namespace Platform.Station.Apis.Foundations;
 
-[ApiExplorerSettings(GroupName = nameof(Foundations))]
-public class Authorizes : ControllerBase
+[ApiExplorerSettings(GroupName = nameof(Foundations)), EnableRateLimiting("Fixed")]
+public class Authorizes(IPassVerifier passVerifier) : ControllerBase
 {
     const string _loginTag = "login";
-    readonly IPassVerifier _passVerifier;
-    public Authorizes(IPassVerifier passVerifier) => _passVerifier = passVerifier;
+    readonly IPassVerifier _passVerifier = passVerifier;
 
     [HttpPost(_loginTag, Name = nameof(InsertLogin))]
     public IActionResult InsertLogin([FromForm] InputLoginBody body)

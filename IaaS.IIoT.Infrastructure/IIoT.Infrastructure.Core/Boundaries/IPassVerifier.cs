@@ -11,10 +11,9 @@ public interface IPassVerifier
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class PassVerifier : IPassVerifier
+file sealed class PassVerifier(IBaseLoader baseLoader) : IPassVerifier
 {
-    readonly IBaseLoader _baseLoader;
-    public PassVerifier(IBaseLoader baseLoader) => _baseLoader = baseLoader;
+    readonly IBaseLoader _baseLoader = baseLoader;
     public bool Login(string account, string password)
     {
         if (_baseLoader.Profile is not null)

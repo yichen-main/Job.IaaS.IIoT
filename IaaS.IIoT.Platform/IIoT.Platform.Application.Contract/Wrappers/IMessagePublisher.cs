@@ -6,22 +6,17 @@ public interface IMessagePublisher
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class MessagePublisher : IMessagePublisher
+file sealed class MessagePublisher(IBaseLoader baseLoader, IFocasHelper focasHelper, IModbusHelper modbusHelper, IRawCalculation rawCalculation) : IMessagePublisher
 {
-    readonly IBaseLoader _baseLoader;
-    readonly IFocasHelper _focasHelper;
-    readonly IModbusHelper _modbusHelper;
-    readonly IRawCalculation _rawCalculation;
-    public MessagePublisher(IBaseLoader baseLoader, IFocasHelper focasHelper, IModbusHelper modbusHelper, IRawCalculation rawCalculation)
-        => (_baseLoader, _focasHelper, _modbusHelper, _rawCalculation) = (baseLoader, focasHelper, modbusHelper, rawCalculation);
+    readonly IBaseLoader _baseLoader = baseLoader;
+    readonly IFocasHelper _focasHelper = focasHelper;
+    readonly IModbusHelper _modbusHelper = modbusHelper;
+    readonly IRawCalculation _rawCalculation = rawCalculation;
     public async Task BasicInformationAsync()
     {
-        _rawCalculation.SstatisticsUnitDay();
-        {
-            var tag = "bases";
-            await SendAsync($"{tag}/statistics/unit-day", _rawCalculation.StatisticalUnitDay.ToJson());
-            await SendAsync($"{tag}/electricities/raw-data", _modbusHelper.ElectricityEnergy.ToJson());
-        }
+        var tag = "bases";
+        await SendAsync($"{tag}/statistics/unit-day", _rawCalculation.StatisticalUnitDay.ToJson());
+        await SendAsync($"{tag}/electricities/raw-data", _modbusHelper.ElectricityEnergy.ToJson());
     }
     public async Task PartInformationAsync()
     {

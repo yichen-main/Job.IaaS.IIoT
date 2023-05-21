@@ -18,15 +18,10 @@ public interface IRawCalculation
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class RawCalculation : IRawCalculation
+file sealed class RawCalculation(IBaseLoader baseLoader, ITimelineWrapper timelineWrapper) : IRawCalculation
 {
-    readonly IBaseLoader _baseLoader;
-    readonly ITimelineWrapper _timelineWrapper;
-    public RawCalculation(IBaseLoader baseLoader, ITimelineWrapper timelineWrapper)
-    {
-        _baseLoader = baseLoader;
-        _timelineWrapper = timelineWrapper;
-    }
+    readonly IBaseLoader _baseLoader = baseLoader;
+    readonly ITimelineWrapper _timelineWrapper = timelineWrapper;
     public void SstatisticsUnitDay()
     {
         List<StatisticalUnitDayEntity.RunChartMinute> runChartMinutes = new();

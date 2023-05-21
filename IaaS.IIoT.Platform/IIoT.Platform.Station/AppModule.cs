@@ -37,6 +37,13 @@ internal sealed class AppModule : AbpModule
             item.SerializerSettings.DateFormatString = DefaultDateFormat;
             item.SerializerSettings.NullValueHandling = NullValueHandling.Include;
         }).AddMvcOptions(item => item.Conventions.Add(new ModelConvention())).AddControllersAsServices();
+        context.Services.AddRateLimiter(options => options.AddFixedWindowLimiter("Fixed", item =>
+        {
+            item.PermitLimit = 3;
+            item.QueueLimit = 2;
+            item.Window = TimeSpan.FromSeconds(3);
+            item.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        }));
         context.Services.AddAuthentication(nameof(Station)).AddScheme<AuthenticateHandler.Option, AuthenticateHandler>(nameof(Station), configureOptions: default);
         context.Services.AddCors(item => item.AddDefaultPolicy(item =>
         {

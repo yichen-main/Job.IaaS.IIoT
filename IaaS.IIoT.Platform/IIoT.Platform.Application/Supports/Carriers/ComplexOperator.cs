@@ -1,13 +1,8 @@
 ﻿namespace Platform.Application.Supports.Carriers;
-internal sealed class ComplexOperator : BackgroundService
+internal sealed class ComplexOperator(IBaseLoader baseLoader, IRawCalculation rawCalculation) : BackgroundService
 {
-    readonly IBaseLoader _baseLoader;
-    readonly IRawCalculation _rawCalculation;
-    public ComplexOperator(IBaseLoader baseLoader, IRawCalculation rawCalculation)
-    {
-        _baseLoader = baseLoader;
-        _rawCalculation = rawCalculation;
-    }
+    readonly IBaseLoader _baseLoader = baseLoader;
+    readonly IRawCalculation _rawCalculation = rawCalculation;
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         try

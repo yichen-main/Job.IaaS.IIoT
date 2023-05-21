@@ -277,6 +277,77 @@ file sealed class FocasHelper : FocasDevelop, IFocasHelper
         }
         PartSpindle = result;
     }
+    internal void WritePMCByte(AddrType addr_type, short location, byte value)
+    {
+        IODBPMC0 result = new() { cdata = new byte[5] };
+        result.cdata[0] = value;
+        result.type_a = (short)addr_type;
+        result.type_d = (short)LengthType.Byte;
+        result.datano_s = location;
+        result.datano_e = location;
+        pmc_wrpmcrng(_handle, 9, result);
+    }
+    internal void WritePMCWord(AddrType addr_type, short location, short value)
+    {
+        IODBPMC1 result = new() { idata = new short[5] };
+        result.idata[0] = value;
+        result.type_a = (short)addr_type;
+        result.type_d = (short)LengthType.Word;
+        result.datano_s = location;
+        result.datano_e = (short)(location + 1);
+        pmc_wrpmcrng(_handle, 10, result);
+    }
+    internal void WritePMCDWord(AddrType addr_type, short location, int value)
+    {
+        IODBPMC2 result = new() { ldata = new int[5] };
+        result.ldata[0] = value;
+        result.type_a = (short)addr_type;
+        result.type_d = (short)LengthType.DWord;
+        result.datano_s = location;
+        result.datano_e = (short)(location + 3);
+        pmc_wrpmcrng(_handle, 12, result);
+    }
+    internal byte ReadPMCByte(AddrType addr_type, ushort location)
+    {
+        IODBPMC0 result = new();
+        if (pmc_rdpmcrng(_handle, (short)addr_type, (short)LengthType.Byte, location, location, 9, result) is EW_OK) return result.cdata[0];
+        return default;
+    }
+    internal short ReadPMCWord(AddrType addr_type, ushort location)
+    {
+        IODBPMC1 result = new();
+        if (pmc_rdpmcrng(_handle, (short)addr_type, (short)LengthType.Word, location, (ushort)(location + 1), 10, result) is EW_OK) return result.idata[0];
+        return default;
+    }
+    internal int ReadPMCDWord(AddrType addr_type, ushort location)
+    {
+        IODBPMC2 result = new();
+        if (pmc_rdpmcrng(_handle, (short)addr_type, (short)LengthType.DWord, location, (ushort)(location + 3), 12, result) is EW_OK) return result.ldata[0];
+        return default;
+    }
+    internal enum LengthType
+    {
+        Byte = 0,
+        Word = 1,
+        DWord = 2
+    }
+    internal enum AddrType
+    {
+        G = 0,
+        F = 1,
+        Y = 2,
+        X = 3,
+        A = 4,
+        R = 5,
+        T = 6,
+        K = 7,
+        C = 8,
+        D = 9,
+        M = 10,
+        N = 11,
+        E = 12,
+        Z = 13
+    }
     public InformationEntity Information { get; private set; }
     public PartSpindleEntity PartSpindle { get; private set; }
 }

@@ -26,17 +26,10 @@ public interface IElectricMeter
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class ElectricMeter : IElectricMeter
+file sealed class ElectricMeter(IInfluxExpert influxExpert, IDescriptiveStatistics descriptiveStatistics) : IElectricMeter
 {
-    readonly IInfluxExpert _influxExpert;
-    readonly IDescriptiveStatistics _descriptiveStatistics;
-    public ElectricMeter(
-        IInfluxExpert influxExpert,
-        IDescriptiveStatistics descriptiveStatistics)
-    {
-        _influxExpert = influxExpert;
-        _descriptiveStatistics = descriptiveStatistics;
-    }
+    readonly IInfluxExpert _influxExpert = influxExpert;
+    readonly IDescriptiveStatistics _descriptiveStatistics = descriptiveStatistics;
     public async Task InsertAsync(IElectricMeter.Data data) => await _influxExpert.WriteAsync(new Entity
     {
         AverageVoltage = data.AverageVoltage,

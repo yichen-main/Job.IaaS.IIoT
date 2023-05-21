@@ -19,17 +19,10 @@ public interface IThermalCompensation
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class ThermalCompensation : IThermalCompensation
+file sealed class ThermalCompensation(IInfluxExpert influxExpert, IDescriptiveStatistics descriptiveStatistics) : IThermalCompensation
 {
-    readonly IInfluxExpert _influxExpert;
-    readonly IDescriptiveStatistics _descriptiveStatistics;
-    public ThermalCompensation(
-        IInfluxExpert influxExpert,
-        IDescriptiveStatistics descriptiveStatistics)
-    {
-        _influxExpert = influxExpert;
-        _descriptiveStatistics = descriptiveStatistics;
-    }
+    readonly IInfluxExpert _influxExpert = influxExpert;
+    readonly IDescriptiveStatistics _descriptiveStatistics = descriptiveStatistics;
     public async Task InsertAsync(IThermalCompensation.Data data) => await _influxExpert.WriteAsync(new Entity
     {
         TemperatureFirst = data.ThermalFirst,

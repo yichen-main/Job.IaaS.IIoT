@@ -10933,262 +10933,188 @@ public abstract class FocasDevelop
     /*-----*/
 
     /* read message from PMC to MMC */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdmsg")]
-    public static extern short pmc_rdmsg(ushort FlibHndl, ref short a, [Out, MarshalAs(UnmanagedType.AsAny)] object b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdmsg")] public static extern short pmc_rdmsg(ushort FlibHndl, ref short a, [Out, MarshalAs(UnmanagedType.AsAny)] object b);
 
     /* write message from MMC to PMC */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrmsg")]
-    public static extern short pmc_wrmsg(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.AsAny)] object b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrmsg")] public static extern short pmc_wrmsg(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.AsAny)] object b);
 
     /* read message from PMC to MMC(conditional) */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_crdmsg")]
-    public static extern short pmc_crdmsg(ushort FlibHndl, ref short a, [Out, MarshalAs(UnmanagedType.AsAny)] object b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_crdmsg")] public static extern short pmc_crdmsg(ushort FlibHndl, ref short a, [Out, MarshalAs(UnmanagedType.AsAny)] object b);
 
     /* write message from MMC to PMC(conditional) */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_cwrmsg")]
-    public static extern short pmc_cwrmsg(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.AsAny)] object b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_cwrmsg")] public static extern short pmc_cwrmsg(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.AsAny)] object b);
 
     /* read PMC data(area specified) */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmcrng")]
-    public static extern short pmc_rdpmcrng(ushort FlibHndl,
-        short a, short b, ushort c, ushort d, ushort e, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPMC0 f);
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmcrng")]
-    public static extern short pmc_rdpmcrng(ushort FlibHndl,
-        short a, short b, ushort c, ushort d, ushort e, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPMC1 f);
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmcrng")]
-    public static extern short pmc_rdpmcrng(ushort FlibHndl,
-        short a, short b, ushort c, ushort d, ushort e, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPMC2 f);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmcrng")] public static extern short pmc_rdpmcrng(ushort FlibHndl, short a, short b, ushort c, ushort d, ushort e, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPMC0 f);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmcrng")] public static extern short pmc_rdpmcrng(ushort FlibHndl, short a, short b, ushort c, ushort d, ushort e, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPMC1 f);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmcrng")] public static extern short pmc_rdpmcrng(ushort FlibHndl, short a, short b, ushort c, ushort d, ushort e, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPMC2 f);
 
     /* write PMC data(area specified) */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrpmcrng")]
-    public static extern short pmc_wrpmcrng(ushort FlibHndl, ushort a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPMC0 b);
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrpmcrng")]
-    public static extern short pmc_wrpmcrng(ushort FlibHndl, ushort a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPMC1 b);
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrpmcrng")]
-    public static extern short pmc_wrpmcrng(ushort FlibHndl, ushort a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPMC2 b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrpmcrng")] public static extern short pmc_wrpmcrng(ushort FlibHndl, ushort a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPMC0 b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrpmcrng")] public static extern short pmc_wrpmcrng(ushort FlibHndl, ushort a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPMC1 b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrpmcrng")] public static extern short pmc_wrpmcrng(ushort FlibHndl, ushort a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPMC2 b);
 
     /* read data from extended backup memory */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdkpm")]
-    public static extern short pmc_rdkpm(ushort FlibHndl, uint a, [Out, MarshalAs(UnmanagedType.AsAny)] object b, ushort c);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdkpm")] public static extern short pmc_rdkpm(ushort FlibHndl, uint a, [Out, MarshalAs(UnmanagedType.AsAny)] object b, ushort c);
 
     /* write data to extended backup memory */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrkpm")]
-    public static extern short pmc_wrkpm(ushort FlibHndl, uint a, [In, MarshalAs(UnmanagedType.AsAny)] object b, ushort c);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrkpm")] public static extern short pmc_wrkpm(ushort FlibHndl, uint a, [In, MarshalAs(UnmanagedType.AsAny)] object b, ushort c);
 
     /* read data from extended backup memory 2 */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdkpm2")]
-    public static extern short pmc_rdkpm2(ushort FlibHndl, uint a, [Out, MarshalAs(UnmanagedType.AsAny)] object b, uint c);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdkpm2")] public static extern short pmc_rdkpm2(ushort FlibHndl, uint a, [Out, MarshalAs(UnmanagedType.AsAny)] object b, uint c);
 
     /* write data to extended backup memory 2 */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrkpm2")]
-    public static extern short pmc_wrkpm2(ushort FlibHndl, uint a, [In, MarshalAs(UnmanagedType.AsAny)] object b, uint c);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrkpm2")] public static extern short pmc_wrkpm2(ushort FlibHndl, uint a, [In, MarshalAs(UnmanagedType.AsAny)] object b, uint c);
 
     /* read maximum size of extended backup memory */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_kpmsiz")]
-    public static extern short pmc_kpmsiz(ushort FlibHndl, out uint a);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_kpmsiz")] public static extern short pmc_kpmsiz(ushort FlibHndl, out uint a);
 
     /* read informations of PMC data */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmcinfo")]
-    public static extern short pmc_rdpmcinfo(ushort FlibHndl, short a, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBPMCINF b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmcinfo")] public static extern short pmc_rdpmcinfo(ushort FlibHndl, short a, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBPMCINF b);
 
     /* read PMC parameter data table contorol data */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdcntldata")]
-    public static extern short pmc_rdcntldata(ushort FlibHndl,
-        short a, short b, short c, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPMCCNTL d);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdcntldata")] public static extern short pmc_rdcntldata(ushort FlibHndl, short a, short b, short c, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPMCCNTL d);
 
     /* write PMC parameter data table contorol data */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrcntldata")]
-    public static extern short pmc_wrcntldata(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPMCCNTL b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrcntldata")] public static extern short pmc_wrcntldata(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPMCCNTL b);
 
     /* read PMC parameter data table contorol data group number */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdcntlgrp")]
-    public static extern short pmc_rdcntlgrp(ushort FlibHndl, out short a);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdcntlgrp")] public static extern short pmc_rdcntlgrp(ushort FlibHndl, out short a);
 
     /* write PMC parameter data table contorol data group number */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrcntlgrp")]
-    public static extern short pmc_wrcntlgrp(ushort FlibHndl, short a);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrcntlgrp")] public static extern short pmc_wrcntlgrp(ushort FlibHndl, short a);
 
     /* read PMC alarm message */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdalmmsg")]
-    public static extern short pmc_rdalmmsg(ushort FlibHndl,
-        short a, ref short b, out short c, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBPMCALM d);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdalmmsg")] public static extern short pmc_rdalmmsg(ushort FlibHndl, short a, ref short b, out short c, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBPMCALM d);
 
     /* get detail error for pmc */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_getdtailerr")]
-    public static extern short pmc_getdtailerr(ushort FlibHndl, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBPMCERR a);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_getdtailerr")] public static extern short pmc_getdtailerr(ushort FlibHndl, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBPMCERR a);
 
     /* read PMC memory data */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmcmem")]
-    public static extern short pmc_rdpmcmem(ushort FlibHndl,
-        short a, int b, int c, [Out, MarshalAs(UnmanagedType.AsAny)] object d);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmcmem")] public static extern short pmc_rdpmcmem(ushort FlibHndl, short a, int b, int c, [Out, MarshalAs(UnmanagedType.AsAny)] object d);
 
     /* write PMC memory data */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrpmcmem")]
-    public static extern short pmc_wrpmcmem(ushort FlibHndl,
-        short a, int b, int c, [In, MarshalAs(UnmanagedType.AsAny)] object d);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrpmcmem")] public static extern short pmc_wrpmcmem(ushort FlibHndl, short a, int b, int c, [In, MarshalAs(UnmanagedType.AsAny)] object d);
 
     /* read PMC-SE memory data */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmcsemem")]
-    public static extern short pmc_rdpmcsemem(ushort FlibHndl,
-        short a, int b, int c, [Out, MarshalAs(UnmanagedType.AsAny)] object d);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmcsemem")] public static extern short pmc_rdpmcsemem(ushort FlibHndl, short a, int b, int c, [Out, MarshalAs(UnmanagedType.AsAny)] object d);
 
     /* write PMC-SE memory data */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrpmcsemem")]
-    public static extern short pmc_wrpmcsemem(ushort FlibHndl,
-        short a, int b, int c, [In, MarshalAs(UnmanagedType.AsAny)] object d);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrpmcsemem")] public static extern short pmc_wrpmcsemem(ushort FlibHndl, short a, int b, int c, [In, MarshalAs(UnmanagedType.AsAny)] object d);
 
     /* read pmc title data */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmctitle")]
-    public static extern short pmc_rdpmctitle(ushort FlibHndl, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBPMCTITLE a);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmctitle")] public static extern short pmc_rdpmctitle(ushort FlibHndl, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBPMCTITLE a);
 
     /* read PMC parameter start */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdprmstart")]
-    public static extern short pmc_rdprmstart(ushort FlibHndl);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdprmstart")] public static extern short pmc_rdprmstart(ushort FlibHndl);
 
     /* read PMC parameter */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmcparam")]
-    public static extern short pmc_rdpmcparam(ushort FlibHndl, ref int a, [Out, MarshalAs(UnmanagedType.AsAny)] object b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmcparam")] public static extern short pmc_rdpmcparam(ushort FlibHndl, ref int a, [Out, MarshalAs(UnmanagedType.AsAny)] object b);
 
     /* read PMC parameter end */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdprmend")]
-    public static extern short pmc_rdprmend(ushort FlibHndl);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdprmend")] public static extern short pmc_rdprmend(ushort FlibHndl);
 
     /* write PMC parameter start */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrprmstart")]
-    public static extern short pmc_wrprmstart(ushort FlibHndl);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrprmstart")] public static extern short pmc_wrprmstart(ushort FlibHndl);
 
     /* write PMC parameter */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrpmcparam")]
-    public static extern short pmc_wrpmcparam(ushort FlibHndl, ref int a, [In, MarshalAs(UnmanagedType.AsAny)] object b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrpmcparam")] public static extern short pmc_wrpmcparam(ushort FlibHndl, ref int a, [In, MarshalAs(UnmanagedType.AsAny)] object b);
 
     /* write PMC parameter end */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrprmend")]
-    public static extern short pmc_wrprmend(ushort FlibHndl);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wrprmend")] public static extern short pmc_wrprmend(ushort FlibHndl);
 
     /* read PMC data */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmcrng_ext")]
-    public static extern short pmc_rdpmcrng_ext(ushort FlibHndl,
-        short a, [In, Out, MarshalAs(UnmanagedType.LPStruct)] IODBPMCEXT b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmcrng_ext")] public static extern short pmc_rdpmcrng_ext(ushort FlibHndl, short a, [In, Out, MarshalAs(UnmanagedType.LPStruct)] IODBPMCEXT b);
 
     /* write PMC I/O link assigned data */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wriolinkdat")]
-    public static extern short pmc_wriolinkdat(ushort FlibHndl, uint a, [In, MarshalAs(UnmanagedType.AsAny)] object b, uint c);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_wriolinkdat")] public static extern short pmc_wriolinkdat(ushort FlibHndl, uint a, [In, MarshalAs(UnmanagedType.AsAny)] object b, uint c);
 
     /* read PMC address information */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmcaddr")]
-    public static extern short pmc_rdpmcaddr(ushort FlibHndl, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBPMCADR a);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_rdpmcaddr")] public static extern short pmc_rdpmcaddr(ushort FlibHndl, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBPMCADR a);
 
     /* select PMC unit */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_select_pmc_unit")]
-    public static extern short pmc_select_pmc_unit(ushort FlibHndl, int a);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_select_pmc_unit")] public static extern short pmc_select_pmc_unit(ushort FlibHndl, int a);
 
     /* get current PMC unit */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_get_current_pmc_unit")]
-    public static extern short pmc_get_current_pmc_unit(ushort FlibHndl, ref int a);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_get_current_pmc_unit")] public static extern short pmc_get_current_pmc_unit(ushort FlibHndl, ref int a);
 
     /* get number of PMC */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_get_number_of_pmc")]
-    public static extern short pmc_get_number_of_pmc(ushort FlibHndl, ref int a);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_get_number_of_pmc")] public static extern short pmc_get_number_of_pmc(ushort FlibHndl, ref int a);
 
     /* get PMC unit types */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_get_pmc_unit_types")]
-    public static extern short pmc_get_pmc_unit_types(ushort FlibHndl, int[] a, ref int b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_get_pmc_unit_types")] public static extern short pmc_get_pmc_unit_types(ushort FlibHndl, int[] a, ref int b);
 
     /* set PMC Timer type */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_set_timer_type")]
-    public static extern short pmc_set_timer_type(ushort FlibHndl, ushort a, ushort b, ref short c);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_set_timer_type")] public static extern short pmc_set_timer_type(ushort FlibHndl, ushort a, ushort b, ref short c);
 
     /* get PMC Timer type */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_get_timer_type")]
-    public static extern short pmc_get_timer_type(ushort FlibHndl, ushort a, ushort b, ref short c);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_get_timer_type")] public static extern short pmc_get_timer_type(ushort FlibHndl, ushort a, ushort b, ref short c);
 
     /*----------------------------*/
     /* PMC : PROFIBUS function    */
     /*----------------------------*/
 
     /* read PROFIBUS configration data */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdconfig")]
-    public static extern short pmc_prfrdconfig(ushort FlibHndl, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBPRFCNF a);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdconfig")] public static extern short pmc_prfrdconfig(ushort FlibHndl, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBPRFCNF a);
 
     /* read bus parameter for master function */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdbusprm")]
-    public static extern short pmc_prfrdbusprm(ushort FlibHndl, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBBUSPRM a);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdbusprm")] public static extern short pmc_prfrdbusprm(ushort FlibHndl, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBBUSPRM a);
 
     /* write bus parameter for master function */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwrbusprm")]
-    public static extern short pmc_prfwrbusprm(ushort FlibHndl, [In, MarshalAs(UnmanagedType.LPStruct)] IODBBUSPRM a);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwrbusprm")] public static extern short pmc_prfwrbusprm(ushort FlibHndl, [In, MarshalAs(UnmanagedType.LPStruct)] IODBBUSPRM a);
 
     /* read slave parameter for master function */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdslvprm")]
-    public static extern short pmc_prfrdslvprm(ushort FlibHndl, short a, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBSLVPRM b);
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdslvprm")]
-    public static extern short pmc_prfrdslvprm(ushort FlibHndl, short a, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBSLVPRM2 b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdslvprm")] public static extern short pmc_prfrdslvprm(ushort FlibHndl, short a, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBSLVPRM b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdslvprm")] public static extern short pmc_prfrdslvprm(ushort FlibHndl, short a, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBSLVPRM2 b);
 
     /* write slave parameter for master function */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwrslvprm")]
-    public static extern short pmc_prfwrslvprm(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBSLVPRM b);
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwrslvprm")]
-    public static extern short pmc_prfwrslvprm(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBSLVPRM2 b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwrslvprm")] public static extern short pmc_prfwrslvprm(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBSLVPRM b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwrslvprm")] public static extern short pmc_prfwrslvprm(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBSLVPRM2 b);
 
     /* read allocation address for master function */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdallcadr")]
-    public static extern short pmc_prfrdallcadr(ushort FlibHndl, short a, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPRFADR b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdallcadr")] public static extern short pmc_prfrdallcadr(ushort FlibHndl, short a, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBPRFADR b);
 
     /* set allocation address for master function */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwrallcadr")]
-    public static extern short pmc_prfwrallcadr(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPRFADR b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwrallcadr")] public static extern short pmc_prfwrallcadr(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBPRFADR b);
 
     /* read allocation address for slave function */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdslvaddr")]
-    public static extern short pmc_prfrdslvaddr(ushort FlibHndl, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBSLVADR a);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdslvaddr")] public static extern short pmc_prfrdslvaddr(ushort FlibHndl, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBSLVADR a);
 
     /* set allocation address for slave function */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwrslvaddr")]
-    public static extern short pmc_prfwrslvaddr(ushort FlibHndl, [In, MarshalAs(UnmanagedType.LPStruct)] IODBSLVADR a);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwrslvaddr")] public static extern short pmc_prfwrslvaddr(ushort FlibHndl, [In, MarshalAs(UnmanagedType.LPStruct)] IODBSLVADR a);
 
     /* read status for slave function */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdslvstat")]
-    public static extern short pmc_prfrdslvstat(ushort FlibHndl, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBSLVST a);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdslvstat")] public static extern short pmc_prfrdslvstat(ushort FlibHndl, [Out, MarshalAs(UnmanagedType.LPStruct)] ODBSLVST a);
 
     /* Reads slave index data of master function */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdslvid")]
-    public static extern short pmc_prfrdslvid(ushort FlibHndl, short a, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBSLVID b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdslvid")] public static extern short pmc_prfrdslvid(ushort FlibHndl, short a, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBSLVID b);
 
     /* Writes slave index data of master function */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwrslvid")]
-    public static extern short pmc_prfwrslvid(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBSLVID b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwrslvid")] public static extern short pmc_prfwrslvid(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBSLVID b);
 
     /* Reads slave parameter of master function(2) */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdslvprm2")]
-    public static extern short pmc_prfrdslvprm2(ushort FlibHndl, short a, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBSLVPRM3 b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdslvprm2")] public static extern short pmc_prfrdslvprm2(ushort FlibHndl, short a, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBSLVPRM3 b);
 
     /* Writes slave parameter of master function(2) */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwrslvprm2")]
-    public static extern short pmc_prfwrslvprm2(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBSLVPRM3 b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwrslvprm2")] public static extern short pmc_prfwrslvprm2(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBSLVPRM3 b);
 
     /* Reads DI/DO parameter of master function */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrddido")]
-    public static extern short pmc_prfrddido(ushort FlibHndl, short a, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBDIDO b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrddido")] public static extern short pmc_prfrddido(ushort FlibHndl, short a, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBDIDO b);
 
     /* Writes DI/DO parameter of master function */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwrdido")]
-    public static extern short pmc_prfwrdido(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBDIDO b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwrdido")] public static extern short pmc_prfwrdido(ushort FlibHndl, short a, [In, MarshalAs(UnmanagedType.LPStruct)] IODBDIDO b);
 
     /* Reads indication address of master function */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdindiadr")]
-    public static extern short pmc_prfrdindiadr(ushort FlibHndl, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBINDEADR a);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdindiadr")] public static extern short pmc_prfrdindiadr(ushort FlibHndl, [Out, MarshalAs(UnmanagedType.LPStruct)] IODBINDEADR a);
 
     /* Writes indication address of master function */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwrindiadr")]
-    public static extern short pmc_prfwrindiadr(ushort FlibHndl, [In, MarshalAs(UnmanagedType.LPStruct)] IODBINDEADR a);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwrindiadr")] public static extern short pmc_prfwrindiadr(ushort FlibHndl, [In, MarshalAs(UnmanagedType.LPStruct)] IODBINDEADR a);
 
     /* Reads operation mode of master function */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdopmode")]
-    public static extern short pmc_prfrdopmode(ushort FlibHndl, ref short a);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfrdopmode")] public static extern short pmc_prfrdopmode(ushort FlibHndl, ref short a);
 
     /* Writes operation mode of master function */
-    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwropmode")]
-    public static extern short pmc_prfwropmode(ushort FlibHndl, short a, ref short b);
+    [DllImport("FWLIB64.dll", EntryPoint = "pmc_prfwropmode")] public static extern short pmc_prfwropmode(ushort FlibHndl, short a, ref short b);
 
     /*-----------------------------------------------*/
     /* DS : Data server & Ethernet board function    */

@@ -15,10 +15,9 @@ public interface ISpeedOdometer
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class SpeedOdometer : ISpeedOdometer
+file sealed class SpeedOdometer(IInfluxExpert influxExpert) : ISpeedOdometer
 {
-    readonly IInfluxExpert _influxExpert;
-    public SpeedOdometer(IInfluxExpert influxExpert) => _influxExpert = influxExpert;
+    readonly IInfluxExpert _influxExpert = influxExpert;
     public async Task InsertAsync(ISpeedOdometer.Data[] datas)
     {
         if (datas.Any()) await _influxExpert.WriteAsync(datas.Select(item => new Entity

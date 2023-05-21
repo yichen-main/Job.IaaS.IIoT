@@ -13,10 +13,9 @@ public interface IAttachedSensor
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class AttachedSensor : IAttachedSensor
+file sealed class AttachedSensor(IInfluxExpert influxExpert) : IAttachedSensor
 {
-    readonly IInfluxExpert _influxExpert;
-    public AttachedSensor(IInfluxExpert influxExpert) => _influxExpert = influxExpert;
+    readonly IInfluxExpert _influxExpert = influxExpert;
     public async Task InsertAsync(IAttachedSensor.Data data) => await _influxExpert.WriteAsync(new Entity
     {
         ElectricalBoxHumidity = data.ElectricalBoxHumidity,

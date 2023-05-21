@@ -19,6 +19,7 @@ try
             apply.UseSymbolizer();
             apply.MapDigitalTwin();
             apply.MapControllers();
+            apply.UseRateLimiter();
             apply.MapMessageQueuer();
             {
                 apply.MapDemoEndpoint();

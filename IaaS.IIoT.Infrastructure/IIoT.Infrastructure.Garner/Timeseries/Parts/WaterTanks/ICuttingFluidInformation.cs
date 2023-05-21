@@ -12,10 +12,9 @@ public interface ICuttingFluidInformation
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class CuttingFluidInformation : ICuttingFluidInformation
+file sealed class CuttingFluidInformation(IInfluxExpert influxExpert) : ICuttingFluidInformation
 {
-    readonly IInfluxExpert _influxExpert;
-    public CuttingFluidInformation(IInfluxExpert influxExpert) => _influxExpert = influxExpert;
+    readonly IInfluxExpert _influxExpert = influxExpert;
     public async Task InsertAsync(ICuttingFluidInformation.Data data) => await _influxExpert.WriteAsync(new Entity
     {
         Temperature = data.Temperature,

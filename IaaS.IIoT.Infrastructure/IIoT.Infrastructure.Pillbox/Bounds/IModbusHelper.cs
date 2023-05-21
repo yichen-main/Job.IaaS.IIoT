@@ -20,10 +20,9 @@ public interface IModbusHelper
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class ModbusHelper : IModbusHelper
+file sealed class ModbusHelper(IBaseLoader baseLoader) : IModbusHelper
 {
-    readonly IBaseLoader _baseLoader;
-    public ModbusHelper(IBaseLoader baseLoader) => _baseLoader = baseLoader;
+    readonly IBaseLoader _baseLoader = baseLoader;
     public async Task ReadAsync()
     {
         try

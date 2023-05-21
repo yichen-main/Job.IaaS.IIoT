@@ -13,10 +13,7 @@ public interface ITimelineWrapper
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class TimelineWrapper : ITimelineWrapper
-{
-    [SetsRequiredMembers]
-    public TimelineWrapper(
+file sealed class TimelineWrapper(
         IRootInformation rootInformation,
         IOpcUaRegistrant opcUaRegistrant,
         IMaintenanceCycle maintenanceCycle,
@@ -25,25 +22,15 @@ file sealed class TimelineWrapper : ITimelineWrapper
         ICuttingFluidInformation cuttingFluidInformation,
         IPumpMotorElectricity pumpMotorElectricity,
         IElectricMeter electricMeter,
-        IAttachedSensor attachedSensor)
-    {
-        RootInformation = rootInformation;
-        OpcUaRegistrant = opcUaRegistrant;
-        MaintenanceCycle = maintenanceCycle;
-        SpeedOdometer = speedOdometer;
-        ThermalCompensation = thermalCompensation;
-        CuttingFluidInformation = cuttingFluidInformation;
-        PumpMotorElectricity = pumpMotorElectricity;
-        ElectricMeter = electricMeter;
-        AttachedSensor = attachedSensor;
-    }
-    public required IOpcUaRegistrant OpcUaRegistrant { get; init; }
-    public required IRootInformation RootInformation { get; init; }
-    public required IMaintenanceCycle MaintenanceCycle { get; init; }
-    public required ISpeedOdometer SpeedOdometer { get; init; }
-    public required IThermalCompensation ThermalCompensation { get; init; }
-    public required ICuttingFluidInformation CuttingFluidInformation { get; init; }
-    public required IPumpMotorElectricity PumpMotorElectricity { get; init; }
-    public required IElectricMeter ElectricMeter { get; init; }
-    public required IAttachedSensor AttachedSensor { get; init; }
+        IAttachedSensor attachedSensor) : ITimelineWrapper
+{
+    public required IRootInformation RootInformation { get; init; } = rootInformation;
+    public required IOpcUaRegistrant OpcUaRegistrant { get; init; } = opcUaRegistrant;
+    public required IMaintenanceCycle MaintenanceCycle { get; init; } = maintenanceCycle;
+    public required ISpeedOdometer SpeedOdometer { get; init; } = speedOdometer;
+    public required IThermalCompensation ThermalCompensation { get; init; } = thermalCompensation;
+    public required ICuttingFluidInformation CuttingFluidInformation { get; init; } = cuttingFluidInformation;
+    public required IPumpMotorElectricity PumpMotorElectricity { get; init; } = pumpMotorElectricity;
+    public required IElectricMeter ElectricMeter { get; init; } = electricMeter;
+    public required IAttachedSensor AttachedSensor { get; init; } = attachedSensor;
 }

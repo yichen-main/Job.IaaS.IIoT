@@ -20,10 +20,9 @@ public interface IInfluxExpert
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class InfluxExpert : IInfluxExpert
+file sealed class InfluxExpert(IBaseLoader baseLoader) : IInfluxExpert
 {
-    readonly IBaseLoader _baseLoader;
-    public InfluxExpert(IBaseLoader baseLoader) => _baseLoader = baseLoader;
+    readonly IBaseLoader _baseLoader = baseLoader;
     public async ValueTask WriteAsync<T>(T entity, string bucket)
     {
         if (_baseLoader.StorageEnabled && _baseLoader.Profile is not null)

@@ -19,10 +19,9 @@ public interface IMaintenanceCycle
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class MaintenanceCycle : IMaintenanceCycle
+file sealed class MaintenanceCycle(IInfluxExpert influxExpert) : IMaintenanceCycle
 {
-    readonly IInfluxExpert _influxExpert;
-    public MaintenanceCycle(IInfluxExpert influxExpert) => _influxExpert = influxExpert;
+    readonly IInfluxExpert _influxExpert = influxExpert;
     public async Task InsertAsync(IMaintenanceCycle.Data[] datas)
     {
         if (datas.Any()) await _influxExpert.WriteAsync(datas.Select(item => new Entity

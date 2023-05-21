@@ -1,12 +1,11 @@
 ﻿namespace Platform.Station.Apis.Foundations;
 
 [ApiExplorerSettings(GroupName = nameof(Foundations))]
-public class Settings : ControllerBase
+public class Settings(IBaseLoader baseLoader) : ControllerBase
 {
     const string _carbonEmissionTag = "carbon-emission";
 
-    readonly IBaseLoader _baseLoader;
-    public Settings(IBaseLoader baseLoader) => _baseLoader = baseLoader;
+    readonly IBaseLoader _baseLoader = baseLoader;
 
     [HttpGet(_carbonEmissionTag, Name = nameof(GetCarbonEmission))]
     public IActionResult GetCarbonEmission()

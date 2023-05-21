@@ -10,10 +10,9 @@ public interface IOpcUaRegistrant
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class OpcUaRegistrant : IOpcUaRegistrant
+file sealed class OpcUaRegistrant(IInfluxExpert influxExpert) : IOpcUaRegistrant
 {
-    readonly IInfluxExpert _influxExpert;
-    public OpcUaRegistrant(IInfluxExpert influxExpert) => _influxExpert = influxExpert;
+    readonly IInfluxExpert _influxExpert = influxExpert;
     public async Task InsertAsync(IOpcUaRegistrant.Data data) => await _influxExpert.WriteAsync(new Entity
     {
         Status = (byte)data.Status,

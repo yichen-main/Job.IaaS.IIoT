@@ -13,10 +13,9 @@ public interface IPumpMotorElectricity
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class PumpMotorElectricity : IPumpMotorElectricity
+file sealed class PumpMotorElectricity(IInfluxExpert influxExpert) : IPumpMotorElectricity
 {
-    readonly IInfluxExpert _influxExpert;
-    public PumpMotorElectricity(IInfluxExpert influxExpert) => _influxExpert = influxExpert;
+    readonly IInfluxExpert _influxExpert = influxExpert;
     public async Task InsertAsync(IPumpMotorElectricity.Data data) => await _influxExpert.WriteAsync(new Entity
     {
         AverageVoltage = data.AverageVoltage,
