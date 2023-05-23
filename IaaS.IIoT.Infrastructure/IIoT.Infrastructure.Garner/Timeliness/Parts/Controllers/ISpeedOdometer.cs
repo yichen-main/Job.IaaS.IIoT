@@ -1,8 +1,7 @@
-﻿namespace Infrastructure.Garner.Timeseries.Parts.Controllers;
+﻿namespace Infrastructure.Garner.Timeliness.Parts.Controllers;
 public interface ISpeedOdometer
 {
     Task InsertAsync(Data[] datas);
-    IDictionary<int, IAbstractPool.SpindleSpeedOdometerChartData.Detail> LatestTimeGroup(DateTime startTime, DateTime endTime);
 
     [StructLayout(LayoutKind.Auto)]
     readonly record struct Data
@@ -29,27 +28,6 @@ file sealed class SpeedOdometer(IInfluxExpert influxExpert) : ISpeedOdometer
             Identifier = Identifier,
             Timestamp = DateTime.UtcNow
         }).ToArray(), Bucket);
-    }
-    public IDictionary<int, IAbstractPool.SpindleSpeedOdometerChartData.Detail> LatestTimeGroup(DateTime startTime, DateTime endTime)
-    {
-        return _influxExpert.Read<Entity>(Bucket, Identifier, startTime, endTime).GroupBy(item => item.SerialNo).ToDictionary(item => item.Key, item =>
-        {
-            int hour = default, minute = default, second = default;
-            var entity = item.FirstOrDefault();
-            if (entity is not null)
-            {
-                hour = entity.Hour;
-                minute = entity.Minute;
-                second = entity.Second;
-            }
-            return new IAbstractPool.SpindleSpeedOdometerChartData.Detail
-            {
-                Hour = hour,
-                Minute = minute,
-                Second = second,
-                EventTime = endTime
-            };
-        }).OrderBy(item => item.Key).ToImmutableDictionary();
     }
 
     [Measurement("speed_odometers")]

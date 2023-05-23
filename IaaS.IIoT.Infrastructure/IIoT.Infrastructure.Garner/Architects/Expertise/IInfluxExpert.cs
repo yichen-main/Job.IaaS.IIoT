@@ -1,20 +1,21 @@
-﻿namespace Infrastructure.Garner.Architects.Expertise;
+﻿using static Infrastructure.Garner.Architects.Expertise.IInfluxExpert;
+
+namespace Infrastructure.Garner.Architects.Expertise;
 public interface IInfluxExpert
 {
     ValueTask WriteAsync<T>(T entity, string bucket);
     ValueTask WriteAsync<T>(T[] entities, string bucket);
-    T[] Read<T>(in string bucket, string identifier, DateTime startTime, DateTime endTime) where T : MetaBase;
+    ValueTask<T[]> ReadAsync<T>(string bucket, string identifier, DateTime startTime, DateTime endTime) where T : MetaBase;
     enum BucketTag
     {
         [Description("base_machines")] BaseMachine = 101,
         [Description("part_controllers")] Controller = 201,
-        [Description("part_spindles")] Spindle = 202,
         [Description("part_water_tanks")] WaterTank = 203,
-        [Description("tack_sensors")] Sensor = 301
     }
     abstract class MetaBase
     {
-        [Column("_identifier", IsTag = true)] public required string Identifier { get; init; }
+        public const string Id = "_identifier";
+        [Column(Id, IsTag = true)] public required string Identifier { get; init; }
         [Column(IsTimestamp = true)] public required DateTime Timestamp { get; init; }
     }
 }
@@ -25,33 +26,39 @@ file sealed class InfluxExpert(IBaseLoader baseLoader) : IInfluxExpert
     readonly IBaseLoader _baseLoader = baseLoader;
     public async ValueTask WriteAsync<T>(T entity, string bucket)
     {
-        if (_baseLoader.StorageEnabled && _baseLoader.Profile is not null)
+        var url = _baseLoader.GetStorageURL();
+        if (_baseLoader.StorageEnabled && url is not null)
         {
-            var address = _baseLoader.GetStorageAddress(_baseLoader.Profile.Database.IP, _baseLoader.Profile.Database.InfluxDB);
-            using var result = new InfluxDBClient(address, _baseLoader.UserName, _baseLoader.Password);
-            await result.GetWriteApiAsync().WriteMeasurementAsync(entity, WritePrecision.Ns, bucket, Hash.Organize.UseDecryptAES());
+            using var client = new InfluxDBClient(url, _baseLoader.UserName, _baseLoader.Password);
+            await client.GetWriteApiAsync().WriteMeasurementAsync(entity, WritePrecision.Ns, bucket, Organize);
         }
     }
     public async ValueTask WriteAsync<T>(T[] entities, string bucket)
     {
-        if (_baseLoader.StorageEnabled && _baseLoader.Profile is not null)
+        var url = _baseLoader.GetStorageURL();
+        if (_baseLoader.StorageEnabled && url is not null)
         {
-            var address = _baseLoader.GetStorageAddress(_baseLoader.Profile.Database.IP, _baseLoader.Profile.Database.InfluxDB);
-            using var result = new InfluxDBClient(address, _baseLoader.UserName, _baseLoader.Password);
-            await result.GetWriteApiAsync().WriteMeasurementsAsync(entities, WritePrecision.Ns, bucket, Hash.Organize.UseDecryptAES());
+            using var client = new InfluxDBClient(url, _baseLoader.UserName, _baseLoader.Password);
+            await client.GetWriteApiAsync().WriteMeasurementsAsync(entities, WritePrecision.Ns, bucket, Organize);
         }
     }
-    public T[] Read<T>(in string bucket, string identifier, DateTime startTime, DateTime endTime) where T : IInfluxExpert.MetaBase
+    public async ValueTask<T[]> ReadAsync<T>(string bucket, string identifier, DateTime startTime, DateTime endTime) where T : MetaBase
     {
-        if (_baseLoader.StorageEnabled && _baseLoader.Profile is not null)
+        var url = _baseLoader.GetStorageURL();
+        if (_baseLoader.StorageEnabled && url is not null)
         {
-            var address = _baseLoader.GetStorageAddress(_baseLoader.Profile.Database.IP, _baseLoader.Profile.Database.InfluxDB);
-            using var result = new InfluxDBClient(address, _baseLoader.UserName, _baseLoader.Password);
-            return InfluxDBQueryable<T>.Queryable(bucket, Hash.Organize.UseDecryptAES(), result.GetQueryApiSync()).Where(item =>
-            item.Identifier == identifier && item.Timestamp > startTime.ToUniversalTime() && item.Timestamp < endTime.ToUniversalTime())
-            .OrderByDescending(item => item.Timestamp).ToArray();
+            using var client = new InfluxDBClient(url, _baseLoader.UserName, _baseLoader.Password);
+            var result = await client.GetQueryApi().QueryAsync<T>($"""
+            from(bucket: "{bucket}")
+                |> range(start: {Format(startTime.ToUniversalTime())}, stop: {Format(endTime.ToUniversalTime())})
+                |> filter(fn: (r) => (r["{MetaBase.Id}"] == "{identifier}"))
+                |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+                |> drop(columns: ["_start", "_stop", "_measurement"])
+            """, Organize);
+            return result.OrderByDescending(item => item.Timestamp).ToArray();
         }
         return Array.Empty<T>();
+        static string Format(DateTime time) => $"{time:yyyy-MM-ddTHH:mm:ssZ}";
     }
-
+    static string Organize => Hash.Organize.UseDecryptAES();
 }

@@ -3,7 +3,7 @@
 namespace Platform.Domain.Shared.Pools;
 public interface IRawCalculation
 {
-    void SstatisticsUnitDay();
+    Task StatisticsUnitDayAsync();
     readonly record struct StatisticalUnitDayEntity
     {
         public required byte Availability { get; init; }
@@ -22,26 +22,23 @@ file sealed class RawCalculation(IBaseLoader baseLoader, ITimelineWrapper timeli
 {
     readonly IBaseLoader _baseLoader = baseLoader;
     readonly ITimelineWrapper _timelineWrapper = timelineWrapper;
-    public void SstatisticsUnitDay()
+    public async Task StatisticsUnitDayAsync()
     {
         List<StatisticalUnitDayEntity.RunChartMinute> runChartMinutes = new();
-        foreach (var (status, time) in _timelineWrapper.RootInformation.OneDayMachineStatusMinutes())
+        await foreach (var (status, time) in _timelineWrapper.RootInformation.OneDayMachineStatusMinutesAsync()) runChartMinutes.Add(new()
         {
-            runChartMinutes.Add(new()
+            MachineStatus = status switch
             {
-                MachineStatus = status switch
-                {
-                    (byte)IRootInformation.MachineStatus.Idle => nameof(IRootInformation.MachineStatus.Idle),
-                    (byte)IRootInformation.MachineStatus.Run => nameof(IRootInformation.MachineStatus.Run),
-                    (byte)IRootInformation.MachineStatus.Error => nameof(IRootInformation.MachineStatus.Error),
-                    _ => nameof(IRootInformation.MachineStatus.Shutdown)
-                },
-                Timestamp = time.ToTimestamp(_baseLoader.GetTimeZone(), "MM/dd HH:mm")
-            });
-        }
+                (byte)IRootInformation.MachineStatus.Idle => nameof(IRootInformation.MachineStatus.Idle),
+                (byte)IRootInformation.MachineStatus.Run => nameof(IRootInformation.MachineStatus.Run),
+                (byte)IRootInformation.MachineStatus.Error => nameof(IRootInformation.MachineStatus.Error),
+                _ => nameof(IRootInformation.MachineStatus.Shutdown)
+            },
+            Timestamp = time.ToTimestamp(_baseLoader.GetTimeZone(), "MM/dd HH:mm")
+        });
         StatisticalUnitDay = new StatisticalUnitDayEntity
         {
-            Availability = _timelineWrapper.RootInformation.MachineAvailability(),
+            Availability = await _timelineWrapper.RootInformation.MachineAvailabilityAsync(),
             RunChartMinutes = runChartMinutes
         };
     }

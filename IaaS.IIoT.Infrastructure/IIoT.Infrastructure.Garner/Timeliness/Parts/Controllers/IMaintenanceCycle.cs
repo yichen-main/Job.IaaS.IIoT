@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Garner.Timeseries.Parts.Controllers;
+﻿namespace Infrastructure.Garner.Timeliness.Parts.Controllers;
 public interface IMaintenanceCycle
 {
     Task InsertAsync(Data[] datas);

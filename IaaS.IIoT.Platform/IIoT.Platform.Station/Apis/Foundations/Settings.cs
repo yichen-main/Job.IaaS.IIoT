@@ -1,6 +1,6 @@
 ﻿namespace Platform.Station.Apis.Foundations;
 
-[ApiExplorerSettings(GroupName = nameof(Foundations))]
+[EnableCors, ApiExplorerSettings(GroupName = nameof(Foundations))]
 public class Settings(IBaseLoader baseLoader) : ControllerBase
 {
     const string _carbonEmissionTag = "carbon-emission";

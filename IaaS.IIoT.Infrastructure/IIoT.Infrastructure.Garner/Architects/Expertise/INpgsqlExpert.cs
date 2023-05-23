@@ -9,7 +9,7 @@ public interface INpgsqlExpert
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class NpgsqlElement : INpgsqlExpert
+file sealed class NpgsqlExpert : INpgsqlExpert
 {
     const string _primaryKey = " PRIMARY KEY";
     public string MarkTable<T>(in TableInfo info) where T : struct

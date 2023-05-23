@@ -40,17 +40,17 @@ public interface ILogin
         [Field(Name = "creator")] public required string Creator { get; init; }
         [Field(Name = "create_time")] public required DateTime CreateTime { get; init; }
     }
-    string TableName { get; init; }
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class Login : TacticDevelop, ILogin
+file sealed class Login(INpgsqlExpert npgsqlExpert) : TacticDevelop, ILogin
 {
+    readonly INpgsqlExpert _npgsqlExpert = npgsqlExpert;
     public async ValueTask InstallAsync()
     {
         if (!await ExistTableAsync(TableName))
         {
-            await ExecuteAsync(NpgsqlExpert.MarkTable<Entity>(new()
+            await ExecuteAsync(_npgsqlExpert.MarkTable<Entity>(new()
             {
                 Uniques = new[]
                 {
@@ -72,8 +72,8 @@ file sealed class Login : TacticDevelop, ILogin
             });
         }
     }
-    public async ValueTask AddAsync(Entity entity) => await ExecuteAsync(NpgsqlExpert.MarkInsert<Entity>(), entity);
-    public async ValueTask UpdateAsync(Entity entity) => await ExecuteAsync(NpgsqlExpert.MarkUpdate<Entity>(new[]
+    public async ValueTask AddAsync(Entity entity) => await ExecuteAsync(_npgsqlExpert.MarkInsert<Entity>(), entity);
+    public async ValueTask UpdateAsync(Entity entity) => await ExecuteAsync(_npgsqlExpert.MarkUpdate<Entity>(new[]
     {
         nameof(Entity.GroupType),
         nameof(Entity.LicenseType),
@@ -85,7 +85,7 @@ file sealed class Login : TacticDevelop, ILogin
     }), entity);
     public async Task<Entity> GetAsync(Guid id)
     {
-        var result = await SingleQueryAsync<Entity>(NpgsqlExpert.MarkQuery<Entity>(new[]
+        var result = await SingleQueryAsync<Entity>(_npgsqlExpert.MarkQuery<Entity>(new[]
         {
             nameof(Entity.Id),
             nameof(Entity.GroupType),
@@ -112,7 +112,7 @@ file sealed class Login : TacticDevelop, ILogin
     }
     public async Task<Entity> GetAsync(string account)
     {
-        var result = await SingleQueryAsync<Entity>(NpgsqlExpert.MarkQuery<Entity>(new[]
+        var result = await SingleQueryAsync<Entity>(_npgsqlExpert.MarkQuery<Entity>(new[]
         {
             nameof(Entity.Id),
             nameof(Entity.GroupType),
@@ -139,7 +139,7 @@ file sealed class Login : TacticDevelop, ILogin
     }
     public async Task<IEnumerable<Entity>> ListAsync()
     {
-        var result = await QueryAsync<Entity>(NpgsqlExpert.MarkQuery<Entity>(new[]
+        var result = await QueryAsync<Entity>(_npgsqlExpert.MarkQuery<Entity>(new[]
         {
             nameof(Entity.Id),
             nameof(Entity.GroupType),
@@ -166,7 +166,7 @@ file sealed class Login : TacticDevelop, ILogin
     }
     public async Task<IEnumerable<Entity>> ListAsync(Group genre)
     {
-        var result = await QueryAsync<Entity>(NpgsqlExpert.MarkQuery<Entity>(new[]
+        var result = await QueryAsync<Entity>(_npgsqlExpert.MarkQuery<Entity>(new[]
         {
             nameof(Entity.Id),
             nameof(Entity.GroupType),
@@ -191,6 +191,5 @@ file sealed class Login : TacticDevelop, ILogin
             CreateTime = item.CreateTime
         });
     }
-    public string TableName { get; init; } = TableName<Entity>();
-    public required INpgsqlExpert NpgsqlExpert { get; init; }
+    static string TableName => TableName<Entity>();
 }

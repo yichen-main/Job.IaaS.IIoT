@@ -12,22 +12,22 @@ public interface IFocasHelper
     }
     record struct InformationEntity
     {
+        public OperatingState OperatingState { get; set; }
+        public string AlarmMessage { get; set; }
+        public string CNCSeries { get; set; }
+        public string CNCTypeName { get; set; }
+        public string Version { get; set; }
         public short MaxAxis { get; set; }
+        public string AxisQuantity { get; set; }
+        public short TurretCapacity { get; set; }
         public short ProgramNo { get; set; }
         public short SubroutineNo { get; set; }
         public string ProgramName { get; set; }
-        public string AlarmMessage { get; set; }
-        public string AxisQuantity { get; set; }
         public string MtTypeName { get; set; }
-        public string Version { get; set; }
-        public string CNCSeries { get; set; }
-        public string CNCTypeName { get; set; }
-        public OperatingState OperatingState { get; set; }
         public string AutomaticMode { get; set; }
         public int BootTime { get; set; }
         public int RunTime { get; set; }
         public int OutputCounter { get; set; }
-        public short TurretCapacity { get; set; }
         public IEnumerable<Coordinate> Coordinates { get; set; }
 
         [StructLayout(LayoutKind.Auto)]
@@ -41,11 +41,20 @@ public interface IFocasHelper
     [StructLayout(LayoutKind.Auto)]
     record struct PartSpindleEntity
     {
+        public int RotationalFrequency { get; set; }
         public int FeedRate { get; set; }
-        public int SpindleSpeed { get; set; }
         public int CuttingSpeed { get; set; }
         public int CuttingTime { get; set; }
+        public uint OpenCutterCount { get; set; }
+        public IEnumerable<SpeedTimeMileage> SpeedTimeMileages { get; set; }
+        public readonly record struct SpeedTimeMileage
+        {
+            public required int SerialNo { get; init; }
+            public required double TimeConsuming { get; init; }
+            public required string Description { get; init; }
+        }
     }
+    bool Connected { get; }
     InformationEntity Information { get; }
     PartSpindleEntity PartSpindle { get; }
 }
@@ -61,7 +70,9 @@ file sealed class FocasHelper : FocasDevelop, IFocasHelper
             PushInformation();
             PushPartSpindle();
             cnc_freelibhndl(_handle);
+            Connected = true;
         }
+        else Connected = default;
     }
     void PushInformation()
     {
@@ -259,10 +270,12 @@ file sealed class FocasHelper : FocasDevelop, IFocasHelper
         PartSpindleEntity result = new();
         ODBACT spindleSpeedData = new();
         var cncActs = cnc_acts(_handle, spindleSpeedData);
-        if (cncActs is EW_OK) result.SpindleSpeed = spindleSpeedData.data;
-        IODBPMC0 pmcData = new();
-        var pmcRdpmcrng = pmc_rdpmcrng(_handle, 0, 1, 12, 13, 8 + 1 * 2, pmcData);
-        if (pmcRdpmcrng is EW_OK) result.FeedRate = 255 - pmcData.cdata[0];
+        if (cncActs is EW_OK) result.RotationalFrequency = spindleSpeedData.data;
+
+        //G12 Feed rate
+        var pmcRdpmcrng = ReadPMCWord(Register.G, 12);
+        if (pmcRdpmcrng is EW_OK) result.FeedRate = 255 - pmcRdpmcrng;
+
         ODBACT cuttingData = new();
         var cncActf = cnc_actf(_handle, cuttingData);
         if (cncActf is EW_OK) result.CuttingSpeed = cuttingData.data;
@@ -275,63 +288,179 @@ file sealed class FocasHelper : FocasDevelop, IFocasHelper
             cncRdparam = cnc_rdparam(_handle, 6754, 0, 8 + 32, parameter6754);
             if (cncRdparam is EW_OK) result.CuttingTime = parameter6754.ldata * 60 + cuttingTimeSecond;
         }
+        result.OpenCutterCount = 0;
+        result.SpeedTimeMileages = new[]
+        {
+            new PartSpindleEntity.SpeedTimeMileage
+            {
+                SerialNo = 1,
+                TimeConsuming = ReadPMCDWord(Register.D, 1004) +
+                Math.Round(TimeSpan.FromSeconds(ReadPMCDWord(Register.D, 1000)).TotalHours, 2, MidpointRounding.AwayFromZero),
+                Description = "30~2029RPM"
+            },
+            new PartSpindleEntity.SpeedTimeMileage
+            {
+                SerialNo = 2,
+                TimeConsuming = ReadPMCDWord(Register.D, 1012) +
+                Math.Round(TimeSpan.FromSeconds(ReadPMCDWord(Register.D, 10008)).TotalHours, 2, MidpointRounding.AwayFromZero),
+                Description = "2030~4029RPM"
+            },
+            new PartSpindleEntity.SpeedTimeMileage
+            {
+                SerialNo = 3,
+                TimeConsuming = ReadPMCDWord(Register.D, 1020) +
+                Math.Round(TimeSpan.FromSeconds(ReadPMCDWord(Register.D, 1016)).TotalHours, 2, MidpointRounding.AwayFromZero),
+                Description = "4030~6029RPM"
+            },
+            new PartSpindleEntity.SpeedTimeMileage
+            {
+                SerialNo = 4,
+                TimeConsuming = ReadPMCDWord(Register.D, 1028) +
+                Math.Round(TimeSpan.FromSeconds(ReadPMCDWord(Register.D, 1024)).TotalHours, 2, MidpointRounding.AwayFromZero),
+                Description = "6030~8029RPM"
+            },
+            new PartSpindleEntity.SpeedTimeMileage
+            {
+                SerialNo = 5,
+                TimeConsuming = ReadPMCDWord(Register.D, 1036) +
+                Math.Round(TimeSpan.FromSeconds(ReadPMCDWord(Register.D, 1032)).TotalHours, 2, MidpointRounding.AwayFromZero),
+                Description = "8030~10029RPM"
+            },
+            new PartSpindleEntity.SpeedTimeMileage
+            {
+                SerialNo = 6,
+                TimeConsuming = ReadPMCDWord(Register.D, 1044) +
+                Math.Round(TimeSpan.FromSeconds(ReadPMCDWord(Register.D, 1040)).TotalHours, 2, MidpointRounding.AwayFromZero),
+                Description = "10030~12029RPM"
+            },
+            new PartSpindleEntity.SpeedTimeMileage
+            {
+                SerialNo = 7,
+                TimeConsuming = ReadPMCDWord(Register.D, 1052) +
+                Math.Round(TimeSpan.FromSeconds(ReadPMCDWord(Register.D, 1048)).TotalHours, 2, MidpointRounding.AwayFromZero),
+                Description = "12030~14029RPM"
+            },
+            new PartSpindleEntity.SpeedTimeMileage
+            {
+                SerialNo = 8,
+                TimeConsuming = ReadPMCDWord(Register.D, 1060) +
+                Math.Round(TimeSpan.FromSeconds(ReadPMCDWord(Register.D, 1056)).TotalHours, 2, MidpointRounding.AwayFromZero),
+                Description = "14030~16029RPM"
+            },
+            new PartSpindleEntity.SpeedTimeMileage
+            {
+                SerialNo = 9,
+                TimeConsuming = ReadPMCDWord(Register.D, 1068) +
+                Math.Round(TimeSpan.FromSeconds(ReadPMCDWord(Register.D, 1064)).TotalHours, 2, MidpointRounding.AwayFromZero),
+                Description = "16030~18029RPM"
+            },
+            new PartSpindleEntity.SpeedTimeMileage
+            {
+                SerialNo = 10,
+                TimeConsuming = ReadPMCDWord(Register.D, 1076) +
+                Math.Round(TimeSpan.FromSeconds(ReadPMCDWord(Register.D, 1072)).TotalHours, 2, MidpointRounding.AwayFromZero),
+                Description = "18030~20029RPM"
+            },
+            new PartSpindleEntity.SpeedTimeMileage
+            {
+                SerialNo = 11,
+                TimeConsuming = ReadPMCDWord(Register.D, 1084) +
+                Math.Round(TimeSpan.FromSeconds(ReadPMCDWord(Register.D, 1080)).TotalHours, 2, MidpointRounding.AwayFromZero),
+                Description = "20030~22029RPM"
+            },
+            new PartSpindleEntity.SpeedTimeMileage
+            {
+                SerialNo = 12,
+                TimeConsuming = ReadPMCDWord(Register.D, 1092) +
+                Math.Round(TimeSpan.FromSeconds(ReadPMCDWord(Register.D, 1088)).TotalHours, 2, MidpointRounding.AwayFromZero),
+                Description = "22030~24029RPM"
+            },
+            new PartSpindleEntity.SpeedTimeMileage
+            {
+                SerialNo = 13,
+                TimeConsuming = ReadPMCDWord(Register.D, 1100) +
+                Math.Round(TimeSpan.FromSeconds(ReadPMCDWord(Register.D, 1096)).TotalHours, 2, MidpointRounding.AwayFromZero),
+                Description = "24030~26029RPM"
+            },
+            new PartSpindleEntity.SpeedTimeMileage
+            {
+                SerialNo = 14,
+                TimeConsuming = ReadPMCDWord(Register.D, 1108) +
+                Math.Round(TimeSpan.FromSeconds(ReadPMCDWord(Register.D, 1104)).TotalHours, 2, MidpointRounding.AwayFromZero),
+                Description = "26030~28029RPM"
+            },
+            new PartSpindleEntity.SpeedTimeMileage
+            {
+                SerialNo = 15,
+                TimeConsuming = ReadPMCDWord(Register.D, 1116) +
+                Math.Round(TimeSpan.FromSeconds(ReadPMCDWord(Register.D, 1112)).TotalHours, 2, MidpointRounding.AwayFromZero),
+                Description = "28030~30029RPM"
+            },
+            new PartSpindleEntity.SpeedTimeMileage
+            {
+                SerialNo = 16,
+                TimeConsuming = ReadPMCDWord(Register.D, 1194) +
+                Math.Round(TimeSpan.FromSeconds(ReadPMCDWord(Register.D, 1190)).TotalHours, 2, MidpointRounding.AwayFromZero),
+                Description = "30~30029RPM"
+            }
+        };
         PartSpindle = result;
     }
-    internal void WritePMCByte(AddrType addr_type, short location, byte value)
+    internal void WritePMCByte(Register register, short address, byte value)
     {
         IODBPMC0 result = new() { cdata = new byte[5] };
-        result.cdata[0] = value;
-        result.type_a = (short)addr_type;
-        result.type_d = (short)LengthType.Byte;
-        result.datano_s = location;
-        result.datano_e = location;
+        result.cdata[default] = value;
+        result.type_a = (short)register;
+        result.type_d = (short)Length.Byte;
+        result.datano_s = address;
+        result.datano_e = address;
         pmc_wrpmcrng(_handle, 9, result);
     }
-    internal void WritePMCWord(AddrType addr_type, short location, short value)
+    internal void WritePMCWord(Register register, short address, short value)
     {
         IODBPMC1 result = new() { idata = new short[5] };
-        result.idata[0] = value;
-        result.type_a = (short)addr_type;
-        result.type_d = (short)LengthType.Word;
-        result.datano_s = location;
-        result.datano_e = (short)(location + 1);
+        result.idata[default] = value;
+        result.type_a = (short)register;
+        result.type_d = (short)Length.Word;
+        result.datano_s = address;
+        result.datano_e = (short)(address + 1);
         pmc_wrpmcrng(_handle, 10, result);
     }
-    internal void WritePMCDWord(AddrType addr_type, short location, int value)
+    internal void WritePMCDWord(Register register, short address, int value)
     {
         IODBPMC2 result = new() { ldata = new int[5] };
-        result.ldata[0] = value;
-        result.type_a = (short)addr_type;
-        result.type_d = (short)LengthType.DWord;
-        result.datano_s = location;
-        result.datano_e = (short)(location + 3);
+        result.ldata[default] = value;
+        result.type_a = (short)register;
+        result.type_d = (short)Length.DWord;
+        result.datano_s = address;
+        result.datano_e = (short)(address + 3);
         pmc_wrpmcrng(_handle, 12, result);
     }
-    internal byte ReadPMCByte(AddrType addr_type, ushort location)
+    internal byte ReadPMCByte(Register register, ushort address)
     {
         IODBPMC0 result = new();
-        if (pmc_rdpmcrng(_handle, (short)addr_type, (short)LengthType.Byte, location, location, 9, result) is EW_OK) return result.cdata[0];
+        if (pmc_rdpmcrng(_handle, (short)register, (short)Length.Byte, address, address, 9, result) is EW_OK) return result.cdata[default];
         return default;
     }
-    internal short ReadPMCWord(AddrType addr_type, ushort location)
+    short ReadPMCWord(Register register, ushort address)
     {
         IODBPMC1 result = new();
-        if (pmc_rdpmcrng(_handle, (short)addr_type, (short)LengthType.Word, location, (ushort)(location + 1), 10, result) is EW_OK) return result.idata[0];
+        if (pmc_rdpmcrng(_handle, (short)register, (short)Length.Word, address, (ushort)(address + 1), 10, result) is EW_OK) return result.idata[default];
         return default;
     }
-    internal int ReadPMCDWord(AddrType addr_type, ushort location)
+    int ReadPMCDWord(Register register, ushort address)
     {
         IODBPMC2 result = new();
-        if (pmc_rdpmcrng(_handle, (short)addr_type, (short)LengthType.DWord, location, (ushort)(location + 3), 12, result) is EW_OK) return result.ldata[0];
+        if (pmc_rdpmcrng(_handle, (short)register, (short)Length.DWord, address, (ushort)(address + 3), 12, result) is EW_OK) return result.ldata[default];
         return default;
     }
-    internal enum LengthType
+    internal enum Length
     {
         Byte = 0,
         Word = 1,
         DWord = 2
     }
-    internal enum AddrType
+    internal enum Register
     {
         G = 0,
         F = 1,
@@ -348,6 +477,7 @@ file sealed class FocasHelper : FocasDevelop, IFocasHelper
         E = 12,
         Z = 13
     }
+    public bool Connected { get; private set; }
     public InformationEntity Information { get; private set; }
     public PartSpindleEntity PartSpindle { get; private set; }
 }

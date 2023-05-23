@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Garner.Timeseries.Parts.WaterTanks;
+﻿namespace Infrastructure.Garner.Timeliness.Parts.WaterTanks;
 public interface IPumpMotorElectricity
 {
     Task InsertAsync(Data data);

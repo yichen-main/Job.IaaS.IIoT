@@ -80,7 +80,7 @@ file sealed class ModbusHelper(IBaseLoader baseLoader) : IModbusHelper
                     ReactiveEnergy = Math.Round(floats[16], decimalPlaces),
                     ActiveEnergy = activeEnergy,
                     ApparentEnergy = Math.Round(floats[17], decimalPlaces),
-                    CarbonEmission = activeEnergy * carbonEmissionFactor * globalWarmingPotential
+                    CarbonEmission = Math.Round(activeEnergy * carbonEmissionFactor * globalWarmingPotential, 2, MidpointRounding.AwayFromZero)
                 };
             }
         }

@@ -8,7 +8,7 @@ public interface IBaseLoader
     ValueTask OverwriteProfileAsync(MainDilation.Profile profile);
     TimeZoneType GetTimeZone();
     ValueTask InitialStorageAsync(string bucket);
-    string GetStorageAddress(string ip, int port);
+    string? GetStorageURL();
     bool FileLock { get; set; }
     bool StorageEnabled { get; set; }
     string? UserName { get; }
@@ -103,7 +103,6 @@ file sealed class BaseLoader : IBaseLoader
         await profile.CreateProfileAaync(cover: true);
         FileLock = false;
     }
-
     public TimeZoneType GetTimeZone()
     {
         if (Profile is not null) return Profile.TimeZone switch
@@ -117,10 +116,10 @@ file sealed class BaseLoader : IBaseLoader
     }
     public async ValueTask InitialStorageAsync(string bucket)
     {
-        if (Profile is not null)
+        var url = GetStorageURL();
+        if (url is not null)
         {
-            var address = GetStorageAddress(Profile.Database.IP, Profile.Database.InfluxDB);
-            using var result = new InfluxDBClient(address, UserName, Password);
+            using var result = new InfluxDBClient(url, UserName, Password);
             var entity = await result.GetBucketsApi().FindBucketByNameAsync(bucket);
             if (entity is null)
             {
@@ -130,7 +129,11 @@ file sealed class BaseLoader : IBaseLoader
             }
         }
     }
-    public string GetStorageAddress(string ip, int port) => $"{Uri.UriSchemeHttp}://{ip}:{port}";
+    public string? GetStorageURL()
+    {
+        if (Profile is not null) return $"{Uri.UriSchemeHttp}://{Profile.Database.IP}:{Profile.Database.InfluxDB}";
+        return default;
+    }
     ILogger BasicSettings { get; init; }
     ILogger MachineParts { get; init; }
     Task? Marquee { get; set; }

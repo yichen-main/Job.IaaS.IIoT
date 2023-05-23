@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Garner.Timeseries.Bases.Enrollments;
+﻿namespace Infrastructure.Garner.Timeliness.Tacks.Bases;
 public interface IOpcUaRegistrant
 {
     Task InsertAsync(Data data);

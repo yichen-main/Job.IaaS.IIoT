@@ -1,10 +1,8 @@
 ﻿namespace Platform.Application.Supports.Carriers;
-internal sealed class DataTransaction : BackgroundService
+internal sealed class DataTransaction(IBaseLoader baseLoader, IMessagePublisher messagePublisher) : BackgroundService
 {
-    readonly IBaseLoader _baseLoader;
-    readonly IMessagePublisher _messagePublisher;
-    public DataTransaction(IBaseLoader baseLoader, IMessagePublisher messagePublisher)
-        => (_baseLoader, _messagePublisher) = (baseLoader, messagePublisher);
+    readonly IBaseLoader _baseLoader = baseLoader;
+    readonly IMessagePublisher _messagePublisher = messagePublisher;
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (await new PeriodicTimer(TimeSpan.FromSeconds(1)).WaitForNextTickAsync(stoppingToken))
@@ -13,8 +11,8 @@ internal sealed class DataTransaction : BackgroundService
             {
                 await Task.WhenAll(new Task[]
                 {
-                    _messagePublisher.BasicInformationAsync(),
-                    _messagePublisher.PartInformationAsync()
+                    _messagePublisher.BaseGroupAsync(),
+                    _messagePublisher.PartGroupAsync()
                 });
                 if (Histories.Any()) Histories.Clear();
             }

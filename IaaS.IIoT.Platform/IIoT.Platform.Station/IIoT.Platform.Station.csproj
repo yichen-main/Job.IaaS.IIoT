@@ -14,6 +14,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="GraphQL" Version="7.4.1" />
 		<PackageReference Include="Meziantou.Analyzer" Version="2.0.52">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -39,6 +40,8 @@
 	<ItemGroup>
 		<Using Include="Microsoft.AspNetCore.Authentication" />
 		<Using Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+		<Using Include="Microsoft.AspNetCore.Authorization" />
+		<Using Include="Microsoft.AspNetCore.Cors" />
 		<Using Include="Microsoft.AspNetCore.Mvc" />
 		<Using Include="Microsoft.AspNetCore.Mvc.ApplicationModels" />
 		<Using Include="Microsoft.AspNetCore.Mvc.Filters" />

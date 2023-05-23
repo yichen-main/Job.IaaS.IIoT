@@ -7116,8 +7116,7 @@ public abstract class FocasDevelop
     {
         public short dummy;             /* dummy */
         public short type;              /* axis number */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public sbyte[] data;              /* data value */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public sbyte[] data;              /* data value */
     }
 
 
@@ -7129,8 +7128,7 @@ public abstract class FocasDevelop
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 4)]
     public class CFILEINFO_data
     {
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 12)]
-        public string fname = new string(' ', 12); /* file name */
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 12)] public string fname = new string(' ', 12); /* file name */
         public int file_size; /* file size (bytes) */
         public int file_attr; /* attribute */
         public short year;       /* year */
@@ -7164,48 +7162,33 @@ public abstract class FocasDevelop
     [StructLayout(LayoutKind.Explicit)]
     public class IODBPMC0
     {
-        [FieldOffset(0)]
-        public short type_a;    /* PMC address type */
-        [FieldOffset(2)]
-        public short type_d;    /* PMC data type */
-        [FieldOffset(4)]
-        public short datano_s;  /* start PMC address */
-        [FieldOffset(6)]
-        public short datano_e;  /* end PMC address */
-        [FieldOffset(8),
-        MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)]
+        [FieldOffset(0)] public short type_a;    /* PMC address type */
+        [FieldOffset(2)] public short type_d;    /* PMC data type */
+        [FieldOffset(4)] public short datano_s;  /* start PMC address */
+        [FieldOffset(6)] public short datano_e;  /* end PMC address */
+        [FieldOffset(8), MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)]
         public byte[] cdata;       /* PMC data */
     } /* In case that the number of data is 5 */
 
     [StructLayout(LayoutKind.Explicit)]
     public class IODBPMC1
     {
-        [FieldOffset(0)]
-        public short type_a;    /* PMC address type */
-        [FieldOffset(2)]
-        public short type_d;    /* PMC data type */
-        [FieldOffset(4)]
-        public short datano_s;  /* start PMC address */
-        [FieldOffset(6)]
-        public short datano_e;  /* end PMC address */
-        [FieldOffset(8),
-        MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)]
+        [FieldOffset(0)] public short type_a;    /* PMC address type */
+        [FieldOffset(2)] public short type_d;    /* PMC data type */
+        [FieldOffset(4)] public short datano_s;  /* start PMC address */
+        [FieldOffset(6)] public short datano_e;  /* end PMC address */
+        [FieldOffset(8), MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)]
         public short[] idata;
     } /* In case that the number of data is 5 */
 
     [StructLayout(LayoutKind.Explicit)]
     public class IODBPMC2
     {
-        [FieldOffset(0)]
-        public short type_a;    /* PMC address type */
-        [FieldOffset(2)]
-        public short type_d;    /* PMC data type */
-        [FieldOffset(4)]
-        public short datano_s;  /* start PMC address */
-        [FieldOffset(6)]
-        public short datano_e;  /* end PMC address */
-        [FieldOffset(8),
-        MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)]
+        [FieldOffset(0)] public short type_a;    /* PMC address type */
+        [FieldOffset(2)] public short type_d;    /* PMC data type */
+        [FieldOffset(4)] public short datano_s;  /* start PMC address */
+        [FieldOffset(6)] public short datano_e;  /* end PMC address */
+        [FieldOffset(8), MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)]
         public int[] ldata;
     } /* In case that the number of data is 5 */
 
@@ -7304,6 +7287,7 @@ public abstract class FocasDevelop
         public ushort data_dsp;
         public short dummy;
     }
+
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class IODBPMCCNTL1
     {

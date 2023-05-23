@@ -1,12 +1,13 @@
 ﻿namespace Platform.Station.Apis.Foundations;
 
-[ApiExplorerSettings(GroupName = nameof(Foundations)), EnableRateLimiting("Fixed")]
-public class Authorizes(IPassVerifier passVerifier) : ControllerBase
+[Authorize(), EnableCors, ApiExplorerSettings(GroupName = nameof(Foundations)), EnableRateLimiting("Fixed")]
+public class Authorizes(IBaseLoader baseLoader, IPassVerifier passVerifier) : ControllerBase
 {
     const string _loginTag = "login";
+    readonly IBaseLoader _baseLoader = baseLoader;
     readonly IPassVerifier _passVerifier = passVerifier;
 
-    [HttpPost(_loginTag, Name = nameof(InsertLogin))]
+    [AllowAnonymous, HttpPost(_loginTag, Name = nameof(InsertLogin))]
     public IActionResult InsertLogin([FromForm] InputLoginBody body)
     {
         try
@@ -26,11 +27,17 @@ public class Authorizes(IPassVerifier passVerifier) : ControllerBase
         }
     }
 
-    [HttpPut(_loginTag, Name = nameof(UpdateLogin))]
-    public IActionResult UpdateLogin([FromForm] InputLoginBody body)
+    [HttpPut(_loginTag, Name = nameof(UpdateLoginAsync))]
+    public async Task<IActionResult> UpdateLoginAsync([FromForm] InputLoginBody body)
     {
         try
         {
+            if (_baseLoader.Profile is not null)
+            {
+                _baseLoader.FileLock = true;
+                _baseLoader.Profile.UserCode = $"{body.Account}{body.Password}".ToMd5().UseEncryptAES();
+                await _baseLoader.OverwriteProfileAsync(_baseLoader.Profile);
+            }
             return NoContent();
         }
         catch (Exception e)

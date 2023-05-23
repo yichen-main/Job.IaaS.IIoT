@@ -1,7 +1,7 @@
-﻿using static Infrastructure.Garner.Architects.Pools.IMitsubishiPool;
+﻿using static Infrastructure.Garner.Architects.Pools.IMitsubishiHelper;
 
 namespace Infrastructure.Garner.Architects.Pools;
-public interface IMitsubishiPool
+public interface IMitsubishiHelper
 {
     void Push(in AlarmGate value);
     void Push(in PartGate value);
@@ -84,7 +84,7 @@ public interface IMitsubishiPool
 }
 
 [Dependency(ServiceLifetime.Singleton)]
-file sealed class MitsubishiPool : IMitsubishiPool
+file sealed class MitsubishiHelper : IMitsubishiHelper
 {
     public void Push(in PartGate value) => Part = value;
     public void Push(in FixtureGate value) => Fixture = value;

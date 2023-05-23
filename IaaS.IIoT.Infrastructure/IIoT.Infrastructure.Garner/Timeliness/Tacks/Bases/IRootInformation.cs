@@ -1,11 +1,11 @@
-﻿using static Infrastructure.Garner.Timeliness.Basics.IRootInformation;
+﻿using static Infrastructure.Garner.Timeliness.Tacks.Bases.IRootInformation;
 
-namespace Infrastructure.Garner.Timeliness.Basics;
+namespace Infrastructure.Garner.Timeliness.Tacks.Bases;
 public interface IRootInformation
 {
     Task InsertAsync(Data data);
-    byte MachineAvailability();
-    IEnumerable<(byte status, DateTime time)> OneDayMachineStatusMinutes();
+    Task<byte> MachineAvailabilityAsync();
+    IAsyncEnumerable<(byte status, DateTime time)> OneDayMachineStatusMinutesAsync();
     public enum MachineStatus
     {
         Shutdown = 0,
@@ -36,7 +36,7 @@ file sealed class RootInformation(IBaseLoader baseLoader, IInfluxExpert influxEx
         Identifier = Identifier,
         Timestamp = DateTime.UtcNow
     }, Bucket);
-    public byte MachineAvailability()
+    public async Task<byte> MachineAvailabilityAsync()
     {
         byte availability = default;
         if (_baseLoader.Profile is not null)
@@ -51,7 +51,7 @@ file sealed class RootInformation(IBaseLoader baseLoader, IInfluxExpert influxEx
                 periodTimes.Add((startTime, endTime));
             }
             var currentTime = DateTime.Parse(DateTime.UtcNow.ToString("yyyy/MM/dd HH:mm"));
-            var entities = _influxExpert.Read<Entity>(Bucket, Identifier, periodTimes[0].start, periodTimes[^1].end);
+            var entities = await _influxExpert.ReadAsync<Entity>(Bucket, Identifier, periodTimes[0].start, periodTimes[^1].end);
             var breakMinute = effectiveMinute;
             if (entities.Any())
             {
@@ -66,21 +66,18 @@ file sealed class RootInformation(IBaseLoader baseLoader, IInfluxExpert influxEx
         static DateTime Conversion(string date) => DateTime.ParseExact(date, "HHmm", CultureInfo.InvariantCulture);
         return availability;
     }
-    public IEnumerable<(byte status, DateTime time)> OneDayMachineStatusMinutes()
+    public async IAsyncEnumerable<(byte status, DateTime time)> OneDayMachineStatusMinutesAsync()
     {
         var endTime = DateTime.Parse(DateTime.UtcNow.ToString("yyyy/MM/dd HH:mm"));
         var startTime = endTime.AddDays(Timeout.Infinite);
         var intervalTime = endTime.AddMinutes(Timeout.Infinite);
-        var entities = _influxExpert.Read<Entity>(Bucket, Identifier, startTime, endTime);
-        List<(byte status, DateTime time)> results = new();
+        var entities = await _influxExpert.ReadAsync<Entity>(Bucket, Identifier, startTime, endTime);
         while (startTime <= intervalTime)
         {
-            var result = entities.Where(item =>
-            item.Timestamp > intervalTime && item.Timestamp < intervalTime.AddMinutes(1)).Select(item => item.Status).ToArray();
-            results.Add((_descriptiveStatistics.Mode(result), intervalTime));
+            var result = entities.Where(item => item.Timestamp > intervalTime && item.Timestamp < intervalTime.AddMinutes(1)).Select(item => item.Status).ToArray();
+            yield return (_descriptiveStatistics.Mode(result), intervalTime);
             intervalTime = intervalTime.AddMinutes(Timeout.Infinite);
         }
-        return results;
     }
 
     [Measurement("root_informations")]
