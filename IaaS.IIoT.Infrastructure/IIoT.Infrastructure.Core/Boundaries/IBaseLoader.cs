@@ -119,13 +119,13 @@ file sealed class BaseLoader : IBaseLoader
         var url = GetStorageURL();
         if (url is not null)
         {
-            using var result = new InfluxDBClient(url, UserName, Password);
-            var entity = await result.GetBucketsApi().FindBucketByNameAsync(bucket);
+            using InfluxDBClient client = new(url, UserName, Password);
+            var entity = await client.GetBucketsApi().FindBucketByNameAsync(bucket);
             if (entity is null)
             {
-                var organizations = await result.GetOrganizationsApi().FindOrganizationsAsync(org: Hash.Organize.UseDecryptAES());
-                BucketRetentionRules rule = new(BucketRetentionRules.TypeEnum.Expire, 30 * 86400);
-                await result.GetBucketsApi().CreateBucketAsync(bucket, rule, organizations[default].Id);
+                BucketRetentionRules retention = new(BucketRetentionRules.TypeEnum.Expire, 30 * 86400);
+                var organizations = await client.GetOrganizationsApi().FindOrganizationsAsync(org: Hash.Organize.UseDecryptAES());
+                await client.GetBucketsApi().CreateBucketAsync(bucket, retention, organizations[default].Id);
             }
         }
     }

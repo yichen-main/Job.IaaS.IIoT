@@ -6,7 +6,7 @@ internal sealed class EnvironmentLayout(IBaseLoader baseLoader, IInitialService 
     readonly IMessagePublisher _messagePublisher = messagePublisher;
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        PeriodicTimer initializer = new(TimeSpan.FromSeconds(1));
+        PeriodicTimer initializer = new(TimeSpan.FromSeconds(2));
         while (await initializer.WaitForNextTickAsync(stoppingToken))
         {
             try
@@ -14,7 +14,7 @@ internal sealed class EnvironmentLayout(IBaseLoader baseLoader, IInitialService 
                 if (!_baseLoader.Transport.IsStarted)
                 {
                     await _baseLoader.Transport.StartAsync();
-                    await _initialService.CreateSwitchFileAsync();
+                    await _initialService.CreateSwitchFileAsync(stoppingToken);
                 }
                 await _baseLoader.RefreshProfileAsync();
                 if (_baseLoader.Profile is not null)

@@ -9,7 +9,7 @@ internal sealed class HostCollector(IDataTransfer dataTransfer) : BackgroundServ
             await Task.WhenAll(new Task[]
             {
                 _dataTransfer.PushControllerAsync(),
-                _dataTransfer.PushMerchandiseAsync()
+                _dataTransfer.PushMerchandiseAsync(stoppingToken)
             });
         }
     }

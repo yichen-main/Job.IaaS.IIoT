@@ -9,7 +9,8 @@ internal sealed class DataTransaction(IBaseLoader baseLoader, IMessagePublisher 
         {
             try
             {
-                await Task.WhenAll(new Task[]
+                _messagePublisher.Token = stoppingToken;
+                await Task.WhenAll(new[]
                 {
                     _messagePublisher.BaseGroupAsync(),
                     _messagePublisher.PartGroupAsync()

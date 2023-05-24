@@ -4,7 +4,6 @@
 public class Settings(IBaseLoader baseLoader) : ControllerBase
 {
     const string _carbonEmissionTag = "carbon-emission";
-
     readonly IBaseLoader _baseLoader = baseLoader;
 
     [HttpGet(_carbonEmissionTag, Name = nameof(GetCarbonEmission))]

@@ -2,7 +2,7 @@
 public interface IDataTransfer
 {
     Task PushControllerAsync();
-    Task PushMerchandiseAsync();
+    Task PushMerchandiseAsync(CancellationToken token);
 }
 
 [Dependency(ServiceLifetime.Singleton)]
@@ -60,9 +60,9 @@ file sealed class DataTransfer(IBaseLoader baseLoader, IFocasHelper focasHelper,
         }
         return Task.CompletedTask;
     }
-    public async Task PushMerchandiseAsync()
+    public async Task PushMerchandiseAsync(CancellationToken token)
     {
-        await _modbusHelper.ReadAsync();
+        await _modbusHelper.ReadAsync(token);
     }
     List<string> Histories { get; init; } = new();
 }

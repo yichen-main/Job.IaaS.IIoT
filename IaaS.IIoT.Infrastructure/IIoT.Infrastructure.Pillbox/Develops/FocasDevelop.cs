@@ -9,7 +9,6 @@
 
 #define LEAVE_OLD_STYLE
 
-
 namespace Infrastructure.Pillbox.Develops;
 public abstract class FocasDevelop
 {
@@ -90,8 +89,7 @@ public abstract class FocasDevelop
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class ODBACT
     {
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
-        public short[] dummy;      /* dummy */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)] public short[]? dummy;      /* dummy */
         public int data;      /* actual feed / actual spindle */
     }
 
@@ -102,8 +100,7 @@ public abstract class FocasDevelop
     {
         public short datano;     /* spindle number */
         public short type;       /* dummy */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-        public int[] data;       /* spindle data */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)] public int[]? data;       /* spindle data */
     }
 
     /* cnc_absolute:read absolute axis position */
@@ -120,22 +117,17 @@ public abstract class FocasDevelop
     {
         public short dummy;  /* dummy */
         public short type;   /* axis number */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public int[] data;      /* data value */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public int[]? data;      /* data value */
     }
 
     /* cnc_rddynamic:read all dynamic data */
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class FAXIS
     {
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public int[] absolute;    /* absolute position */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public int[] machine;     /* machine position */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public int[] relative;    /* relative position */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public int[] distance;    /* distance to go */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public int[]? absolute;    /* absolute position */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public int[]? machine;     /* machine position */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public int[]? relative;    /* relative position */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public int[]? distance;    /* distance to go */
     }
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class OAXIS
@@ -157,7 +149,7 @@ public abstract class FocasDevelop
         public int seqnum;    /* current sequence number */
         public int actf;      /* actual feedrate */
         public int acts;      /* actual spindle speed */
-        public FAXIS pos = new FAXIS();
+        public FAXIS pos = new();
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
@@ -171,7 +163,7 @@ public abstract class FocasDevelop
         public int seqnum;    /* current sequence number */
         public int actf;      /* actual feedrate */
         public int acts;      /* actual spindle speed */
-        public OAXIS pos = new OAXIS();
+        public OAXIS pos = new();
     }
 #else
     [StructLayout(LayoutKind.Sequential, Pack=4)]
@@ -214,7 +206,7 @@ public abstract class FocasDevelop
         public int seqnum;    /* current sequence number */
         public int actf;      /* actual feedrate */
         public int acts;      /* actual spindle speed */
-        public FAXIS pos = new FAXIS();
+        public FAXIS pos = new();
     }
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class ODBDY2_2
@@ -227,7 +219,7 @@ public abstract class FocasDevelop
         public int seqnum;     /* current sequence number */
         public int actf;       /* actual feedrate */
         public int acts;       /* actual spindle speed */
-        public OAXIS pos = new OAXIS(); /* In case of 1 axis  */
+        public OAXIS pos = new(); /* In case of 1 axis  */
     }
 
     /* cnc_wrrelpos:set origin / preset relative axis position */
@@ -236,8 +228,7 @@ public abstract class FocasDevelop
     {
         public short datano; /* dummy */
         public short type;   /* axis number */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public int[] data = new int[MAX_AXIS];   /* preset data */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public int[] data = new int[MAX_AXIS];   /* preset data */
     }
 
     /* cnc_prstwkcd:preset work coordinate */
@@ -246,8 +237,7 @@ public abstract class FocasDevelop
     {
         public short datano; /* dummy */
         public short type;   /* axis number */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)]
-        public int[] data = new int[MAX_AXIS];   /* preset data */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_AXIS)] public int[] data = new int[MAX_AXIS];   /* preset data */
     }
 
     /* cnc_rdmovrlap:read manual overlapped motion value */
@@ -256,8 +246,7 @@ public abstract class FocasDevelop
     {
         public short datano; /* dummy */
         public short type;   /* axis number */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2 * MAX_AXIS)]
-        public int[] data;   /* data value:[2][MAX_AXIS] */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2 * MAX_AXIS)] public int[]? data;   /* data value:[2][MAX_AXIS] */
     }
 
     /* cnc_rdspload:read load information of serial spindle */
@@ -268,8 +257,7 @@ public abstract class FocasDevelop
     {
         public short datano; /* dummy */
         public short type;   /* axis number */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-        public short[] data;   /* preset data */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)] public short[]? data;   /* preset data */
     }
 
     /* cnc_rdposition:read tool position */
@@ -287,10 +275,10 @@ public abstract class FocasDevelop
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class POSELMALL
     {
-        public POSELM abs = new POSELM();
-        public POSELM mach = new POSELM();
-        public POSELM rel = new POSELM();
-        public POSELM dist = new POSELM();
+        public POSELM abs = new();
+        public POSELM mach = new();
+        public POSELM rel = new();
+        public POSELM dist = new();
     }
 
 #if M_AXIS2
@@ -345,14 +333,14 @@ public abstract class FocasDevelop
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class ODBPOS
     {
-        public POSELMALL p1 = new POSELMALL();
-        public POSELMALL p2 = new POSELMALL();
-        public POSELMALL p3 = new POSELMALL();
-        public POSELMALL p4 = new POSELMALL();
-        public POSELMALL p5 = new POSELMALL();
-        public POSELMALL p6 = new POSELMALL();
-        public POSELMALL p7 = new POSELMALL();
-        public POSELMALL p8 = new POSELMALL();
+        public POSELMALL p1 = new();
+        public POSELMALL p2 = new();
+        public POSELMALL p3 = new();
+        public POSELMALL p4 = new();
+        public POSELMALL p5 = new();
+        public POSELMALL p6 = new();
+        public POSELMALL p7 = new();
+        public POSELMALL p8 = new();
         // In case of 8 axes.
         // if you need the more information, you must be add the member.
     }
@@ -362,8 +350,8 @@ public abstract class FocasDevelop
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class ODBHND_data
     {
-        public POSELM input = new POSELM();   /* input unit */
-        public POSELM output = new POSELM();  /* output unit */
+        public POSELM input = new();   /* input unit */
+        public POSELM output = new();  /* output unit */
     }
 #if M_AXIS2
     [StructLayout(LayoutKind.Sequential,Pack=4)]
@@ -417,14 +405,14 @@ public abstract class FocasDevelop
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class ODBHND
     {
-        public ODBHND_data p1 = new ODBHND_data();
-        public ODBHND_data p2 = new ODBHND_data();
-        public ODBHND_data p3 = new ODBHND_data();
-        public ODBHND_data p4 = new ODBHND_data();
-        public ODBHND_data p5 = new ODBHND_data();
-        public ODBHND_data p6 = new ODBHND_data();
-        public ODBHND_data p7 = new ODBHND_data();
-        public ODBHND_data p8 = new ODBHND_data();
+        public ODBHND_data p1 = new();
+        public ODBHND_data p2 = new();
+        public ODBHND_data p3 = new();
+        public ODBHND_data p4 = new();
+        public ODBHND_data p5 = new();
+        public ODBHND_data p6 = new();
+        public ODBHND_data p7 = new();
+        public ODBHND_data p8 = new();
         // In case of 8 axes.
         // if you need the more information, you must be add the member.
     }
@@ -445,8 +433,8 @@ public abstract class FocasDevelop
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class ODBSPEED
     {
-        public SPEEDELM actf = new SPEEDELM();   /* actual feed rate */
-        public SPEEDELM acts = new SPEEDELM();   /* actual spindle speed */
+        public SPEEDELM actf = new();   /* actual feed rate */
+        public SPEEDELM acts = new();   /* actual spindle speed */
     }
 
     /* cnc_rdsvmeter:read servo load meter */
@@ -511,14 +499,14 @@ public abstract class FocasDevelop
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class ODBSVLOAD
     {
-        public LOADELM svload1 = new LOADELM();     /* servo load meter */
-        public LOADELM svload2 = new LOADELM();     /* servo load meter */
-        public LOADELM svload3 = new LOADELM();     /* servo load meter */
-        public LOADELM svload4 = new LOADELM();     /* servo load meter */
-        public LOADELM svload5 = new LOADELM();     /* servo load meter */
-        public LOADELM svload6 = new LOADELM();     /* servo load meter */
-        public LOADELM svload7 = new LOADELM();     /* servo load meter */
-        public LOADELM svload8 = new LOADELM();     /* servo load meter */
+        public LOADELM svload1 = new();     /* servo load meter */
+        public LOADELM svload2 = new();     /* servo load meter */
+        public LOADELM svload3 = new();     /* servo load meter */
+        public LOADELM svload4 = new();     /* servo load meter */
+        public LOADELM svload5 = new();     /* servo load meter */
+        public LOADELM svload6 = new();     /* servo load meter */
+        public LOADELM svload7 = new();     /* servo load meter */
+        public LOADELM svload8 = new();     /* servo load meter */
     }
 #endif
 
@@ -533,16 +521,16 @@ public abstract class FocasDevelop
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class ODBSPLOAD_data
     {
-        public LOADELM spload = new LOADELM();     /* spindle load meter */
-        public LOADELM spspeed = new LOADELM();    /* spindle speed */
+        public LOADELM spload = new();     /* spindle load meter */
+        public LOADELM spspeed = new();    /* spindle speed */
     }
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class ODBSPLOAD
     {
-        public ODBSPLOAD_data spload1 = new ODBSPLOAD_data();     /* spindle load */
-        public ODBSPLOAD_data spload2 = new ODBSPLOAD_data();     /* spindle load */
-        public ODBSPLOAD_data spload3 = new ODBSPLOAD_data();     /* spindle load */
-        public ODBSPLOAD_data spload4 = new ODBSPLOAD_data();     /* spindle load */
+        public ODBSPLOAD_data spload1 = new();     /* spindle load */
+        public ODBSPLOAD_data spload2 = new();     /* spindle load */
+        public ODBSPLOAD_data spload3 = new();     /* spindle load */
+        public ODBSPLOAD_data spload4 = new();     /* spindle load */
     }
 
     /* cnc_rd5axmandt:read manual feed for 5-axis machining */
@@ -576,8 +564,7 @@ public abstract class FocasDevelop
     {
         public short ctrl_word;
         public short can_word;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
-        public char[] nc_file;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)] public char[]? nc_file;
         public ushort read_ptr;
         public ushort write_ptr;
         public ushort empty_cnt;
@@ -589,10 +576,8 @@ public abstract class FocasDevelop
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public class ODBUP
     {
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
-        public short[] dummy;  /* dummy */
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-        public char[] data; /* data */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)] public short[]? dummy;  /* dummy */
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)] public char[]? data; /* data */
     } /* In case that the number of data is 256 */
 
     /* cnc_buff:read buffer status for downloading/verification NC program */

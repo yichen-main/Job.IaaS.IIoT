@@ -34,7 +34,7 @@ file sealed class RawCalculation(IBaseLoader baseLoader, ITimelineWrapper timeli
                 (byte)IRootInformation.MachineStatus.Error => nameof(IRootInformation.MachineStatus.Error),
                 _ => nameof(IRootInformation.MachineStatus.Shutdown)
             },
-            Timestamp = time.ToTimestamp(_baseLoader.GetTimeZone(), "MM/dd HH:mm")
+            Timestamp = time.ToTimestamp(_baseLoader.GetTimeZone(), "HH:mm")
         });
         StatisticalUnitDay = new StatisticalUnitDayEntity
         {

@@ -3,10 +3,11 @@ public interface IMessagePublisher
 {
     Task BaseGroupAsync();
     Task PartGroupAsync();
-    public IBaseLoader BaseLoader { get; }
-    public IFocasHelper FocasHelper { get; }
-    public IModbusHelper ModbusHelper { get; }
-    public IRawCalculation RawCalculation { get; }
+    CancellationToken Token { get; set; }
+    IBaseLoader BaseLoader { get; }
+    IFocasHelper FocasHelper { get; }
+    IModbusHelper ModbusHelper { get; }
+    IRawCalculation RawCalculation { get; }
 }
 
 [Dependency(ServiceLifetime.Singleton)]
@@ -15,8 +16,8 @@ file sealed class MessagePublisher(IBaseLoader baseLoader, IFocasHelper focasHel
     public async Task BaseGroupAsync()
     {
         var tag = "bases";
-        if (ModbusHelper.ElectricityEnergy.AverageVoltage is not 0) await SendAsync($"{tag}/electricities/raw-data", ModbusHelper.ElectricityEnergy.ToJson());
-        if (RawCalculation.StatisticalUnitDay.RunChartMinutes.Any()) await SendAsync($"{tag}/statistics/unit-day", RawCalculation.StatisticalUnitDay.ToJson());
+        if (ModbusHelper.Electricity.AverageVoltage is not 0) await SendAsync($"{tag}/electricities/raw-data", ModbusHelper.Electricity.ToJson());
+        if (RawCalculation.StatisticalUnitDay.RunChartMinutes is not null) await SendAsync($"{tag}/statistics/unit-day", RawCalculation.StatisticalUnitDay.ToJson());
     }
     public async Task PartGroupAsync()
     {
@@ -45,8 +46,9 @@ file sealed class MessagePublisher(IBaseLoader baseLoader, IFocasHelper focasHel
             QualityOfServiceLevel = MqttQualityOfServiceLevel.AtLeastOnce,
             PayloadSegment = Encoding.UTF8.GetBytes(message)
         })
-        { SenderClientId = path.ToMd5() });
+        { SenderClientId = path.ToMd5() }, Token);
     }
+    public CancellationToken Token { get; set; }
     public required IBaseLoader BaseLoader { get; init; } = baseLoader;
     public required IFocasHelper FocasHelper { get; init; } = focasHelper;
     public required IModbusHelper ModbusHelper { get; init; } = modbusHelper;

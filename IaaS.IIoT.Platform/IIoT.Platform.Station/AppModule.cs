@@ -41,7 +41,7 @@ internal sealed class AppModule : AbpModule
         {
             item.PermitLimit = 3;
             item.QueueLimit = 2;
-            item.Window = TimeSpan.FromSeconds(3);
+            item.Window = TimeSpan.FromSeconds(10);
             item.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
         }));
         context.Services.AddAuthentication(nameof(Station)).AddScheme<AuthenticateHandler.Option, AuthenticateHandler>(nameof(Station), configureOptions: default);

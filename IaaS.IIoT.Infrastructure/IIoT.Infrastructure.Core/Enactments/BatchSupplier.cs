@@ -10,24 +10,32 @@ public abstract class BatchSupplier
         cls & {StartupKey}.exe {StartupKey.ToMd5()} -app
         """, Encoding.UTF8);
     }
-    protected async ValueTask StarterAsync()
+    protected async ValueTask StarterAsync(CancellationToken token, bool cover = default)
     {
-        if (WindowsPass) await System.IO.File.WriteAllTextAsync(OutputLocation(ButtonType.Boot), $""""
-        {BatchHeader}
-        %{NssmTag}% install "%{IdentifyTag}%" "{ScriptLocation}"
-        %{NssmTag}% start "%{IdentifyTag}%"
-        {BatchEndfield}
-        """", Encoding.UTF8);
+        if (WindowsPass)
+        {
+            var path = OutputLocation(ButtonType.Boot);
+            if (!System.IO.File.Exists(path) || cover) await System.IO.File.WriteAllTextAsync(path, $""""
+            {BatchHeader}
+            %{NssmTag}% install "%{IdentifyTag}%" "{ScriptLocation}"
+            %{NssmTag}% start "%{IdentifyTag}%"
+            {BatchEndfield}
+            """", Encoding.UTF8, token);
+        }
     }
-    protected async ValueTask StopperAsync()
+    protected async ValueTask StopperAsync(CancellationToken token, bool cover = default)
     {
-        if (WindowsPass) await System.IO.File.WriteAllTextAsync(OutputLocation(ButtonType.Shutdown), $"""
-        {BatchHeader}
-        %{NssmTag}% stop %{IdentifyTag}% 
-        %{NssmTag}% remove %{IdentifyTag}% confirm
-        sc delete %{IdentifyTag}%
-        {BatchEndfield}
-        """, Encoding.UTF8);
+        if (WindowsPass)
+        {
+            var path = OutputLocation(ButtonType.Shutdown);
+            if (!System.IO.File.Exists(path) || cover) await System.IO.File.WriteAllTextAsync(path, $"""
+            {BatchHeader}
+            %{NssmTag}% stop %{IdentifyTag}% 
+            %{NssmTag}% remove %{IdentifyTag}% confirm
+            sc delete %{IdentifyTag}%
+            {BatchEndfield}
+            """, Encoding.UTF8, token);
+        }
     }
     static string Move(string path) => $"cd {path}";
     static string Variable(string definition) => $"set {definition}";

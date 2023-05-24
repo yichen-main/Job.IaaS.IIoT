@@ -3,10 +3,10 @@
 namespace Infrastructure.Pillbox.Bounds;
 public interface IModbusHelper
 {
-    Task ReadAsync();
+    Task ReadAsync(CancellationToken token);
 
     [StructLayout(LayoutKind.Auto)]
-    readonly record struct ElectricityEnergyBucket
+    readonly record struct ElectricityBucket
     {
         public required double AverageVoltage { get; init; }
         public required double AverageCurrent { get; init; }
@@ -16,19 +16,20 @@ public interface IModbusHelper
         public required double ApparentEnergy { get; init; }
         public required double CarbonEmission { get; init; }
     }
-    ElectricityEnergyBucket ElectricityEnergy { get; }
+    ElectricityBucket Electricity { get; }
 }
 
 [Dependency(ServiceLifetime.Singleton)]
 file sealed class ModbusHelper(IBaseLoader baseLoader) : IModbusHelper
 {
     readonly IBaseLoader _baseLoader = baseLoader;
-    public async Task ReadAsync()
+    public async Task ReadAsync(CancellationToken token)
     {
         try
         {
             if (_baseLoader.Profile is not null && _baseLoader.Profile.SerialEntry.Enabled)
             {
+                Token = token;
                 Master ??= new()
                 {
                     Parity = _baseLoader.Profile.SerialEntry.Parity,
@@ -36,7 +37,7 @@ file sealed class ModbusHelper(IBaseLoader baseLoader) : IModbusHelper
                     StopBits = _baseLoader.Profile.SerialEntry.StopBits
                 };
                 Master.Connect(_baseLoader.Profile.SerialEntry.Port, ModbusEndianness.BigEndian);
-                await ElectricityEnergyAsync(0x01, _baseLoader.Profile.Formulation.CarbonEmissionFactor, _baseLoader.Profile.Formulation.GlobalWarmingPotential);
+                await ElectricityAsync(0x01, _baseLoader.Profile.Formulation.CarbonEmissionFactor, _baseLoader.Profile.Formulation.GlobalWarmingPotential);
                 if (Histories.Any()) Histories.Clear();
                 Master.Dispose();
                 Master = null;
@@ -55,24 +56,24 @@ file sealed class ModbusHelper(IBaseLoader baseLoader) : IModbusHelper
                 });
             }
         }
-        async ValueTask ElectricityEnergyAsync(int slaveId, double carbonEmissionFactor, int globalWarmingPotential)
+        async ValueTask ElectricityAsync(int slaveId, double carbonEmissionFactor, int globalWarmingPotential)
         {
             var length = 72;
             var decimalPlaces = 2;
             var count = length / 2;
             var floats = new float[count];
             var ushorts = new ushort[length];
-            var values = await Master.ReadInputRegistersAsync<ushort>(slaveId, 0x1100, length);
+            var values = await Master.ReadInputRegistersAsync<ushort>(slaveId, 0x1100, length, Token);
             ushorts = values.ToArray();
             {
-                for (var item = 0; item < count; item++)
+                for (int item = default; item < count; item++)
                 {
                     var lowOrder = BitConverter.GetBytes(ushorts[2 * item]);
                     var highOrder = BitConverter.GetBytes(ushorts[2 * item + 1]);
                     floats[item] = BitConverter.ToSingle(CollectionUtility.Concat(lowOrder, highOrder), default);
                 }
                 var activeEnergy = Math.Round(floats[15], decimalPlaces);
-                ElectricityEnergy = new()
+                Electricity = new()
                 {
                     AverageVoltage = Math.Round(floats[9], decimalPlaces),
                     AverageCurrent = Math.Round(floats[10], decimalPlaces),
@@ -85,7 +86,8 @@ file sealed class ModbusHelper(IBaseLoader baseLoader) : IModbusHelper
             }
         }
     }
+    CancellationToken Token { get; set; }
     ModbusRtuClient? Master { get; set; }
     List<string> Histories { get; init; } = new();
-    public ElectricityEnergyBucket ElectricityEnergy { get; private set; }
+    public ElectricityBucket Electricity { get; private set; }
 }
